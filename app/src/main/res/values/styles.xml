@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Button" parent="Theme.AppCompat.DayNight">
+        <item name="android:backgroundTint">@color/greenMain</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="cornerRadius">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="buttonTransparent" parent="@style/Button">
+        <item name="android:strokeWidth">4</item>
+        <item name="android:backgroundTint">@color/transparent</item>
+        <item name="android:textColor">@color/greenMain</item>
+        <item name="strokeWidth">4px</item>
+        <item name="strokeColor">@color/greenMain</item>
+    </style>
+</resources>

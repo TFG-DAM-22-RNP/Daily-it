@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "827759519524",
+    "project_id": "daily-it-815c6",
+    "storage_bucket": "daily-it-815c6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827759519524:android:bef124d1119ea299c935b1",
+        "android_client_info": {
+          "package_name": "rafael.ninoles.parra.dailyit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827759519524-tvofk1lrd094v7vbt8pek565fq2ndu4p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdk8D-7OnFOARPTD8Rc29M8XIdMixrzfc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827759519524-tvofk1lrd094v7vbt8pek565fq2ndu4p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

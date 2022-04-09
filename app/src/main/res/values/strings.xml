@@ -10,4 +10,12 @@
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
     <string name="menu_slideshow">Slideshow</string>
+    <string name="email">Email</string>
+    <string name="example_domain">example@domain.com</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="sign_up">Sign up</string>
+    <string name="log_in">Log in</string>
+    <string name="log_in_with_google">Log in with Google</string>
+    <string name="password">Password</string>
+    <string name="server_id">43241049430-p2n0jfio27lmumsmck80ufsrgnus2tb2.apps.googleusercontent.com</string>
 </resources>

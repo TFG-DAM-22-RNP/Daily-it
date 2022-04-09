@@ -10,4 +10,5 @@
     <color name="greenMain">#5DBDB0</color>
     <color name="darkMain">#455A64</color>
     <color name="separatorGrey">#AFAFAF</color>
+    <color name="transparent">#00000000</color>
 </resources>
