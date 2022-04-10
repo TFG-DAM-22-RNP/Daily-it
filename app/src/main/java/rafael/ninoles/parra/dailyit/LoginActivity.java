@@ -96,18 +96,23 @@ public class LoginActivity extends AppCompatActivity{
 
         if(requestCode == SIGN_IN_GOOGLE){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            GoogleSignInAccount account = task.getResult();
-            if(account != null){
-                AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
-                auth.signInWithCredential(credential).addOnCompleteListener(complete->{
-                    if(complete.isSuccessful()){
-                        startActivity(new Intent(this, MainActivity.class));
-                        finish();
-                    }else{
-                        //TODO manejar fallo
-                        System.out.println("TODO Fallito");
-                    }
-                });
+            try{
+                GoogleSignInAccount account = task.getResult();
+                if(account != null){
+                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
+                    auth.signInWithCredential(credential).addOnCompleteListener(complete->{
+                        if(complete.isSuccessful()){
+                            startActivity(new Intent(this, MainActivity.class));
+                            finish();
+                        }else{
+                            //TODO manejar fallo
+                            System.out.println("TODO Fallito");
+                        }
+                    });
+                }
+            } catch (Exception e) {
+                //TODO CUIDAR Exc no google play, no google play services updated...
+                e.printStackTrace();
             }
         }
     }

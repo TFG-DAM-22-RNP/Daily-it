@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "827759519524-3ubfgc1sr4b77olhj8qsc8srisod7qi8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "rafael.ninoles.parra.dailyit",
+            "certificate_hash": "d27e63b40f1014213d2227916c9205dafb51828d"
+          }
+        },
+        {
           "client_id": "827759519524-tvofk1lrd094v7vbt8pek565fq2ndu4p.apps.googleusercontent.com",
           "client_type": 3
         }
