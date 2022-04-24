@@ -11,4 +11,13 @@
     <color name="darkMain">#455A64</color>
     <color name="separatorGrey">#AFAFAF</color>
     <color name="transparent">#00000000</color>
+    <color name="color_theme_background">#FFFFFF</color>
+    <color name="blue">#1F35FF</color>
+    <color name="sky">#1CCAFF</color>
+    <color name="red">#FF0000</color>
+    <color name="yellow">#FFDD00</color>
+    <color name="green">#62FF00</color>
+    <color name="orange">#FF6F00</color>
+    <color name="purple">#BB00FF</color>
+    <color name="grey">#777777</color>
 </resources>

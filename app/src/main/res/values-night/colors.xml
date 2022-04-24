@@ -2,4 +2,5 @@
 <resources>
     <color name="white">#ECECEC</color>
     <color name="separatorGrey">#717171</color>
+    <color name="color_theme_background">#2e2e2e</color>
 </resources>

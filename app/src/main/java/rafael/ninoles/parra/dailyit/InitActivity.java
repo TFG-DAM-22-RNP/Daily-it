@@ -21,7 +21,7 @@ public class InitActivity extends AppCompatActivity {
         if(auth.getCurrentUser() == null){
             startActivity(new Intent(this, LoginActivity.class));
         }else{
-            auth.signOut();
+            startActivity(new Intent(this, MainActivity.class));
         }
         finish();
     }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Daily it</string>
+    <string name="action_settings">Opciones</string>
+    <string name="menu_home">Inicio</string>
+    <string name="menu_gallery">Galeria</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="email">Email</string>
+    <string name="example_domain">ejemplo@dominio.com</string>
+    <string name="forgot_password">¿Has olvidado tu contraseña?</string>
+    <string name="sign_up">Registrarse</string>
+    <string name="log_in">Iniciar sesión</string>
+    <string name="log_in_with_google">Iniciar con Google</string>
+    <string name="password">Contraseña</string>
+    <string name="log_out">Cerrar sesión</string>
+</resources>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Daily it</string>
+    <string name="action_settings">Preferències</string>
+    <string name="menu_home">Inici</string>
+    <string name="menu_gallery">Galeria</string>
+    <string name="menu_slideshow">Slideshow</string>
+    <string name="email">Correu</string>
+    <string name="example_domain">exemple@domini.cat</string>
+    <string name="forgot_password">"¿Has oblidat la teva contrasenya? "</string>
+    <string name="log_in">Inicia la sessió</string>
+    <string name="sign_up">Registrar-se</string>
+    <string name="log_in_with_google">Inicia sessió amb Google</string>
+    <string name="password">Contrasenya</string>
+    <string name="log_out">Tanca la sessió</string>
+</resources>
