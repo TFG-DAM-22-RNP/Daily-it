@@ -3,4 +3,7 @@
     <color name="white">#ECECEC</color>
     <color name="separatorGrey">#717171</color>
     <color name="color_theme_background">#2e2e2e</color>
+    <color name="color_theme_constrast">#FFFFFF</color>
+    <color name="color_over_constrast">#5DBDB0</color>
+    <color name="backgroundLight">#3A3A3A</color>
 </resources>

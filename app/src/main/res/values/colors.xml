@@ -8,16 +8,20 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="greenMain">#5DBDB0</color>
+    <color name="greenDarker">#42877D</color>
     <color name="darkMain">#455A64</color>
     <color name="separatorGrey">#AFAFAF</color>
     <color name="transparent">#00000000</color>
     <color name="color_theme_background">#FFFFFF</color>
-    <color name="blue">#1F35FF</color>
-    <color name="sky">#1CCAFF</color>
-    <color name="red">#FF0000</color>
-    <color name="yellow">#FFDD00</color>
-    <color name="green">#62FF00</color>
-    <color name="orange">#FF6F00</color>
-    <color name="purple">#BB00FF</color>
+    <color name="color_theme_constrast">#5DBDB0</color>
+    <color name="blue">#5D83BD</color>
+    <color name="sky">#5DBABD</color>
+    <color name="red">#BD5D5D</color>
+    <color name="yellow">#BABD5D</color>
+    <color name="green">#5DBDB0</color>
+    <color name="orange">#BD835D</color>
+    <color name="purple">#905DBD</color>
     <color name="grey">#777777</color>
+    <color name="backgroundLight">#F1F1F1</color>
+    <color name="color_over_constrast">#FFF</color>
 </resources>
