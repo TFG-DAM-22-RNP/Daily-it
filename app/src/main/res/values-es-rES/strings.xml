@@ -13,4 +13,6 @@
     <string name="log_in_with_google">Iniciar con Google</string>
     <string name="password">Contraseña</string>
     <string name="log_out">Cerrar sesión</string>
+    <string name="doing">Haciendo</string>
+    <string name="tasks">Tareas</string>
 </resources>

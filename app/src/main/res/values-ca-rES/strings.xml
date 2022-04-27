@@ -13,4 +13,6 @@
     <string name="log_in_with_google">Inicia sessió amb Google</string>
     <string name="password">Contrasenya</string>
     <string name="log_out">Tanca la sessió</string>
+    <string name="doing">Fent</string>
+    <string name="tasks">Tasques</string>
 </resources>
