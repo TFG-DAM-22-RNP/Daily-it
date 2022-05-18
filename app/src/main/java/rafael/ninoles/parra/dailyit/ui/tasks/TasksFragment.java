@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -21,8 +22,10 @@ import java.util.Date;
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTasksBinding;
+import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.ui.adapters.TaskAdapter;
 import rafael.ninoles.parra.dailyit.ui.adapters.TaskListAdapter;
+import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListFragment;
 import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListViewModel;
 
 /**
@@ -33,8 +36,12 @@ import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListViewModel;
 public class TasksFragment extends Fragment {
 
     private static final String DATE_PATTERN = "dd MMM. yyyy";
-    private final Date actualDate = new Date();
+    private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+
+    private final MyDate actualDate = new MyDate();
+    private MyDate currentDate = actualDate;
     private FragmentTasksBinding binding;
+    private TaskListAdapter taskListAdapter;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
 
     public TasksFragment() {
@@ -65,14 +72,64 @@ public class TasksFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         binding = FragmentTasksBinding.inflate(inflater, container, false);
-        binding.tvDate.setText(simpleDateFormat.format(actualDate));
-        binding.pager.setAdapter(new TaskListAdapter(getParentFragmentManager(),getLifecycle()));
+        addDaySelectorListeners();
+        binding.tvDate.setText(simpleDateFormat.format(currentDate));
+        taskListAdapter = new TaskListAdapter(getParentFragmentManager(), getLifecycle(), currentDate);
+        binding.pager.setAdapter(taskListAdapter);
+        binding.pager.setUserInputEnabled(false);
+        addChangeTabOnClick();
+        View root = binding.getRoot();
+        return root;
+    }
+
+    private void addDaySelectorListeners() {
+        binding.ivPrevDay.setOnClickListener(e->{
+            movePreviousDay();
+        });
+
+        binding.ivNextDay.setOnClickListener(e->{
+            moveNextDay();
+        });
+    }
+
+    private void moveNextDay() {
+        MyDate newDate = new MyDate(currentDate.getTime() + MILLIS_IN_A_DAY);
+        newDate.setHours(0);
+        newDate.setMinutes(0);
+        newDate.setSeconds(0);
+        moveDay(newDate);
+    }
+
+    private void updateDates() {
+    }
+
+    private void movePreviousDay(){
+        MyDate newDate = new MyDate(currentDate.getTime() - MILLIS_IN_A_DAY);
+        newDate.setHours(0);
+        newDate.setMinutes(0);
+        newDate.setSeconds(0);
+        moveDay(newDate);
+    }
+
+    private void moveDay(MyDate date){
+        currentDate = date;
+        binding.tvDate.setText(simpleDateFormat.format(currentDate));
+        for(TaskListFragment taskListFragment : taskListAdapter.getFragments()){
+            taskListFragment.setDate(currentDate);
+            taskListFragment.printTest();
+        }
+    }
+
+    private void addChangeTabOnSwipe() {
         binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 binding.tabLayout.selectTab(binding.tabLayout.getTabAt(position));
             }
         });
+    }
+
+    private void addChangeTabOnClick() {
         binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -89,7 +146,5 @@ public class TasksFragment extends Fragment {
 
             }
         });
-        View root = binding.getRoot();
-        return root;
     }
 }

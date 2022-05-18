@@ -16,6 +16,24 @@ public class Task {
     private Date created;
     private String status;
     private String userUid;
+    private Category category;
+    private String categoryId;
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
     public String getId() {
         return id;

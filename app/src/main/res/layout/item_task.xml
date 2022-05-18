@@ -12,7 +12,7 @@
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:background="@color/backgroundLight"
         app:cardCornerRadius="0dp"
         app:cardElevation="0dp"
@@ -25,7 +25,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:minHeight="100dp">
 
             <View
                 android:id="@+id/categoryBar"
@@ -51,28 +52,52 @@
             <TextView
                 android:id="@+id/tvDesc"
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
+                android:layout_marginEnd="8dp"
                 android:layout_marginBottom="16dp"
                 android:ellipsize="end"
-                android:maxLines="2"
+                android:maxLines="3"
                 android:textAlignment="viewStart"
                 android:textSize="12sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/tvExpireDate"
                 app:layout_constraintStart_toStartOf="@+id/tvTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+                app:layout_constraintVertical_bias="0.0"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec lacus quis ligula bibendum fringilla vel iaculis magna. Proin interdum diam id feugiat laoreet. Vivamus sodales enim consectetur diam finibus ullamcorper. Fusce leo est, rhoncus imperdiet ante non, commodo rhoncus nisl. Nullam nec gravida est. Etiam ullamcorper lacus nunc, eget condimentum augue tincidunt a." />
 
             <TextView
                 android:id="@+id/tvExpires"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="4dp"
                 android:textColor="@color/color_theme_constrast"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
-                app:layout_constraintEnd_toEndOf="@+id/tvDesc"
+                app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Expires in 24h" />
+
+            <TextView
+                android:id="@+id/tvExpireDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/greenMain"
+                android:textSize="10sp"
+                app:layout_constraintEnd_toEndOf="@+id/tvExpires"
+                app:layout_constraintTop_toBottomOf="@+id/tvExpires"
+                tools:text="20/04/2022" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="#00000000"
+                app:layout_constraintEnd_toEndOf="@+id/tvExpireDate"
+                app:layout_constraintTop_toBottomOf="@+id/tvExpireDate"
+                app:srcCompat="@drawable/visible" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
 import java.util.List;
@@ -55,23 +56,33 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
+        private static final long MILIS_IN_DAY = 1000*60*60*24;
+        private static final long MILIS_IN_HOUR = 1000*60*60;
+        private static final long MILIS_IN_MIN = 60000;
+
         private Task task;
         private final TextView tvTitle;
         private final TextView tvDesc;
+        private final TextView tvExpireDate;
         private final TextView tvExpires;
         private final View categoryBar;
 
         private String calExpires(){
             Date expire = task.getExpires();
             long diff = expire.getTime() - new Date().getTime();
-            long hoursLeft = milisToHours(diff);
-            int number = (int) hoursLeft;
-            char letter = 'H';
-            if(hoursLeft>24){
-                letter = 'D';
-                number = (int) hoursLeft/24;
+            String remainingText = calcRemaining(diff);
+            return remainingText ;
+        }
+
+        private String calcRemaining(long diff) {
+            if(diff<0){
+                return "Expired";
             }
-            return String.format("Expires in", (""+number+letter));
+            if(diff > MILIS_IN_DAY){
+                long days = diff / MILIS_IN_DAY;
+                return "Expires in " + days + " days";
+            }
+            return "";
         }
 
         private long milisToHours(long milis){
@@ -83,6 +94,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             this.tvTitle.setText(task.getTitle());
             this.tvDesc.setText(task.getDescription());
             this.tvExpires.setText(calExpires());
+            this.tvExpireDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(task.getExpires()));
             this.categoryBar.setBackgroundColor(Color.RED);
         }
 
@@ -91,6 +103,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             this.tvTitle = itemView.findViewById(R.id.tvTitle);
             this.tvDesc = itemView.findViewById(R.id.tvDesc);
             this.tvExpires = itemView.findViewById(R.id.tvExpires);
+            this.tvExpireDate = itemView.findViewById(R.id.tvExpireDate);
             this.categoryBar = itemView.findViewById(R.id.categoryBar);
         }
         public Task getTask() {

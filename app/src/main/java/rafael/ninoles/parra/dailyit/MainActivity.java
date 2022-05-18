@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,7 +54,6 @@ public class MainActivity extends AppCompatActivity{
     private final StorageReference defaultImage = storageRef.child("profile-images/profile.jpg");
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private File defaultLocalImage = null;
-    private ImageView ivProfile;
     private TextView tvEmail;
     private TextView tvName;
 
@@ -67,15 +67,12 @@ public class MainActivity extends AppCompatActivity{
         binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, auth.getCurrentUser().getEmail(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                handleFabClick();
             }
         });
-        getDefaultImage();
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navView = binding.navView;
         // navView.bringToFront();
-        ivProfile = navView.getHeaderView(0).findViewById(R.id.ivProfile);
         tvEmail = navView.getHeaderView(0).findViewById(R.id.tvEmail);
         tvName = navView.getHeaderView(0).findViewById(R.id.tvName);
         printUserData();
@@ -91,6 +88,20 @@ public class MainActivity extends AppCompatActivity{
         NavigationUI.setupWithNavController(navView, navController);
     }
 
+    private void getUserImage(String path) {
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
+        StringBuilder fullPath = new StringBuilder("profile-images/");
+        fullPath.append(path);
+        ImageView iv = binding.navView.findViewById(R.id.ivProfile);
+        Glide.with(this /* context */)
+                .load(storageReference.child(fullPath.toString()))
+                .into(iv);
+    }
+
+    private void handleFabClick() {
+
+    }
+
     private void printUserData() {
         tvEmail.setText(auth.getCurrentUser().getEmail());
         Log.d(LOG_TAG,auth.getCurrentUser().getUid());
@@ -103,6 +114,7 @@ public class MainActivity extends AppCompatActivity{
                             if(document.exists()){
                                 Log.d(LOG_TAG, document.getId() + " => " + document.getData());
                                 User user = document.toObject(User.class);
+                                getUserImage(user.getImgProfile());
                                 tvName.setText(user.getName());
                             }
                         }else {
@@ -113,6 +125,7 @@ public class MainActivity extends AppCompatActivity{
                 });
     }
 
+    //TODO eliminar
     private void getDefaultImage() {
         try {
             defaultLocalImage = File.createTempFile("images", "jpg");

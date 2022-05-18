@@ -16,5 +16,13 @@ public class FirebaseContract {
         public static final String CREATED = "created";
         public static final String EXPIRES = "expires";
         public static final String STATUS = "status";
+        public static final String CATEGORY = "categoryId";
+    }
+
+    public static class CategoryEntry{
+        public static final String COLLECTION_NAME = "categories";
+        public static final String COLOR = "color";
+        public static final String ID = "id";
+        public static final String NAME = "name";
     }
 }
