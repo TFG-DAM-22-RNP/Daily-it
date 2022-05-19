@@ -7,10 +7,11 @@
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
     android:paddingTop="8dp"
-    android:paddingEnd="16dp"
+    android:paddingEnd="20dp"
     android:paddingBottom="8dp">
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/materialCardView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="@color/backgroundLight"
@@ -26,14 +27,15 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:minHeight="100dp">
+            android:minHeight="100dp"
+            android:paddingBottom="16dp">
 
             <View
                 android:id="@+id/categoryBar"
                 android:layout_width="16dp"
                 android:layout_height="0dp"
                 android:background="@color/blue"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,16 +57,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="16dp"
                 android:ellipsize="end"
-                android:maxLines="3"
+                android:maxLines="2"
                 android:textAlignment="viewStart"
                 android:textSize="12sp"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/tvExpireDate"
                 app:layout_constraintStart_toStartOf="@+id/tvTitle"
                 app:layout_constraintTop_toBottomOf="@+id/tvTitle"
-                app:layout_constraintVertical_bias="0.0"
                 tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam nec lacus quis ligula bibendum fringilla vel iaculis magna. Proin interdum diam id feugiat laoreet. Vivamus sodales enim consectetur diam finibus ullamcorper. Fusce leo est, rhoncus imperdiet ante non, commodo rhoncus nisl. Nullam nec gravida est. Etiam ullamcorper lacus nunc, eget condimentum augue tincidunt a." />
 
             <TextView
@@ -90,15 +89,64 @@
                 tools:text="20/04/2022" />
 
             <ImageButton
-                android:id="@+id/imageButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/ibViewMore"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginTop="8dp"
                 android:background="#00000000"
+                android:scaleType="fitCenter"
                 app:layout_constraintEnd_toEndOf="@+id/tvExpireDate"
                 app:layout_constraintTop_toBottomOf="@+id/tvExpireDate"
                 app:srcCompat="@drawable/visible" />
 
+            <ImageButton
+                android:id="@+id/ibDelete"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:background="#00000000"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/tvExpireDate"
+                app:layout_constraintTop_toTopOf="@+id/guideline2"
+                app:srcCompat="@drawable/delete" />
+
+            <ImageButton
+                android:id="@+id/ibViewLess"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="8dp"
+                android:background="#00000000"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@+id/tvExpireDate"
+                app:layout_constraintTop_toBottomOf="@+id/tvExpireDate"
+                app:srcCompat="@drawable/no_visible" />
+
+            <TextView
+                android:id="@+id/tvCategory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="#A14444"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="#FFFFFF"
+                android:textSize="12dp"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="@+id/tvDesc"
+                app:layout_constraintTop_toBottomOf="@+id/tvDesc"
+                tools:text="Work"
+                tools:visibility="visible" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_begin="85dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

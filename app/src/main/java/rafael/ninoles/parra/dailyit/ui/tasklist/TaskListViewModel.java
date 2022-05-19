@@ -30,6 +30,10 @@ public class TaskListViewModel extends AndroidViewModel {
         this.date = date;
     }
 
+    public void deleteTask(Task task){
+        dailyItRepository.deleteTask(task);
+    }
+
     public TaskListViewModel(@NonNull Application application, String status, MyDate date) {
         super(application);
         this.date = date;
@@ -39,6 +43,7 @@ public class TaskListViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Task>> updateTasks(MyDate date){
+        this.date = date;
         tasks = dailyItRepository.getTaskByStatus(status,date);
         return tasks;
     }
@@ -47,4 +52,8 @@ public class TaskListViewModel extends AndroidViewModel {
         return tasks;
     }
 
+    public void updateStatus(Task task, String rightStatus) {
+        dailyItRepository.updateTaskStatus(task, rightStatus);
+        updateTasks(date);
+    }
 }

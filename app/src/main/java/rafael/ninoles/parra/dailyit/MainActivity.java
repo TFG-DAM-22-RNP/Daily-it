@@ -1,5 +1,6 @@
 package rafael.ninoles.parra.dailyit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -43,7 +44,7 @@ import rafael.ninoles.parra.dailyit.databinding.ActivityMainBinding;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.User;
 
-public class MainActivity extends AppCompatActivity{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
@@ -72,6 +73,7 @@ public class MainActivity extends AppCompatActivity{
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navView = binding.navView;
+        navView.setNavigationItemSelectedListener(this);
         // navView.bringToFront();
         tvEmail = navView.getHeaderView(0).findViewById(R.id.tvEmail);
         tvName = navView.getHeaderView(0).findViewById(R.id.tvName);
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity{
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         // TODO click en log out
-        NavigationUI.setupWithNavController(navView, navController);
+        //NavigationUI.setupWithNavController(navView, navController);
     }
 
     private void getUserImage(String path) {
@@ -98,8 +100,9 @@ public class MainActivity extends AppCompatActivity{
                 .into(iv);
     }
 
-    private void handleFabClick() {
 
+
+    private void handleFabClick() {
     }
 
     private void printUserData() {
@@ -158,5 +161,21 @@ public class MainActivity extends AppCompatActivity{
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        switch (item.getItemId()){
+            case R.id.log_out:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+        }
+        System.out.println("Clickado en nav");
+        //close navigation drawer
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

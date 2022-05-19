@@ -11,13 +11,16 @@ import java.util.List;
 
 import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListFragment;
+import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
 public class TaskListAdapter extends FragmentStateAdapter {
     private MyDate myDate;
+    private final TasksFragment tasksFragment;
     List<TaskListFragment> fragments = new ArrayList<>();
-    public TaskListAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, MyDate myDate) {
+    public TaskListAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, MyDate myDate, TasksFragment tasksFragment) {
         super(fragmentManager, lifecycle);
         this.myDate = myDate;
+        this.tasksFragment = tasksFragment;
     }
 
     public List<TaskListFragment> getFragments() {
@@ -31,25 +34,25 @@ public class TaskListAdapter extends FragmentStateAdapter {
         TaskListFragment fragment = null;
         switch (position){
             case 0:
-                fragment = TaskListFragment.newInstance("ToDo", myDate);
+                fragment = TaskListFragment.newInstance("ToDo", myDate, tasksFragment);
                 fragments.add(fragment);
                 // TODO BORRAR
                 System.out.println("EL SIZE ES "+fragments.size());
                 return fragment;
             case 1:
-                fragment = TaskListFragment.newInstance("Doing", myDate);
+                fragment = TaskListFragment.newInstance("Doing", myDate, tasksFragment);
                 fragments.add(fragment);
                 // TODO BORRAR
                 System.out.println("EL SIZE ES "+fragments.size());
                 return fragment;
             case 2:
-                fragment = TaskListFragment.newInstance("Done", myDate);
+                fragment = TaskListFragment.newInstance("Done", myDate, tasksFragment);
                 fragments.add(fragment);
                 // TODO BORRAR
                 System.out.println("EL SIZE ES "+fragments.size());
                 return fragment;
             default:
-                fragment = TaskListFragment.newInstance("Doing", myDate);
+                fragment = TaskListFragment.newInstance("Doing", myDate, tasksFragment);
                 fragments.add(fragment);
                 // TODO BORRAR
                 System.out.println("EL SIZE ES "+fragments.size());

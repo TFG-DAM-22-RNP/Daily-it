@@ -3,7 +3,7 @@ package rafael.ninoles.parra.dailyit.model;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class Category {
+public class Category{
     private String id;
     private String color;
     private String name;
@@ -34,4 +34,5 @@ public class Category {
 
     public Category(){
     }
+
 }

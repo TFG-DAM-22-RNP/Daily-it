@@ -1,5 +1,6 @@
 package rafael.ninoles.parra.dailyit.model;
 
+import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
@@ -27,6 +28,7 @@ public class Task {
         this.categoryId = categoryId;
     }
 
+    @Exclude
     public Category getCategory() {
         return category;
     }
@@ -83,6 +85,7 @@ public class Task {
         this.status = status;
     }
 
+    @Exclude
     public String getUserUid() {
         return userUid;
     }

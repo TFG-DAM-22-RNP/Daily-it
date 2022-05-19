@@ -15,4 +15,9 @@
     <string name="log_out">Cerrar sesión</string>
     <string name="doing">Haciendo</string>
     <string name="tasks">Tareas</string>
+    <string name="to_do">Por hacer</string>
+    <string name="done">Hecho</string>
+    <string name="expires_in">Expires in %1$s</string>
+    <string name="delete_task">Eliminar \"%1$s\"</string>
+    <string name="confirm_delete_task">¿Estás seguro de que quierer borrar la tarea \"%1$s\"? Esta acción no se puede revertir</string>
 </resources>

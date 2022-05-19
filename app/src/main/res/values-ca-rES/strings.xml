@@ -15,4 +15,9 @@
     <string name="log_out">Tanca la sessió</string>
     <string name="doing">Fent</string>
     <string name="tasks">Tasques</string>
+    <string name="to_do">Per fer</string>
+    <string name="done">Fet</string>
+    <string name="expires_in">Expires in %1$s</string>
+    <string name="delete_task">Eliminar \"%1$s\"</string>
+    <string name="confirm_delete_task">Estàs segur que vols eliminar la tasca \"%1$s\"? Aquesta acció no es pot revertir</string>
 </resources>

@@ -1,5 +1,6 @@
 package rafael.ninoles.parra.dailyit.ui.tasks;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import rafael.ninoles.parra.dailyit.R;
@@ -43,6 +45,7 @@ public class TasksFragment extends Fragment {
     private FragmentTasksBinding binding;
     private TaskListAdapter taskListAdapter;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
+    private final Calendar calendar = Calendar.getInstance();
 
     public TasksFragment() {
         // Required empty public constructor
@@ -74,7 +77,16 @@ public class TasksFragment extends Fragment {
         binding = FragmentTasksBinding.inflate(inflater, container, false);
         addDaySelectorListeners();
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
-        taskListAdapter = new TaskListAdapter(getParentFragmentManager(), getLifecycle(), currentDate);
+        binding.tvDate.setOnClickListener(e->{
+            Calendar newCalendar = Calendar.getInstance();
+            DatePickerDialog dialog = new DatePickerDialog(getActivity(), (view, year, monthOfYear, dayOfMonth) -> {
+                calendar.set(year, monthOfYear, dayOfMonth);
+                MyDate newDate = new MyDate(calendar.getTimeInMillis());
+                moveDay(newDate);
+            }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
+            dialog.show();
+        });
+        taskListAdapter = new TaskListAdapter(getParentFragmentManager(), getLifecycle(), currentDate, this);
         binding.pager.setAdapter(taskListAdapter);
         binding.pager.setUserInputEnabled(false);
         addChangeTabOnClick();
@@ -100,9 +112,6 @@ public class TasksFragment extends Fragment {
         moveDay(newDate);
     }
 
-    private void updateDates() {
-    }
-
     private void movePreviousDay(){
         MyDate newDate = new MyDate(currentDate.getTime() - MILLIS_IN_A_DAY);
         newDate.setHours(0);
@@ -111,12 +120,11 @@ public class TasksFragment extends Fragment {
         moveDay(newDate);
     }
 
-    private void moveDay(MyDate date){
+    public void moveDay(MyDate date){
         currentDate = date;
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
         for(TaskListFragment taskListFragment : taskListAdapter.getFragments()){
             taskListFragment.setDate(currentDate);
-            taskListFragment.printTest();
         }
     }
 

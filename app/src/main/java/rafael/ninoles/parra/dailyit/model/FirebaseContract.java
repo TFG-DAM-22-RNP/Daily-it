@@ -17,6 +17,9 @@ public class FirebaseContract {
         public static final String EXPIRES = "expires";
         public static final String STATUS = "status";
         public static final String CATEGORY = "categoryId";
+        public static final String TODO = "ToDo";
+        public static final String DOING = "Doing";
+        public static final String DONE = "Done";
     }
 
     public static class CategoryEntry{
