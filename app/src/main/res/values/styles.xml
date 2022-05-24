@@ -16,4 +16,8 @@
         <item name="strokeWidth">4px</item>
         <item name="strokeColor">@color/greenMain</item>
     </style>
+    <style name="Etiquetas">
+        <item name="android:background">@drawable/background_label_fab</item>
+        <item name="android:textColor">@color/black_white</item>
+    </style>
 </resources>

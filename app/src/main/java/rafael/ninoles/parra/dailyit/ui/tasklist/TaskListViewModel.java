@@ -13,6 +13,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import rafael.ninoles.parra.dailyit.model.MyDate;
@@ -20,7 +21,6 @@ import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 
 public class TaskListViewModel extends AndroidViewModel {
-
     private LiveData<List<Task>> tasks;
     private MyDate date;
     private DailyItRepository dailyItRepository;
@@ -32,11 +32,13 @@ public class TaskListViewModel extends AndroidViewModel {
 
     public void deleteTask(Task task){
         dailyItRepository.deleteTask(task);
+        tasks.getValue().remove(task);
     }
 
     public TaskListViewModel(@NonNull Application application, String status, MyDate date) {
         super(application);
         this.date = date;
+
         dailyItRepository = DailyItRepository.getInstance();
         this.status = status;
         tasks = dailyItRepository.getTaskByStatus(status,date);

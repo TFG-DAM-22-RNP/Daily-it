@@ -1,9 +1,12 @@
 package rafael.ninoles.parra.dailyit.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
-public class Category{
+public class Category implements Parcelable {
     private String id;
     private String color;
     private String name;
@@ -35,4 +38,39 @@ public class Category{
     public Category(){
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.color);
+        dest.writeString(this.name);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.color = source.readString();
+        this.name = source.readString();
+    }
+
+    protected Category(Parcel in) {
+        this.id = in.readString();
+        this.color = in.readString();
+        this.name = in.readString();
+    }
+
+    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+        @Override
+        public Category createFromParcel(Parcel source) {
+            return new Category(source);
+        }
+
+        @Override
+        public Category[] newArray(int size) {
+            return new Category[size];
+        }
+    };
 }

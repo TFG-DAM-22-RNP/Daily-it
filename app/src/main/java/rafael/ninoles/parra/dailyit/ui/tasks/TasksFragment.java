@@ -41,11 +41,11 @@ public class TasksFragment extends Fragment {
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
 
     private final MyDate actualDate = new MyDate();
+    private final Calendar calendar = Calendar.getInstance();
     private MyDate currentDate = actualDate;
     private FragmentTasksBinding binding;
     private TaskListAdapter taskListAdapter;
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
-    private final Calendar calendar = Calendar.getInstance();
 
     public TasksFragment() {
         // Required empty public constructor
@@ -145,14 +145,10 @@ public class TasksFragment extends Fragment {
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
     }
 }

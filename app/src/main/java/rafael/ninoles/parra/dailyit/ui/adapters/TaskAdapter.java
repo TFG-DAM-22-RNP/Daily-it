@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.card.MaterialCardView;
+
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
@@ -23,9 +25,14 @@ import rafael.ninoles.parra.dailyit.model.Task;
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     private List<Task> tasks;
     private OnClickListenerDeleteTask listenerDeleteTask;
+    private OnClickListenerOpenTask listenerOpenTask;
 
     public void setListenerDeleteTask(OnClickListenerDeleteTask listenerDeleteTask) {
         this.listenerDeleteTask = listenerDeleteTask;
+    }
+
+    public void setListenerOpenTask(OnClickListenerOpenTask listenerOpenTask) {
+        this.listenerOpenTask = listenerOpenTask;
     }
 
     public TaskAdapter(){
@@ -63,8 +70,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
-        private static final long MILIS_IN_DAY = 1000*60*60*24;
+        public static final long MILIS_IN_DAY = 1000*60*60*24;
         private static final long MILIS_IN_HOUR = 1000*60*60;
+        private static final long TWO_HOURS_IN_MILIS = MILIS_IN_HOUR*2;
         private static final long MILIS_IN_MIN = 60000;
         private static final int LINES_NUMBER = 2;
         private static final int LINES_NUMBER_EXPANDED = 5;
@@ -80,6 +88,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         private final ImageButton ibViewMore;
         private final ImageButton ibViewLess;
         private final ImageButton ibDelete;
+        private final MaterialCardView cardView;
 
         private String calExpires(){
             Date expire = task.getExpires();
@@ -97,10 +106,16 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 long days = diff / MILIS_IN_DAY;
                 if(days > 0){
                     return "Expires in " + days + " days";
-                }else{
+                }
+            }else{
+                if(diff>MILIS_IN_HOUR){
                     long hoursInMilis = diff % MILIS_IN_DAY;
                     long hours = hoursInMilis / MILIS_IN_HOUR;
                     return "Expires in "+hours+"h";
+                }else{
+                    long hoursInMilis = diff % MILIS_IN_HOUR;
+                    long hours = hoursInMilis / 1000 / 60 ;
+                    return "Expires in "+hours+"m";
                 }
             }
             // TODO pocho
@@ -117,7 +132,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             this.tvTitle.setText(task.getTitle());
             this.tvDesc.setText(task.getDescription());
             this.tvExpires.setText(calExpires());
-            this.tvExpireDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(task.getExpires()));
+            this.tvExpireDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(task.getExpires().getTime()+TWO_HOURS_IN_MILIS));
             this.categoryBar.setBackgroundColor(Colors.getColor(task.getCategory().getColor()));
             this.tvCategory.setText(task.getCategory().getName());
             this.tvCategory.setBackgroundColor(Colors.getColor(task.getCategory().getColor()));
@@ -133,7 +148,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             this.ibDelete = itemView.findViewById(R.id.ibDelete);
             this.tvCategory = itemView.findViewById(R.id.tvCategory);
             this.viewMoreEnabled = false;
+            this.cardView = itemView.findViewById(R.id.cardView);
             ibViewLess = itemView.findViewById(R.id.ibViewLess);
+            cardView.setOnClickListener(e->{
+                listenerOpenTask.onItemClickOpen(task);
+            });
             ibViewLess.setOnClickListener(e->{
                 handleViewMore();
             });
@@ -143,6 +162,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             ibDelete.setOnClickListener(e->{
                 listenerDeleteTask.onItemClickDelete(task);
             });
+
         }
 
         private void handleViewMore() {

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="status">
+        <item>To do</item>
+        <item>Doing</item>
+        <item>Done</item>
+    </array>
+</resources>

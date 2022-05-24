@@ -1,13 +1,17 @@
 package rafael.ninoles.parra.dailyit.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.firebase.firestore.Exclude;
 import com.google.firebase.firestore.IgnoreExtraProperties;
 import com.google.firebase.firestore.ServerTimestamp;
 
 import java.util.Date;
+import java.util.Objects;
 
 @IgnoreExtraProperties
-public class Task {
+public class Task implements Parcelable {
     private String id;
     private String title;
     private String description;
@@ -107,4 +111,76 @@ public class Task {
         this.status = status;
         this.userUid = userUid;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return id.equals(task.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.title);
+        dest.writeString(this.description);
+        dest.writeLong(this.expires != null ? this.expires.getTime() : -1);
+        dest.writeLong(this.created != null ? this.created.getTime() : -1);
+        dest.writeString(this.status);
+        dest.writeString(this.userUid);
+        dest.writeParcelable(this.category, flags);
+        dest.writeString(this.categoryId);
+    }
+
+    public void readFromParcel(Parcel source) {
+        this.id = source.readString();
+        this.title = source.readString();
+        this.description = source.readString();
+        long tmpExpires = source.readLong();
+        this.expires = tmpExpires == -1 ? null : new Date(tmpExpires);
+        long tmpCreated = source.readLong();
+        this.created = tmpCreated == -1 ? null : new Date(tmpCreated);
+        this.status = source.readString();
+        this.userUid = source.readString();
+        this.category = source.readParcelable(Category.class.getClassLoader());
+        this.categoryId = source.readString();
+    }
+
+    protected Task(Parcel in) {
+        this.id = in.readString();
+        this.title = in.readString();
+        this.description = in.readString();
+        long tmpExpires = in.readLong();
+        this.expires = tmpExpires == -1 ? null : new Date(tmpExpires);
+        long tmpCreated = in.readLong();
+        this.created = tmpCreated == -1 ? null : new Date(tmpCreated);
+        this.status = in.readString();
+        this.userUid = in.readString();
+        this.category = in.readParcelable(Category.class.getClassLoader());
+        this.categoryId = in.readString();
+    }
+
+    public static final Parcelable.Creator<Task> CREATOR = new Parcelable.Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel source) {
+            return new Task(source);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
 }

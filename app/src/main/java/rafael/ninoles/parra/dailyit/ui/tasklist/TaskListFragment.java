@@ -1,5 +1,6 @@
 package rafael.ninoles.parra.dailyit.ui.tasklist;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -17,11 +18,13 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 import rafael.ninoles.parra.dailyit.R;
+import rafael.ninoles.parra.dailyit.TaskActivity;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.ui.adapters.OnClickListenerDeleteTask;
+import rafael.ninoles.parra.dailyit.ui.adapters.OnClickListenerOpenTask;
 import rafael.ninoles.parra.dailyit.ui.adapters.TaskAdapter;
 import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
@@ -45,12 +48,18 @@ public class TaskListFragment extends Fragment {
                     , (dialogInterface, i) -> {
                         // Qué hacemos en caso ok
                         viewModel.deleteTask(task);
+                        adapter.notifyDataSetChanged();
                     });
             dialogo.setNegativeButton(android.R.string.no
                     , (dialogInterface, i) -> {
                     });
             dialogo.show();
         }
+    };
+
+    private final OnClickListenerOpenTask openTask = task -> {
+        Intent intent = new Intent(this.getActivity(), TaskActivity.class);
+        startActivity(intent);
     };
 
     // TODO: Rename and change types of parameters
@@ -159,12 +168,15 @@ public class TaskListFragment extends Fragment {
         binding = FragmentTaskListBinding.inflate(inflater, container, false);
         adapter = new TaskAdapter();
         adapter.setListenerDeleteTask(deleteTask);
+        adapter.setListenerOpenTask(openTask);
         swipeRefreshLayout = binding.swipeContainer;
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 viewModel.updateTasks(date).observe(getViewLifecycleOwner(),taskList -> {
                     adapter.setTasks(clearOldTaskes(taskList));
+                    System.out.println("EL SIZE ES ");
+                    System.out.println(taskList.size());
                     adapter.notifyDataSetChanged();
                     swipeRefreshLayout.setRefreshing(false);
                 });

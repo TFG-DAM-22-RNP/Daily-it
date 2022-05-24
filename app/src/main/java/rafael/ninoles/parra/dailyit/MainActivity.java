@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(binding.getRoot());
 
         //setSupportActionBar(binding.appBarMain.toolbar);
-        binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
+        /*binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 handleFabClick();
             }
-        });
+        });*/
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navView = binding.navView;
         navView.setNavigationItemSelectedListener(this);
@@ -172,6 +172,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent intent = new Intent(this, LoginActivity.class);
                 startActivity(intent);
                 finish();
+                break;
+            default:
+                //TODO prevent volver a cargar si ya esta en ese
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.nav_tasks);
+                break;
         }
         System.out.println("Clickado en nav");
         //close navigation drawer

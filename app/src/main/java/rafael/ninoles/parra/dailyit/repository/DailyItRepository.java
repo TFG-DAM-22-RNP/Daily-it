@@ -10,6 +10,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +24,7 @@ import rafael.ninoles.parra.dailyit.model.Task;
 
 public class DailyItRepository {
     private static volatile DailyItRepository INSTANCE;
+    private static final long MILIS_IN_WEEK = 604800000;
 
     public static DailyItRepository getInstance(){
         if(INSTANCE == null){
@@ -92,8 +94,8 @@ public class DailyItRepository {
 
     public void deleteTask(Task task) {
         // TODO implementar
-        System.out.println("Borrando tarea "+task.getTitle());
-        System.out.println("TODO");
+       FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
+               .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId()).delete();
     }
 
     public void updateTaskStatus(Task task, String rightStatus) {
