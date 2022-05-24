@@ -78,6 +78,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvEmail = navView.getHeaderView(0).findViewById(R.id.tvEmail);
         tvName = navView.getHeaderView(0).findViewById(R.id.tvName);
         printUserData();
+        binding.appBarMain.addTask.setOnClickListener(e->{
+            Intent intent = new Intent(this, TaskActivity.class);
+            startActivity(intent);
+        });
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -91,18 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void getUserImage(String path) {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference();
         StringBuilder fullPath = new StringBuilder("profile-images/");
         fullPath.append(path);
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference(fullPath.toString());
         ImageView iv = binding.navView.findViewById(R.id.ivProfile);
         Glide.with(this /* context */)
-                .load(storageReference.child(fullPath.toString()))
+                .load(storageReference)
                 .into(iv);
-    }
-
-
-
-    private void handleFabClick() {
     }
 
     private void printUserData() {
