@@ -59,7 +59,7 @@ public class TaskListFragment extends Fragment {
 
     private final OnClickListenerOpenTask openTask = task -> {
         Intent intent = new Intent(this.getActivity(), TaskActivity.class);
-        intent.putExtra(TaskActivity.EXTRA_TASK, task);
+        intent.putExtra(TaskActivity.EXTRA_TASK_ID, task.getId());
         startActivity(intent);
     };
 

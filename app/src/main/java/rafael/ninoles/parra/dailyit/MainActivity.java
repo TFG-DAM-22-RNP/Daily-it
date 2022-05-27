@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             if(document.exists()){
                                 Log.d(LOG_TAG, document.getId() + " => " + document.getData());
                                 User user = document.toObject(User.class);
-                                getUserImage(user.getImgProfile());
+                                //getUserImage(user.getImgProfile());
                                 tvName.setText(user.getName());
                             }
                         }else {

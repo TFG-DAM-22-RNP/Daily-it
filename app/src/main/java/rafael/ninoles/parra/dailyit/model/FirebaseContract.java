@@ -11,6 +11,7 @@ public class FirebaseContract {
 
     public static class  TaskEntry{
         public static final String COLLECTION_NAME = "tasks";
+        public static final String ID = "id";
         public static final String TITLE = "title";
         public static final String DESCRIPTION = "description";
         public static final String CREATED = "created";

@@ -22,4 +22,6 @@
     <string name="done">Done</string>
     <string name="delete_task">Remove \"%1$s\"</string>
     <string name="confirm_delete_task">Are you sure to delete the task \"%1$s\"? This action cant be reversed</string>
+    <string name="none">None</string>
+    <string name="work">Work</string>
 </resources>

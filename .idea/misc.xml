@@ -27,6 +27,7 @@
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/activity_task.xml" value="0.33" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/app_bar_main.xml" value="0.33" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/content_main.xml" value="0.25" />
+        <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/date_time_picker.xml" value="0.33" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/fragment_doing.xml" value="0.33" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/fragment_gallery.xml" value="0.203125" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/fragment_home.xml" value="0.203125" />
@@ -37,6 +38,7 @@
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/nav_header_main.xml" value="0.5" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/menu/activity_main_drawer.xml" value="0.36666666666666664" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
+        <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/menu/task_activity_menu.xml" value="0.3171171171171171" />
       </map>
     </option>
   </component>

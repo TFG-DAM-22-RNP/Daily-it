@@ -50,6 +50,16 @@ public class DailyItRepository {
         return getTasksFromQuery(colRef);
     }
 
+    public MutableLiveData<Task> getTaskById(String id){
+        MutableLiveData<Task> result = new MutableLiveData<>();
+        DocumentReference taskRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
+                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(id);
+        taskRef.get().addOnCompleteListener(taskResult -> {
+            result.setValue(taskResult.getResult().toObject(Task.class));
+        });
+        return result;
+    }
+
     @NonNull
     private MutableLiveData<List<Task>> getTasksFromQuery(Query colRef) {
         AtomicBoolean gotCategories = new AtomicBoolean(false);
@@ -104,5 +114,14 @@ public class DailyItRepository {
         DocumentReference docRef = instance.collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId());
         docRef.set(task);
+    }
+
+    public void createNewTask(Task task, String uid) {
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME)
+                .document(uid).collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document();
+        String id = docRef.getId();
+        task.setId(id);
+        FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
+                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(id).set(task);
     }
 }
