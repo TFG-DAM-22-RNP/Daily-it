@@ -1,5 +1,6 @@
 package rafael.ninoles.parra.dailyit;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewTreeLifecycleOwner;
@@ -7,10 +8,13 @@ import androidx.lifecycle.ViewTreeLifecycleOwner;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
 
@@ -33,6 +37,7 @@ public class TaskActivity extends AppCompatActivity {
     private ActivityTaskBinding binding;
     private boolean isNew;
     private String taskId;
+    private boolean modified = false;
     private Task task;
 
     @Override
@@ -54,11 +59,44 @@ public class TaskActivity extends AppCompatActivity {
 
 
     private void setListeners() {
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                modified = true;
+                System.out.println("Modified");
+            }
+        };
         binding.tvTaskExpireDate.setOnClickListener(e->{
             selectExpireDate();
         });
         binding.ivCalendar.setOnClickListener(e->{
             selectExpireDate();
+        });
+        binding.etDescription.addTextChangedListener(textWatcher);
+        binding.etTaskName.addTextChangedListener(textWatcher);
+        //TODO RETRASAR LISTENERS POR TRIGER AL CARGAR LA PRIMERA VEZ ES NULL
+        binding.spStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                modified = true;
+                System.out.println("HA CAMBIADO");
+                //task.setStatus(binding.spStatus.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
         });
     }
 
@@ -115,7 +153,12 @@ public class TaskActivity extends AppCompatActivity {
         updateTaskValues();
         if(isNew){
             DailyItRepository.getInstance().createNewTask(task, FirebaseAuth.getInstance().getUid());
+        }else{
+            DailyItRepository.getInstance().updateTask(task, FirebaseAuth.getInstance().getUid());
         }
+        modified = false;
+        binding.pbMain.setVisibility(View.GONE);
+        setTitle(task.getTitle());
     }
 
     private void updateTaskValues() {
@@ -151,6 +194,29 @@ public class TaskActivity extends AppCompatActivity {
                 date.set(Calendar.MINUTE, minute);
             }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(!modified){
+            setResult(0);
+            finish();
+        }else{
+            AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
+            //TODO STRINGS
+            dialogo.setTitle(String.format("Salir sin guardar",task.getTitle()));
+            dialogo.setMessage(String.format("Hay cambios en la tarea aun sin guardar. Seguro que deseas salir sin guardar?",task.getTitle()));
+            dialogo.setPositiveButton(android.R.string.yes
+                    , (dialogInterface, i) -> {
+                        //TODO CONSTANTE
+                        setResult(0);
+                        finish();
+                    });
+            dialogo.setNegativeButton(android.R.string.no
+                    , (dialogInterface, i) -> {
+                    });
+            dialogo.show();
+        }
     }
 
 }

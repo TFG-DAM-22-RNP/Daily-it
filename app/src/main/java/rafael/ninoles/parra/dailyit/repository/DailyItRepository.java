@@ -110,10 +110,7 @@ public class DailyItRepository {
 
     public void updateTaskStatus(Task task, String rightStatus) {
         task.setStatus(rightStatus);
-        FirebaseFirestore instance = FirebaseFirestore.getInstance();
-        DocumentReference docRef = instance.collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
-                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId());
-        docRef.set(task);
+        updateTask(task, FirebaseAuth.getInstance().getUid());
     }
 
     public void createNewTask(Task task, String uid) {
@@ -123,5 +120,12 @@ public class DailyItRepository {
         task.setId(id);
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(id).set(task);
+    }
+
+    public void updateTask(Task task, String uid) {
+        FirebaseFirestore instance = FirebaseFirestore.getInstance();
+        DocumentReference docRef = instance.collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
+                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId());
+        docRef.set(task);
     }
 }

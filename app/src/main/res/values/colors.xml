@@ -25,4 +25,5 @@
     <color name="backgroundLight">#F1F1F1</color>
     <color name="color_over_constrast">#FFF</color>
     <color name="black_white">@color/black</color>
+    <color name="greenMain_light_dark">@color/greenDarker</color>
 </resources>

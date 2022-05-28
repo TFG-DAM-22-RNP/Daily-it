@@ -1,5 +1,6 @@
 package rafael.ninoles.parra.dailyit.ui.adapters;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     private List<Task> tasks;
     private OnClickListenerDeleteTask listenerDeleteTask;
     private OnClickListenerOpenTask listenerOpenTask;
+    private Context context;
 
     public void setListenerDeleteTask(OnClickListenerDeleteTask listenerDeleteTask) {
         this.listenerDeleteTask = listenerDeleteTask;
@@ -37,12 +39,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public TaskAdapter(){
     }
-
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public TaskAdapter(Context context){
+        this.context = context;
     }
 
-    public TaskAdapter(List<Task> tasks) {
+    public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
 
@@ -126,7 +127,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             return milis/1000/60/60;
         }
 
-
         public void setTask(Task task) {
             this.task = task;
             this.tvTitle.setText(task.getTitle());
@@ -134,9 +134,14 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             this.tvExpires.setText(calExpires());
             this.tvExpireDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(task.getExpires().getTime()+TWO_HOURS_IN_MILIS));
             this.categoryBar.setBackgroundColor(Colors.getColor(task.getCategory().getColor()));
-            this.tvCategory.setText(task.getCategory().getName());
+            if(task.getCategory().getName().equals("Work")){
+                this.tvCategory.setText(context.getString(R.string.work));
+            }else{
+                this.tvCategory.setText(task.getCategory().getName());
+            }
             this.tvCategory.setBackgroundColor(Colors.getColor(task.getCategory().getColor()));
         }
+
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             this.tvTitle = itemView.findViewById(R.id.tvTitle);

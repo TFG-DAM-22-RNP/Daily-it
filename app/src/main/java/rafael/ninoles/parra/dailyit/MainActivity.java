@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         printUserData();
         binding.appBarMain.addTask.setOnClickListener(e->{
             Intent intent = new Intent(this, TaskActivity.class);
-            startActivity(intent);
+            startActivityForResult(intent, 0);
         });
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -125,6 +125,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         }
                     }
                 });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("HE VUELTO");
     }
 
     //TODO eliminar

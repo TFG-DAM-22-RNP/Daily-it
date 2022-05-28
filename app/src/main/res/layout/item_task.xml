@@ -21,7 +21,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:strokeColor="@color/greenMain"
+        app:strokeColor="@color/greenMain_light_dark"
         app:strokeWidth="2dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:textColor="@color/color_theme_constrast"
+                android:textColor="@color/greenMain_light_dark"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@+id/categoryBar"
                 app:layout_constraintTop_toTopOf="parent"
@@ -72,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="4dp"
-                android:textColor="@color/color_theme_constrast"
+                android:textColor="@color/greenMain_light_dark"
                 app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="Expires in 24h" />
@@ -82,7 +82,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:textColor="@color/greenMain"
+                android:textColor="@color/greenMain_light_dark"
                 android:textSize="10sp"
                 app:layout_constraintEnd_toEndOf="@+id/tvExpires"
                 app:layout_constraintTop_toBottomOf="@+id/tvExpires"

@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/drawable-anydpi/delete.xml" value="0.3310810810810811" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/drawable-anydpi/no-visible.xml" value="0.22135416666666666" />
+        <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/drawable-anydpi/no_visible.xml" value="0.3310810810810811" />
+        <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/drawable-anydpi/visible.xml" value="0.3310810810810811" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/drawable-night/ic_logo_sobre_oscuro.xml" value="0.23697916666666666" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/drawable-night/icon.xml" value="0.22291666666666668" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/drawable-night/logo.xml" value="0.3828125" />
@@ -34,7 +37,7 @@
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/fragment_slideshow.xml" value="0.203125" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/fragment_task_list.xml" value="0.33" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/fragment_tasks.xml" value="0.25" />
-        <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/item_task.xml" value="0.9" />
+        <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/item_task.xml" value="0.67" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/layout/nav_header_main.xml" value="0.5" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/menu/activity_main_drawer.xml" value="0.36666666666666664" />
         <entry key="..\:/Programacion/AppMovil/Dailyit/app/src/main/res/menu/main.xml" value="0.36666666666666664" />
