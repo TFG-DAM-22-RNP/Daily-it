@@ -24,4 +24,5 @@
     <string name="confirm_delete_task">Are you sure to delete the task \"%1$s\"? This action cant be reversed</string>
     <string name="none">None</string>
     <string name="work">Work</string>
+    <string name="no_taskes_found">There are not taskes</string>
 </resources>

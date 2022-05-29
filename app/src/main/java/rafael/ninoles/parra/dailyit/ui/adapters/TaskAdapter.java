@@ -1,8 +1,6 @@
 package rafael.ninoles.parra.dailyit.ui.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,12 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.card.MaterialCardView;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Date;
 import java.util.List;
 
 import rafael.ninoles.parra.dailyit.R;
-import rafael.ninoles.parra.dailyit.model.Colors;
+import rafael.ninoles.parra.dailyit.utilities.Colors;
 import rafael.ninoles.parra.dailyit.model.Task;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
@@ -45,6 +42,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
     }
 
     @NonNull

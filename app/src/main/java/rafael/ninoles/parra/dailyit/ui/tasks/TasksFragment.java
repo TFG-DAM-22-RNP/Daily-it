@@ -24,6 +24,7 @@ import java.util.Date;
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTasksBinding;
+import rafael.ninoles.parra.dailyit.helpers.MainActivityHelper;
 import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.ui.adapters.TaskAdapter;
 import rafael.ninoles.parra.dailyit.ui.adapters.TaskListAdapter;
@@ -74,6 +75,7 @@ public class TasksFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        MainActivityHelper.setTasksFragment(this);
         binding = FragmentTasksBinding.inflate(inflater, container, false);
         addDaySelectorListeners();
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
@@ -123,6 +125,10 @@ public class TasksFragment extends Fragment {
     public void moveDay(MyDate date){
         currentDate = date;
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
+        updateAllStatus();
+    }
+
+    public void updateAllStatus() {
         for(TaskListFragment taskListFragment : taskListAdapter.getFragments()){
             taskListFragment.setDate(currentDate);
         }

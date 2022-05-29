@@ -29,6 +29,7 @@ import com.google.firebase.storage.StorageReference;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -41,8 +42,10 @@ import java.io.File;
 import java.io.IOException;
 
 import rafael.ninoles.parra.dailyit.databinding.ActivityMainBinding;
+import rafael.ninoles.parra.dailyit.helpers.MainActivityHelper;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.User;
+import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -92,6 +95,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         // TODO click en log out
         //NavigationUI.setupWithNavController(navView, navController);
+        MainActivity mainActivity = this;
+        navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
+            @Override
+            public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
+                Log.e("CAMBIADO", "onDestinationChanged: "+destination.getLabel());
+            }
+        });
     }
 
     private void getUserImage(String path) {
@@ -131,6 +141,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         System.out.println("HE VUELTO");
+        TasksFragment tasksFragment = MainActivityHelper.getTasksFragment();
+        if(tasksFragment == null){
+            return;
+        }
+        tasksFragment.updateAllStatus();
     }
 
     //TODO eliminar

@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
 import rafael.ninoles.parra.dailyit.databinding.ActivityLoginBinding;
+import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 
 public class LoginActivity extends AppCompatActivity{
 
@@ -39,9 +40,7 @@ public class LoginActivity extends AppCompatActivity{
         });
         
         binding.btLogIn.setOnClickListener(e->{
-            System.out.println("AAAAAAA");
             logIn();
-            System.out.println("LOGE");
         });
 
         binding.btLogInGoogle.setOnClickListener(e->{
@@ -69,6 +68,7 @@ public class LoginActivity extends AppCompatActivity{
     private void logInResult(Task<AuthResult> result) {
         if(result.isSuccessful()){
             //TODO cambio de Activity
+            DailyItRepository.getInstance().createUser(FirebaseAuth.getInstance().getUid(),binding.etEmail.getText().toString());
             System.out.println("Correcto");
             startActivity(new Intent(this, MainActivity.class));
             finish();
@@ -102,6 +102,10 @@ public class LoginActivity extends AppCompatActivity{
                     AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
                     auth.signInWithCredential(credential).addOnCompleteListener(complete->{
                         if(complete.isSuccessful()){
+                            boolean isNew = complete.getResult().getAdditionalUserInfo().isNewUser();
+                            if(isNew){
+                                DailyItRepository.getInstance().createUser(auth.getUid(), auth.getCurrentUser().getEmail());
+                            }
                             startActivity(new Intent(this, MainActivity.class));
                             finish();
                         }else{

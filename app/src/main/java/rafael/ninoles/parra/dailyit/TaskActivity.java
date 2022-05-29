@@ -3,20 +3,16 @@ package rafael.ninoles.parra.dailyit;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewTreeLifecycleOwner;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.DatePicker;
-import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -25,10 +21,10 @@ import java.util.Calendar;
 import java.util.Date;
 
 import rafael.ninoles.parra.dailyit.databinding.ActivityTaskBinding;
-import rafael.ninoles.parra.dailyit.model.Colors;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
+import rafael.ninoles.parra.dailyit.utilities.FirestoreUserTranslator;
 
 public class TaskActivity extends AppCompatActivity {
     public static final String EXTRA_TASK = "EXTRA_TASK";
@@ -57,7 +53,6 @@ public class TaskActivity extends AppCompatActivity {
         return true;
     }
 
-
     private void setListeners() {
         TextWatcher textWatcher = new TextWatcher() {
             @Override
@@ -76,10 +71,10 @@ public class TaskActivity extends AppCompatActivity {
                 System.out.println("Modified");
             }
         };
-        binding.tvTaskExpireDate.setOnClickListener(e->{
+        binding.tvTaskExpireDate.setOnClickListener(e -> {
             selectExpireDate();
         });
-        binding.ivCalendar.setOnClickListener(e->{
+        binding.ivCalendar.setOnClickListener(e -> {
             selectExpireDate();
         });
         binding.etDescription.addTextChangedListener(textWatcher);
@@ -105,10 +100,10 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void initTask() {
-        if(taskId == null){
+        if (taskId == null) {
             isNew = true;
             newTask();
-        }else{
+        } else {
             isNew = false;
             getTask();
         }
@@ -151,9 +146,9 @@ public class TaskActivity extends AppCompatActivity {
     private void saveTask() {
         binding.pbMain.setVisibility(View.VISIBLE);
         updateTaskValues();
-        if(isNew){
+        if (isNew) {
             DailyItRepository.getInstance().createNewTask(task, FirebaseAuth.getInstance().getUid());
-        }else{
+        } else {
             DailyItRepository.getInstance().updateTask(task, FirebaseAuth.getInstance().getUid());
         }
         modified = false;
@@ -163,6 +158,8 @@ public class TaskActivity extends AppCompatActivity {
 
     private void updateTaskValues() {
         task.setTitle(binding.etTaskName.getText().toString());
+        task.setStatus(FirestoreUserTranslator.getFirestoreWord(binding.spStatus.getSelectedItem().toString()));
+        task.setCategoryId(FirestoreUserTranslator.getFirestoreWord(binding.spCategory.getSelectedItem().toString()));
         task.setDescription(binding.etDescription.getText().toString());
     }
 
@@ -198,23 +195,22 @@ public class TaskActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(!modified){
+        if (!modified) {
             setResult(0);
             finish();
-        }else{
+        } else {
             AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
             //TODO STRINGS
-            dialogo.setTitle(String.format("Salir sin guardar",task.getTitle()));
-            dialogo.setMessage(String.format("Hay cambios en la tarea aun sin guardar. Seguro que deseas salir sin guardar?",task.getTitle()));
+            dialogo.setTitle(String.format("Salir sin guardar", task.getTitle()));
+            dialogo.setMessage(String.format("Hay cambios en la tarea aun sin guardar. Seguro que deseas salir sin guardar?", task.getTitle()));
             dialogo.setPositiveButton(android.R.string.yes
                     , (dialogInterface, i) -> {
                         //TODO CONSTANTE
                         setResult(0);
                         finish();
                     });
-            dialogo.setNegativeButton(android.R.string.no
-                    , (dialogInterface, i) -> {
-                    });
+            dialogo.setNegativeButton(android.R.string.no, (dialogInterface, i) -> {
+            });
             dialogo.show();
         }
     }

@@ -3,12 +3,14 @@ package rafael.ninoles.parra.dailyit.repository;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -21,10 +23,14 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.Task;
+import rafael.ninoles.parra.dailyit.model.User;
 
 public class DailyItRepository {
     private static volatile DailyItRepository INSTANCE;
     private static final long MILIS_IN_WEEK = 604800000;
+    private static final String DEFAULT_CATEGORY_ID = "Work";
+    private static final String DEFAULT_CATEGORY_COLOR = "grey";
+    private static final String DEFAULT_CATEGORY_NAME = "Work";
 
     public static DailyItRepository getInstance(){
         if(INSTANCE == null){
@@ -56,6 +62,21 @@ public class DailyItRepository {
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(id);
         taskRef.get().addOnCompleteListener(taskResult -> {
             result.setValue(taskResult.getResult().toObject(Task.class));
+        });
+        return result;
+    }
+
+    public MutableLiveData<List<Category>> getCategoriesFromUser(String uid){
+        MutableLiveData<List<Category>> result = new MutableLiveData<>();
+        CollectionReference colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
+                .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME);
+        final List<Category> categoryList = new ArrayList<>();
+        colRef.get().addOnCompleteListener(categoryResult -> {
+            for(DocumentSnapshot snapshot : categoryResult.getResult()){
+                Category category = snapshot.toObject(Category.class);
+                categoryList.add(category);
+            }
+            result.setValue(categoryList);
         });
         return result;
     }
@@ -127,5 +148,17 @@ public class DailyItRepository {
         DocumentReference docRef = instance.collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId());
         docRef.set(task);
+    }
+
+    public void createUser(String uid, String email) {
+        User newUser = new User();
+        newUser.setId(uid);
+        newUser.setName(email.split("@")[0]);
+        newUser.setEmail(email);
+        Category defaultCategory = new Category(DEFAULT_CATEGORY_ID,DEFAULT_CATEGORY_COLOR,DEFAULT_CATEGORY_NAME);
+        defaultCategory.setDeleteable(false);
+        FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid).set(newUser);
+        FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
+                .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document(DEFAULT_CATEGORY_ID).set(defaultCategory);
     }
 }

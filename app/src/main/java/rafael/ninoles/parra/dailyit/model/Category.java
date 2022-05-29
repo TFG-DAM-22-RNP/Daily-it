@@ -10,6 +10,15 @@ public class Category implements Parcelable {
     private String id;
     private String color;
     private String name;
+    private boolean deleteable = true;
+
+    public void setDeleteable(boolean newStatus){
+        deleteable = newStatus;
+    }
+
+    public boolean isDeleteable() {
+        return deleteable;
+    }
 
     public String getId() {
         return id;
@@ -36,6 +45,12 @@ public class Category implements Parcelable {
     }
 
     public Category(){
+    }
+
+    public Category(String id, String color, String name) {
+        this.id = id;
+        this.color = color;
+        this.name = name;
     }
 
     @Override

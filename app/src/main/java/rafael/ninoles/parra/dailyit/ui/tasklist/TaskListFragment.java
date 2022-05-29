@@ -43,8 +43,8 @@ public class TaskListFragment extends Fragment {
         @Override
         public void onItemClickDelete(Task task) {
             AlertDialog.Builder dialogo = new AlertDialog.Builder(getActivity());
-            dialogo.setTitle(String.format(getString(R.string.delete_task),task.getTitle()));
-            dialogo.setMessage(String.format(getString(R.string.confirm_delete_task),task.getTitle()));
+            dialogo.setTitle(String.format(getString(R.string.delete_task), task.getTitle()));
+            dialogo.setMessage(String.format(getString(R.string.confirm_delete_task), task.getTitle()));
             dialogo.setPositiveButton(android.R.string.yes
                     , (dialogInterface, i) -> {
                         // Qué hacemos en caso ok
@@ -61,7 +61,7 @@ public class TaskListFragment extends Fragment {
     private final OnClickListenerOpenTask openTask = task -> {
         Intent intent = new Intent(this.getActivity(), TaskActivity.class);
         intent.putExtra(TaskActivity.EXTRA_TASK_ID, task.getId());
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     };
 
     // TODO: Rename and change types of parameters
@@ -91,17 +91,20 @@ public class TaskListFragment extends Fragment {
         swipeRefreshLayout.setRefreshing(true);
         this.date = date;
         viewModel.setDate(date);
-        viewModel.updateTasks(date).observe(getViewLifecycleOwner(),taskList -> {
+        viewModel.updateTasks(date).observe(getViewLifecycleOwner(), taskList -> {
             adapter.setTasks(clearOldTaskes(taskList));
             adapter.notifyDataSetChanged();
+            checkIfTaskes();
             swipeRefreshLayout.setRefreshing(false);
         });
     }
 
-    //TODO quitar
-    public void printTest(){
-        System.out.println("Dentro de printTest");
-        System.out.println(new SimpleDateFormat("dd MMM. yyyy").format(date));
+    private void checkIfTaskes() {
+        if (adapter.getTasks().size() > 0) {
+            binding.tvNoTaskes.setVisibility(View.GONE);
+        } else {
+            binding.tvNoTaskes.setVisibility(View.VISIBLE);
+        }
     }
 
     public TaskListFragment() {
@@ -112,7 +115,7 @@ public class TaskListFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param status Status..
+     * @param status        Status..
      * @param tasksFragment
      * @return A new instance of fragment TaskListFragment.
      */
@@ -134,7 +137,7 @@ public class TaskListFragment extends Fragment {
             status = getArguments().getString(STATUS);
             date = getArguments().getParcelable(DATE);
             // TODO EXTRACT METHOD
-            switch (status){
+            switch (status) {
                 case FirebaseContract
                         .TaskEntry.TODO:
                     leftStatus = null;
@@ -152,10 +155,10 @@ public class TaskListFragment extends Fragment {
         }
     }
 
-    private List<Task> clearOldTaskes(List<Task> taskes){
-        for (int i = taskes.size()-1; i >= 0; i--) {
+    private List<Task> clearOldTaskes(List<Task> taskes) {
+        for (int i = taskes.size() - 1; i >= 0; i--) {
             Task actual = taskes.get(i);
-            if(actual.getCreated().getTime() > date.getTime()){
+            if (actual.getCreated().getTime() > date.getTime()) {
                 taskes.remove(actual);
             }
         }
@@ -172,18 +175,15 @@ public class TaskListFragment extends Fragment {
         adapter.setListenerDeleteTask(deleteTask);
         adapter.setListenerOpenTask(openTask);
         swipeRefreshLayout = binding.swipeContainer;
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                viewModel.updateTasks(date).observe(getViewLifecycleOwner(),taskList -> {
-                    adapter.setTasks(clearOldTaskes(taskList));
-                    System.out.println("EL SIZE ES ");
-                    System.out.println(taskList.size());
-                    adapter.notifyDataSetChanged();
-                    swipeRefreshLayout.setRefreshing(false);
-                });
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(() -> viewModel.updateTasks(date).observe(getViewLifecycleOwner(), taskList -> {
+            adapter.setTasks(clearOldTaskes(taskList));
+            //TODO QUITAR SOUTS
+            adapter.notifyDataSetChanged();
+            checkIfTaskes();
+            binding.pbTaskes.setVisibility(View.GONE);
+            binding.pbTaskes.setVisibility(View.GONE);
+            swipeRefreshLayout.setRefreshing(false);
+        }));
         binding.rvTasks.setAdapter(adapter);
         binding.rvTasks.setLayoutManager(new LinearLayoutManager(getContext()));
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new
@@ -195,18 +195,17 @@ public class TaskListFragment extends Fragment {
                     }
 
                     @Override
-                    public void onSwiped(RecyclerView.ViewHolder viewHolder,
-                                         int swipeDir) {
-                        if(swipeDir == ItemTouchHelper.RIGHT){
-                            if(rightStatus == null){
+                    public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                        if (swipeDir == ItemTouchHelper.RIGHT) {
+                            if (rightStatus == null) {
                                 adapter.notifyDataSetChanged();
                                 return;
                             }
                             Task task = ((TaskAdapter.TaskViewHolder) viewHolder).getTask();
                             viewModel.updateStatus(task, rightStatus);
                             tasksFragment.moveDay(date);
-                        }else{
-                            if(leftStatus == null){
+                        } else {
+                            if (leftStatus == null) {
                                 adapter.notifyDataSetChanged();
                                 return;
                             }
@@ -218,10 +217,13 @@ public class TaskListFragment extends Fragment {
                 };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(binding.rvTasks);
-        viewModel.getAllTasks().observe(getViewLifecycleOwner(),taskList -> {
+        viewModel.getAllTasks().observe(getViewLifecycleOwner(), taskList -> {
+            //TODO SOUT
             System.out.println("HA CAMBIADO");
             adapter.setTasks(clearOldTaskes(taskList));
             adapter.notifyDataSetChanged();
+            binding.pbTaskes.setVisibility(View.GONE);
+            checkIfTaskes();
         });
         View root = binding.getRoot();
         return root;
@@ -230,6 +232,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("ALGO HA VUELTO");
+        swipeRefreshLayout.setRefreshing(true);
+        tasksFragment.updateAllStatus();
     }
 }

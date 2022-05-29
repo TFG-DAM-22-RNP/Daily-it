@@ -6,6 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
+    <color name="not_black">#2e2e2e</color>
     <color name="white">#FFFFFFFF</color>
     <color name="greenMain">#5DBDB0</color>
     <color name="greenDarker">#42877D</color>
@@ -24,6 +25,6 @@
     <color name="grey">#777777</color>
     <color name="backgroundLight">#F1F1F1</color>
     <color name="color_over_constrast">#FFF</color>
-    <color name="black_white">@color/black</color>
+    <color name="black_white">@color/not_black</color>
     <color name="greenMain_light_dark">@color/greenDarker</color>
 </resources>

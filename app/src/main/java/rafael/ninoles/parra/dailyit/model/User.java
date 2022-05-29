@@ -1,16 +1,45 @@
 package rafael.ninoles.parra.dailyit.model;
 
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.IgnoreExtraProperties;
+
+import java.util.List;
+
+@IgnoreExtraProperties
 public class User {
-    private String AuthUID;
+    private String id;
     private String imgProfile;
     private String name;
+    private List<Category> categories;
+    private String email;
 
-    public String getAuthUID() {
-        return AuthUID;
+    public void addCategory(Category category){
+        this.categories.add(category);
     }
 
-    public void setAuthUID(String authUID) {
-        AuthUID = authUID;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Exclude
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<Category> categories) {
+        this.categories = categories;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String authUID) {
+        id = authUID;
     }
 
     public String getImgProfile() {
@@ -38,7 +67,7 @@ public class User {
     }
 
     public User(String authUID, String imgProfile, String name) {
-        AuthUID = authUID;
+        this.id = authUID;
         this.imgProfile = imgProfile;
         this.name = name;
     }
