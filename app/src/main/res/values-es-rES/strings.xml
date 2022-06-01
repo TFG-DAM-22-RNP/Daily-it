@@ -17,7 +17,26 @@
     <string name="tasks">Tareas</string>
     <string name="to_do">Por hacer</string>
     <string name="done">Hecho</string>
-    <string name="expires_in">Expires in %1$s</string>
     <string name="delete_task">Eliminar \"%1$s\"</string>
     <string name="confirm_delete_task">¿Estás seguro de que quierer borrar la tarea \"%1$s\"? Esta acción no se puede revertir</string>
+    <string name="expires_in_days">Expira en %1$s dias</string>
+    <string name="expires_in_hours">Expira en %1$s horas</string>
+    <string name="none">Ninguna</string>
+    <string name="work">Trabajo</string>
+    <string name="no_taskes_found">No se han encontrado tareas</string>
+    <string name="expired">Expirada</string>
+    <string name="expires_in_seconds">Expira en %1$ds</string>
+    <string name="expires_in_minutes">Expira en %1$dm</string>
+    <string name="task_name">Nombre de la tarea</string>
+    <string name="status">Estado</string>
+    <string name="category">Categoría</string>
+    <string name="expires">Expira</string>
+    <string name="group">Grupo</string>
+    <string name="description">Descripción</string>
+    <string name="cash_movement">Ingreso / gasto</string>
+    <string name="task">Tarea</string>
+    <string name="loadin_task">Cargando tarea...</string>
+    <string name="new_task">Nueva tarea</string>
+    <string name="exit_without_saving">Salir sin guardar \"%1$s\"</string>
+    <string name="changes_without_saving">Hay cambios en la tarea aun sin guardar. ¿Seguro que deseas salir sin guardar?</string>
 </resources>

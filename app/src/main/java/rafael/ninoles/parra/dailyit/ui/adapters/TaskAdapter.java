@@ -1,6 +1,7 @@
 package rafael.ninoles.parra.dailyit.ui.adapters;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +35,8 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         this.listenerOpenTask = listenerOpenTask;
     }
 
-    public TaskAdapter(){
-    }
+    public TaskAdapter(){}
+
     public TaskAdapter(Context context){
         this.context = context;
     }
@@ -101,23 +102,24 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         private String calcRemaining(long diff) {
             //TODO String.xml
+            diff += TWO_HOURS_IN_MILIS;
             if(diff<0){
-                return "Expired";
+                return context.getString(R.string.expired);
             }
             if(diff > MILIS_IN_DAY){
                 long days = diff / MILIS_IN_DAY;
                 if(days > 0){
-                    return "Expires in " + days + " days";
+                    return String.format(context.getString(R.string.expires_in_days), days);
                 }
             }else{
                 if(diff>MILIS_IN_HOUR){
                     long hoursInMilis = diff % MILIS_IN_DAY;
                     long hours = hoursInMilis / MILIS_IN_HOUR;
-                    return "Expires in "+hours+"h";
+                    return String.format(context.getString(R.string.expires_in_hours), hours);
                 }else{
                     long hoursInMilis = diff % MILIS_IN_HOUR;
-                    long hours = hoursInMilis / 1000 / 60 ;
-                    return "Expires in "+hours+"m";
+                    long minutes = hoursInMilis / 1000 / 60 ;
+                    return String.format(context.getString(R.string.expires_in_minutes), minutes);
                 }
             }
             // TODO pocho
@@ -177,14 +179,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 tvDesc.setMaxLines(LINES_NUMBER);
                 tvCategory.setVisibility(View.GONE);
                 ibViewMore.setVisibility(View.VISIBLE);
-                ibViewLess.setVisibility(View.GONE);
-                ibDelete.setVisibility(View.GONE);
+                ibViewLess.setVisibility(View.INVISIBLE);
             }else{
                 tvDesc.setMaxLines(LINES_NUMBER_EXPANDED);
                 tvCategory.setVisibility(View.VISIBLE);
-                ibViewMore.setVisibility(View.GONE);
+                ibViewMore.setVisibility(View.INVISIBLE);
                 ibViewLess.setVisibility(View.VISIBLE);
-                ibDelete.setVisibility(View.VISIBLE);
             }
             viewMoreEnabled = !viewMoreEnabled;
         }

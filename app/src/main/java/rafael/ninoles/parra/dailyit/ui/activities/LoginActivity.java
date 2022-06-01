@@ -1,4 +1,4 @@
-package rafael.ninoles.parra.dailyit;
+package rafael.ninoles.parra.dailyit.ui.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +16,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityLoginBinding;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 

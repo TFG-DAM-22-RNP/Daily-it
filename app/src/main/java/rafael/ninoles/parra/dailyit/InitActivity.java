@@ -7,6 +7,9 @@ import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import rafael.ninoles.parra.dailyit.ui.activities.LoginActivity;
+import rafael.ninoles.parra.dailyit.ui.activities.MainActivity;
+
 public class InitActivity extends AppCompatActivity {
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 

@@ -1,27 +1,25 @@
-package rafael.ninoles.parra.dailyit;
+package rafael.ninoles.parra.dailyit.ui.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -29,7 +27,6 @@ import com.google.firebase.storage.StorageReference;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
@@ -41,6 +38,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.io.File;
 import java.io.IOException;
 
+import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityMainBinding;
 import rafael.ninoles.parra.dailyit.helpers.MainActivityHelper;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
@@ -74,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 handleFabClick();
             }
         });*/
+        // INIT ADS
+        MobileAds.initialize(this, initializationStatus -> { });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navView = binding.navView;
         navView.setNavigationItemSelectedListener(this);

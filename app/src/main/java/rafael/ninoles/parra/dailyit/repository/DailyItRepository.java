@@ -28,6 +28,8 @@ import rafael.ninoles.parra.dailyit.model.User;
 public class DailyItRepository {
     private static volatile DailyItRepository INSTANCE;
     private static final long MILIS_IN_WEEK = 604800000;
+    private static final long MILIS_IN_HOUR = 1000*60*60;
+    private static final long TWO_HOURS_IN_MILIS = MILIS_IN_HOUR*2;
     private static final String DEFAULT_CATEGORY_ID = "Work";
     private static final String DEFAULT_CATEGORY_COLOR = "grey";
     private static final String DEFAULT_CATEGORY_NAME = "Work";
@@ -50,6 +52,7 @@ public class DailyItRepository {
     }
 
     public MutableLiveData<List<Task>> getTaskByStatus(String status, Date date){
+        date.setTime(date.getTime() + TWO_HOURS_IN_MILIS );
         Query colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).whereEqualTo(FirebaseContract.TaskEntry.STATUS,status)
                 .whereGreaterThanOrEqualTo(FirebaseContract.TaskEntry.EXPIRES, date);
@@ -135,6 +138,9 @@ public class DailyItRepository {
     }
 
     public void createNewTask(Task task, String uid) {
+        task.getCreated().setHours(0);
+        task.getCreated().setMinutes(0);
+        task.getCreated().setSeconds(0);
         DocumentReference docRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME)
                 .document(uid).collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document();
         String id = docRef.getId();

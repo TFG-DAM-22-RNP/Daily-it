@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.activities.MainActivity">
 
     <include layout="@layout/content_main" />
 
@@ -26,7 +26,7 @@
             fab:fab_colorNormal="?attr/colorAccent"
             fab:fab_icon="@drawable/money"
             fab:fab_size="mini"
-            fab:fab_title="Cash movement" />
+            fab:fab_title="@string/cash_movement" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/addCategory"
@@ -35,7 +35,7 @@
             fab:fab_colorNormal="?attr/colorAccent"
             fab:fab_icon="@drawable/label"
             fab:fab_size="mini"
-            fab:fab_title="Label" />
+            fab:fab_title="@string/category" />
 
         <com.getbase.floatingactionbutton.FloatingActionButton
             android:id="@+id/addTask"
@@ -44,7 +44,7 @@
             fab:fab_colorNormal="?attr/colorAccent"
             fab:fab_icon="@drawable/add_task"
             fab:fab_size="mini"
-            fab:fab_title="Task" />
+            fab:fab_title="@string/task" />
 
     </com.getbase.floatingactionbutton.FloatingActionsMenu>
 

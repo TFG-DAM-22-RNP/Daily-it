@@ -17,7 +17,26 @@
     <string name="tasks">Tasques</string>
     <string name="to_do">Per fer</string>
     <string name="done">Fet</string>
-    <string name="expires_in">Expires in %1$s</string>
     <string name="delete_task">Eliminar \"%1$s\"</string>
     <string name="confirm_delete_task">Estàs segur que vols eliminar la tasca \"%1$s\"? Aquesta acció no es pot revertir</string>
+    <string name="expires_in_days">Expira%1$d dies</string>
+    <string name="expires_in_hours">Expires in %1$s hours</string>
+    <string name="none">Cap</string>
+    <string name="work">Treball</string>
+    <string name="no_taskes_found">No s\'han trobat tasques</string>
+    <string name="expired">Expirada</string>
+    <string name="expires_in_seconds">Expira a %1$ds</string>
+    <string name="expires_in_minutes">Expira en %1$dm</string>
+    <string name="task_name">Nom de la tasca</string>
+    <string name="status">Estat</string>
+    <string name="category">Categoria</string>
+    <string name="expires">Expira</string>
+    <string name="group">Grup</string>
+    <string name="description">Descripció</string>
+    <string name="cash_movement">Ingrés / despesa</string>
+    <string name="task">Tasca</string>
+    <string name="loadin_task">Carregant tasca...</string>
+    <string name="new_task">Nova tasca</string>
+    <string name="exit_without_saving">Sortir sense gravar \"%1$s\"</string>
+    <string name="changes_without_saving">Hi ha canvis en la tasca encara sense desar. Segur que vols sortir sense guardar?</string>
 </resources>

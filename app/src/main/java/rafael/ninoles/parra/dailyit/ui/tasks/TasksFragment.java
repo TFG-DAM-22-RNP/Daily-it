@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
@@ -77,6 +78,11 @@ public class TasksFragment extends Fragment {
         // Inflate the layout for this fragment
         MainActivityHelper.setTasksFragment(this);
         binding = FragmentTasksBinding.inflate(inflater, container, false);
+        actualDate.setMinutes(0);
+        actualDate.setHours(0);
+        actualDate.setSeconds(1);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        binding.adBottom.loadAd(adRequest);
         addDaySelectorListeners();
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
         binding.tvDate.setOnClickListener(e->{
@@ -84,7 +90,9 @@ public class TasksFragment extends Fragment {
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), (view, year, monthOfYear, dayOfMonth) -> {
                 calendar.set(year, monthOfYear, dayOfMonth);
                 MyDate newDate = new MyDate(calendar.getTimeInMillis());
-                moveDay(newDate);
+                newDate.setHours(0);
+                newDate.setMinutes(0);
+                newDate.setSeconds(1);
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             dialog.show();
         });
@@ -110,7 +118,9 @@ public class TasksFragment extends Fragment {
         MyDate newDate = new MyDate(currentDate.getTime() + MILLIS_IN_A_DAY);
         newDate.setHours(0);
         newDate.setMinutes(0);
-        newDate.setSeconds(0);
+        newDate.setSeconds(1);
+        System.out.println("LA FECHA ES");
+        System.out.println(new SimpleDateFormat("dd MM yy HH:mm:ss").format(newDate));
         moveDay(newDate);
     }
 
@@ -118,11 +128,13 @@ public class TasksFragment extends Fragment {
         MyDate newDate = new MyDate(currentDate.getTime() - MILLIS_IN_A_DAY);
         newDate.setHours(0);
         newDate.setMinutes(0);
-        newDate.setSeconds(0);
+        newDate.setSeconds(1);
         moveDay(newDate);
     }
 
     public void moveDay(MyDate date){
+        System.out.println("CAMBIANDO LA FECHA a");
+        System.out.println(new SimpleDateFormat("dd MM yy HH:mm:ss").format(currentDate));
         currentDate = date;
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
         updateAllStatus();

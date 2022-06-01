@@ -10,8 +10,6 @@ public class FirestoreUserTranslator {
 
     public static String getFirestoreWord(String userWord){
         String translated = translations.get(userWord);
-        System.out.println("LLEGA PARA TRADUCIR "+userWord);
-        System.out.println(translated);
         if(translated != null){
             return translated;
         }

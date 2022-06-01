@@ -15,11 +15,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import rafael.ninoles.parra.dailyit.R;
-import rafael.ninoles.parra.dailyit.TaskActivity;
+import rafael.ninoles.parra.dailyit.ui.activities.TaskActivity;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.MyDate;
