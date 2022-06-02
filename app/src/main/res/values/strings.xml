@@ -14,7 +14,6 @@
     <string name="log_out">Log out</string>
     <string name="expires_in_hours">Expires in %1$s hours</string>
     <string name="server_id" translatable="false">827759519524-tvofk1lrd094v7vbt8pek565fq2ndu4p.apps.googleusercontent.com</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="doing">Doing</string>
     <string name="tasks">Tasks</string>
     <string name="to_do">To do</string>
@@ -40,4 +39,19 @@
     <string name="new_task">New task</string>
     <string name="exit_without_saving">Exit without saving \"%1$s\"</string>
     <string name="changes_without_saving">There are changes to the task not yet saved. Are you sure you want to exit without saving?</string>
+    <string name="name_empty_exception_message">The task\'s name cannot be empty.</string>
+    <string name="exit_without_saving_new">Exit without saving</string>
+    <string name="no_description">There isn`t a description.</string>
+    <string name="saved">The task has been saved.</string>
+    <string name="home">Home</string>
+    <string name="not_implemented_yet">This action isn\'t implemented yet.</string>
+    <string name="categories">Categories</string>
+    <string name="groups">Groups</string>
+    <string name="my_categories">My categories</string>
+    <string name="name">Name</string>
+    <string name="color" translatable="false">Color</string>
+    <string name="save">Save</string>
+    <string name="new_category">New category</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

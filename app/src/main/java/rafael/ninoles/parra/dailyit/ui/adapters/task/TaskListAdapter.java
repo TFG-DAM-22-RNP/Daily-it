@@ -1,4 +1,4 @@
-package rafael.ninoles.parra.dailyit.ui.adapters;
+package rafael.ninoles.parra.dailyit.ui.adapters.task;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

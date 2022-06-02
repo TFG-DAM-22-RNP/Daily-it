@@ -9,8 +9,16 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/nav_tasks"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/tasks" />
+            android:icon="@drawable/add_task"
+            android:title="@string/home" />
+        <item
+            android:id="@+id/nav_categories"
+            android:icon="@drawable/label"
+            android:title="@string/categories" />
+        <item
+            android:id="@+id/nav_groups"
+            android:icon="@drawable/group"
+            android:title="@string/groups" />
     </group>
         <item
             android:id="@+id/log_out"

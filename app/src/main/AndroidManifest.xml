@@ -17,10 +17,12 @@
             android:value="ca-app-pub-3878567329837453~6353575574"/>
         <activity
             android:name=".ui.activities.TaskActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
         <activity
             android:name=".InitActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/Theme.DailyIt">
             <intent-filter>
@@ -32,12 +34,14 @@
         <activity
             android:name=".ui.activities.LoginActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:label="@string/app_name"
             android:theme="@style/Theme.DailyIt" />
         <activity
             android:name=".ui.activities.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.DailyIt" />
     </application>
 

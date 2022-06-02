@@ -39,4 +39,16 @@
     <string name="new_task">Nueva tarea</string>
     <string name="exit_without_saving">Salir sin guardar \"%1$s\"</string>
     <string name="changes_without_saving">Hay cambios en la tarea aun sin guardar. ¿Seguro que deseas salir sin guardar?</string>
+    <string name="name_empty_exception_message">El nombre de la tarea no puede estar vacio.</string>
+    <string name="exit_without_saving_new">Salir sin guardar</string>
+    <string name="no_description">No hay una descripción.</string>
+    <string name="saved">La tarea ha sido guardada.</string>
+    <string name="home">Inicio</string>
+    <string name="not_implemented_yet">Esta acción aún no está implementada.</string>
+    <string name="categories">Categorías</string>
+    <string name="groups">Grupos</string>
+    <string name="my_categories">Mis categorias</string>
+    <string name="name">Nombre</string>
+    <string name="save">Guardar</string>
+    <string name="new_category">Nueva categoría</string>
 </resources>

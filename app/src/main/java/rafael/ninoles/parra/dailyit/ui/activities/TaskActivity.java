@@ -13,10 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -24,6 +26,7 @@ import java.util.Map;
 
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityTaskBinding;
+import rafael.ninoles.parra.dailyit.exceptions.InputNeededException;
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.Task;
@@ -140,12 +143,12 @@ public class TaskActivity extends AppCompatActivity {
         }
         printStatus();
         printCategories(adapter);
-        // binding.spCategory.setSelection(adapter.getPosition(task.getCategory().getName()));
         binding.etDescription.setText(task.getDescription());
         binding.etTaskName.setText(task.getTitle());
     }
 
     private void printStatus() {
+        //TODO constantes para numeros
         if(task.getStatus().equals(FirebaseContract.TaskEntry.TODO)){
             binding.spStatus.setSelection(0);
         }else if(task.getStatus().equals(FirebaseContract.TaskEntry.DOING)){
@@ -181,6 +184,14 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void saveTask() {
+        try {
+            checkTaskInputs();
+        } catch (InputNeededException e) {
+            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
+            toast.show();
+            e.printStackTrace();
+            return;
+        }
         binding.pbMain.setVisibility(View.VISIBLE);
         updateTaskValues();
         if (isNew) {
@@ -190,7 +201,15 @@ public class TaskActivity extends AppCompatActivity {
         }
         modified = false;
         binding.pbMain.setVisibility(View.GONE);
+        Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
+        toast.show();
         setTitle(task.getTitle());
+    }
+
+    private void checkTaskInputs() throws InputNeededException {
+        if(binding.etTaskName.getText().toString().isEmpty()){
+            throw new InputNeededException(getString(R.string.name_empty_exception_message));
+        }
     }
 
     private void updateTaskValues() {
@@ -203,7 +222,7 @@ public class TaskActivity extends AppCompatActivity {
     private void newTask() {
         //TODO STRING
         TaskActivity owner = this;
-        setTitle("New Task");
+        setTitle(getString(R.string.new_task));
         this.task = new Task();
         Date creationDate = new Date();
         creationDate.setHours(0);
@@ -246,7 +265,11 @@ public class TaskActivity extends AppCompatActivity {
         } else {
             AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
             //TODO STRINGS
-            dialogo.setTitle(String.format(getString(R.string.exit_without_saving), task.getTitle()));
+            if(task.getTitle() == null || task.getTitle().isEmpty()){
+                dialogo.setTitle(getString(R.string.exit_without_saving_new));
+            }else{
+                dialogo.setTitle(String.format(getString(R.string.exit_without_saving), task.getTitle()));
+            }
             dialogo.setMessage(getString(R.string.changes_without_saving));
             dialogo.setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
                 //TODO CONSTANTE

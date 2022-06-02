@@ -23,9 +23,9 @@ import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.model.Task;
-import rafael.ninoles.parra.dailyit.ui.adapters.OnClickListenerDeleteTask;
-import rafael.ninoles.parra.dailyit.ui.adapters.OnClickListenerOpenTask;
-import rafael.ninoles.parra.dailyit.ui.adapters.TaskAdapter;
+import rafael.ninoles.parra.dailyit.ui.adapters.task.OnClickListenerDeleteTask;
+import rafael.ninoles.parra.dailyit.ui.adapters.task.OnClickListenerOpenTask;
+import rafael.ninoles.parra.dailyit.ui.adapters.task.TaskAdapter;
 import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
 /**
@@ -38,6 +38,17 @@ public class TaskListFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String STATUS = "status";
     private static final String DATE = "date";
+    // TODO: Rename and change types of parameters
+    private String status;
+    private String rightStatus;
+    private String leftStatus;
+    private MyDate date;
+    private TasksFragment tasksFragment;
+    private TaskListViewModel viewModel;
+    private TaskAdapter adapter;
+    private FragmentTaskListBinding binding;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     private final OnClickListenerDeleteTask deleteTask = new OnClickListenerDeleteTask() {
         @Override
         public void onItemClickDelete(Task task) {
@@ -62,17 +73,6 @@ public class TaskListFragment extends Fragment {
         intent.putExtra(TaskActivity.EXTRA_TASK_ID, task.getId());
         startActivityForResult(intent, 0);
     };
-
-    // TODO: Rename and change types of parameters
-    private String status;
-    private String rightStatus;
-    private String leftStatus;
-    private MyDate date;
-    private TasksFragment tasksFragment;
-    private TaskListViewModel viewModel;
-    private TaskAdapter adapter;
-    private FragmentTaskListBinding binding;
-    private SwipeRefreshLayout swipeRefreshLayout;
 
     public void setTasksFragment(TasksFragment tasksFragment) {
         this.tasksFragment = tasksFragment;
@@ -173,13 +173,12 @@ public class TaskListFragment extends Fragment {
         adapter = new TaskAdapter(this.getContext());
         adapter.setListenerDeleteTask(deleteTask);
         adapter.setListenerOpenTask(openTask);
-        swipeRefreshLayout = binding.swipeContainer;
+        swipeRefreshLayout = binding.swipe;
         swipeRefreshLayout.setOnRefreshListener(() -> viewModel.updateTasks(date).observe(getViewLifecycleOwner(), taskList -> {
             adapter.setTasks(clearOldTaskes(taskList));
             //TODO QUITAR SOUTS
             adapter.notifyDataSetChanged();
             checkIfTaskes();
-            binding.pbTaskes.setVisibility(View.GONE);
             binding.pbTaskes.setVisibility(View.GONE);
             swipeRefreshLayout.setRefreshing(false);
         }));

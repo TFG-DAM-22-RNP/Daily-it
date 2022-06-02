@@ -32,7 +32,7 @@
             android:paddingBottom="16dp">
 
             <View
-                android:id="@+id/categoryBar"
+                android:id="@+id/categoryColor"
                 android:layout_width="16dp"
                 android:layout_height="0dp"
                 android:background="@color/blue"
@@ -55,7 +55,7 @@
                 android:textSize="18sp"
                 app:layout_constraintEnd_toStartOf="@+id/tvExpires"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/categoryBar"
+                app:layout_constraintStart_toEndOf="@+id/categoryColor"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Acabar el TFG" />
 

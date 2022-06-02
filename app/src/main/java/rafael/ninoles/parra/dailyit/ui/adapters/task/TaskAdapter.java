@@ -1,7 +1,6 @@
-package rafael.ninoles.parra.dailyit.ui.adapters;
+package rafael.ninoles.parra.dailyit.ui.adapters.task;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,8 +33,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void setListenerOpenTask(OnClickListenerOpenTask listenerOpenTask) {
         this.listenerOpenTask = listenerOpenTask;
     }
-
-    public TaskAdapter(){}
 
     public TaskAdapter(Context context){
         this.context = context;
@@ -101,7 +98,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         private String calcRemaining(long diff) {
-            //TODO String.xml
+            //TODO Mirar errores de format
             diff += TWO_HOURS_IN_MILIS;
             if(diff<0){
                 return context.getString(R.string.expired);
@@ -133,7 +130,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         public void setTask(Task task) {
             this.task = task;
             this.tvTitle.setText(task.getTitle());
-            this.tvDesc.setText(task.getDescription());
+            if(task.getDescription() == null || task.getDescription().isEmpty()){
+                this.tvDesc.setText(context.getString(R.string.no_description));
+            }else{
+                this.tvDesc.setText(task.getDescription());
+            }
             this.tvExpires.setText(calExpires());
             this.tvExpireDate.setText(new SimpleDateFormat("dd/MM/yyyy HH:mm").format(task.getExpires().getTime()+TWO_HOURS_IN_MILIS));
             this.categoryBar.setBackgroundColor(Colors.getColor(task.getCategory().getColor()));
@@ -151,7 +152,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             this.tvDesc = itemView.findViewById(R.id.tvDesc);
             this.tvExpires = itemView.findViewById(R.id.tvExpires);
             this.tvExpireDate = itemView.findViewById(R.id.tvExpireDate);
-            this.categoryBar = itemView.findViewById(R.id.categoryBar);
+            this.categoryBar = itemView.findViewById(R.id.categoryColor);
             this.ibViewMore = itemView.findViewById(R.id.ibViewMore);
             this.ibDelete = itemView.findViewById(R.id.ibDelete);
             this.tvCategory = itemView.findViewById(R.id.tvCategory);

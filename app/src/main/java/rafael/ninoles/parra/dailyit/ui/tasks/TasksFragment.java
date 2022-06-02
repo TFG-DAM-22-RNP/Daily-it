@@ -3,34 +3,24 @@ package rafael.ninoles.parra.dailyit.ui.tasks;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 
-import rafael.ninoles.parra.dailyit.R;
-import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTasksBinding;
 import rafael.ninoles.parra.dailyit.helpers.MainActivityHelper;
 import rafael.ninoles.parra.dailyit.model.MyDate;
-import rafael.ninoles.parra.dailyit.ui.adapters.TaskAdapter;
-import rafael.ninoles.parra.dailyit.ui.adapters.TaskListAdapter;
+import rafael.ninoles.parra.dailyit.ui.adapters.task.TaskListAdapter;
 import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListFragment;
-import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -93,10 +83,13 @@ public class TasksFragment extends Fragment {
                 newDate.setHours(0);
                 newDate.setMinutes(0);
                 newDate.setSeconds(1);
+                currentDate = newDate;
+                moveDay(newDate);
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             dialog.show();
         });
-        taskListAdapter = new TaskListAdapter(getParentFragmentManager(), getLifecycle(), currentDate, this);
+        // PREVIO getParentFragmentManager
+        taskListAdapter = new TaskListAdapter(getChildFragmentManager(), getLifecycle(), currentDate, this);
         binding.pager.setAdapter(taskListAdapter);
         binding.pager.setUserInputEnabled(false);
         addChangeTabOnClick();
@@ -121,6 +114,7 @@ public class TasksFragment extends Fragment {
         newDate.setSeconds(1);
         System.out.println("LA FECHA ES");
         System.out.println(new SimpleDateFormat("dd MM yy HH:mm:ss").format(newDate));
+        currentDate = newDate;
         moveDay(newDate);
     }
 
@@ -129,6 +123,7 @@ public class TasksFragment extends Fragment {
         newDate.setHours(0);
         newDate.setMinutes(0);
         newDate.setSeconds(1);
+        currentDate = newDate;
         moveDay(newDate);
     }
 
@@ -138,6 +133,10 @@ public class TasksFragment extends Fragment {
         currentDate = date;
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
         updateAllStatus();
+    }
+
+    public void moveDay(){
+        moveDay(currentDate);
     }
 
     public void updateAllStatus() {

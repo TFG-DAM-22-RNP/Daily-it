@@ -39,4 +39,16 @@
     <string name="new_task">Nova tasca</string>
     <string name="exit_without_saving">Sortir sense gravar \"%1$s\"</string>
     <string name="changes_without_saving">Hi ha canvis en la tasca encara sense desar. Segur que vols sortir sense guardar?</string>
+    <string name="name_empty_exception_message">El nom de la tasca no pot ser buit.</string>
+    <string name="exit_without_saving_new">Sortir sense gravar</string>
+    <string name="no_description">No hi ha cap descripció.</string>
+    <string name="saved">La tasca s\'ha gravat.</string>
+    <string name="home">Inici</string>
+    <string name="not_implemented_yet">Aquesta acció encara no s\'ha implementat</string>
+    <string name="categories">Categories</string>
+    <string name="groups">Grups</string>
+    <string name="my_categories">Les meves categories</string>
+    <string name="name">Nom</string>
+    <string name="save">Gravar</string>
+    <string name="new_category">Nova categoria</string>
 </resources>
