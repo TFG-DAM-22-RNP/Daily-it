@@ -51,4 +51,14 @@
     <string name="name">Nombre</string>
     <string name="save">Guardar</string>
     <string name="new_category">Nueva categoría</string>
+    <string name="blue">Blue</string>
+    <string name="purple">Morado</string>
+    <string name="sky">Cielo</string>
+    <string name="red">Rojo</string>
+    <string name="yellow">Amarillo</string>
+    <string name="green">Verde</string>
+    <string name="orange">Naranja</string>
+    <string name="grey">Gris</string>
+    <string name="no_category_name">La categoría necesita un nombre</string>
+    <string name="category_saved">La categoría ha sido guardada. Vuelva a cargar para ver los cambios.</string>
 </resources>

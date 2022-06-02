@@ -52,6 +52,16 @@
     <string name="color" translatable="false">Color</string>
     <string name="save">Save</string>
     <string name="new_category">New category</string>
+    <string name="blue">Blue</string>
+    <string name="purple">Purple</string>
+    <string name="sky">Sky</string>
+    <string name="red">Red</string>
+    <string name="yellow">Yellow</string>
+    <string name="green">Green</string>
+    <string name="orange">Orange</string>
+    <string name="grey">Grey</string>
+    <string name="no_category_name">Category needs a name</string>
+    <string name="category_saved">The category has been saved. Reload to see the changes.</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

@@ -87,15 +87,19 @@ public class TaskListFragment extends Fragment {
     }
 
     public void setDate(MyDate date) {
-        swipeRefreshLayout.setRefreshing(true);
-        this.date = date;
-        viewModel.setDate(date);
-        viewModel.updateTasks(date).observe(getViewLifecycleOwner(), taskList -> {
-            adapter.setTasks(clearOldTaskes(taskList));
-            adapter.notifyDataSetChanged();
-            checkIfTaskes();
-            swipeRefreshLayout.setRefreshing(false);
-        });
+        try{
+            swipeRefreshLayout.setRefreshing(true);
+            this.date = date;
+            viewModel.setDate(date);
+            viewModel.updateTasks(date).observe(getViewLifecycleOwner(), taskList -> {
+                adapter.setTasks(clearOldTaskes(taskList));
+                adapter.notifyDataSetChanged();
+                checkIfTaskes();
+                swipeRefreshLayout.setRefreshing(false);
+            });
+        }catch (IllegalStateException e){
+            e.printStackTrace();
+        }
     }
 
     private void checkIfTaskes() {

@@ -51,4 +51,14 @@
     <string name="name">Nom</string>
     <string name="save">Gravar</string>
     <string name="new_category">Nova categoria</string>
+    <string name="blue">Blau</string>
+    <string name="purple">Porpra</string>
+    <string name="sky">Cel</string>
+    <string name="red">Vermell</string>
+    <string name="yellow">Groc</string>
+    <string name="green">Verd</string>
+    <string name="orange">Taronja</string>
+    <string name="grey">Gris</string>
+    <string name="no_category_name">La categoria necessita un nom</string>
+    <string name="category_saved">La categoria s\'ha gravat. Torna a carregar per veure els canvis.</string>
 </resources>

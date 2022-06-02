@@ -183,4 +183,11 @@ public class Task implements Parcelable {
             return new Task[size];
         }
     };
+
+    public boolean isModified(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Task task = (Task) o;
+        return title.equals(task.title) && description.equals(task.description) && expires.equals(task.expires) && created.equals(task.created) && status.equals(task.status) && categoryId.equals(task.categoryId);
+    }
 }

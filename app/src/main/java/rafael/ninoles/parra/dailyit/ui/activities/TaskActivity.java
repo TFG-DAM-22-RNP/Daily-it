@@ -41,6 +41,7 @@ public class TaskActivity extends AppCompatActivity {
     Map<String, Category> availableCategories = new HashMap<>();
     private ActivityTaskBinding binding;
     private boolean isNew;
+    private Task compareTask;
     private String taskId;
     private boolean modified = false;
     private Task task;
@@ -107,6 +108,7 @@ public class TaskActivity extends AppCompatActivity {
         } else {
             isNew = false;
             getTask();
+            compareTask = task;
         }
     }
 

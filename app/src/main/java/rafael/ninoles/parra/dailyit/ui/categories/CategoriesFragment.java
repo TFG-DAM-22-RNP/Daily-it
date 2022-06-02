@@ -21,7 +21,9 @@ import rafael.ninoles.parra.dailyit.databinding.FragmentTasksBinding;
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.ui.adapters.categories.CategoyAdapter;
+import rafael.ninoles.parra.dailyit.ui.adapters.categories.OnClickListenerOpenCategory;
 import rafael.ninoles.parra.dailyit.ui.adapters.task.TaskAdapter;
+import rafael.ninoles.parra.dailyit.ui.dialogs.NewCategoryDialog;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -54,20 +56,19 @@ public class CategoriesFragment extends Fragment {
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         adapter = new CategoyAdapter(this.getContext());
+        adapter.setListenerOpenCategory(this::showNewTaskDialog);
         binding.rvCategories.setAdapter(adapter);
         binding.rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
         swipe = binding.swipe;
-        swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadCategories();
-            }
-        });
+        swipe.setOnRefreshListener(() -> loadCategories());
         loadCategories();
 
         return root;
     }
 
+    private void showNewTaskDialog(Category category) {
+        new NewCategoryDialog(this.getContext(),this.getActivity(),category.getId());
+    }
 
     private void loadCategories() {
         swipe.setRefreshing(true);

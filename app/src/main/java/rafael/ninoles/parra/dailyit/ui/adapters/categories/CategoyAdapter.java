@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,7 +28,12 @@ import rafael.ninoles.parra.dailyit.utilities.Colors;
 public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.CategoryViewHolder> {
     private List<Category> categories;
     private OnClickListenerDeleteCategory listenerDeleteCategory;
-    private Context context;
+    private OnClickListenerOpenCategory listenerOpenCategory;
+    private final Context context;
+
+    public void setListenerOpenCategory(OnClickListenerOpenCategory listenerOpenCategory) {
+        this.listenerOpenCategory = listenerOpenCategory;
+    }
 
     public List<Category> getCategories() {
         return categories;
@@ -75,6 +81,8 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
         private Category category;
         private TextView tvCategoryName;
         private View categoryColor;
+        private CardView cardView;
+
 
         public Category getCategory() {
             return category;
@@ -88,12 +96,16 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
             }else{
                 this.tvCategoryName.setText(category.getName());
             }
+            this.cardView.setOnClickListener(e-> {
+                listenerOpenCategory.onItemClickOpen(category);
+            });
         }
 
         public CategoryViewHolder(@NonNull View itemView) {
             super(itemView);
             this.tvCategoryName = itemView.findViewById(R.id.tvCategoryName);
             this.categoryColor = itemView.findViewById(R.id.categoryColor);
+            this.cardView = itemView.findViewById(R.id.cardView);
         }
     }
 }

@@ -1,6 +1,7 @@
 package rafael.ninoles.parra.dailyit.repository;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,6 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
+import rafael.ninoles.parra.dailyit.model.RequestStatus;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.model.User;
 
@@ -166,5 +168,38 @@ public class DailyItRepository {
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid).set(newUser);
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
                 .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document(DEFAULT_CATEGORY_ID).set(defaultCategory);
+    }
+
+    public MutableLiveData<RequestStatus> createCategory(Category category, String uid) {
+        //TODO MIRAR POSIBLES PROBLEMAS EN COMPLETE LISTNER
+        MutableLiveData<RequestStatus> result = new MutableLiveData<>(RequestStatus.FETCH_REQUESTED);
+        DocumentReference docRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME)
+                .document(uid).collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document();
+        String id = docRef.getId();
+        category.setId(id);
+        FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
+                .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document(id).set(category)
+                .addOnCompleteListener(task -> result.setValue(RequestStatus.FETCH_CORRECT));
+        return result;
+    }
+
+    public MutableLiveData<RequestStatus> updateCategory(Category category, String uid) {
+        //TODO IGUAL QUE ARRIBA
+        MutableLiveData<RequestStatus> result = new MutableLiveData<>(RequestStatus.FETCH_REQUESTED);
+        FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
+                .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document(category.getId()).set(category)
+                .addOnCompleteListener(task -> result.setValue(RequestStatus.FETCH_CORRECT));
+        return result;
+    }
+
+    public MutableLiveData<Category> getCategorieById(String uid, String id) {
+        MutableLiveData<Category> result = new MutableLiveData<>();
+        DocumentReference catRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME)
+                .document(uid)
+                .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document(id);
+        catRef.get().addOnCompleteListener(categoryResult -> {
+            result.setValue(categoryResult.getResult().toObject(Category.class));
+        });
+        return result;
     }
 }

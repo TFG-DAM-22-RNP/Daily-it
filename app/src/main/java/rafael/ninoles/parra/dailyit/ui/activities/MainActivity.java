@@ -1,17 +1,11 @@
 package rafael.ninoles.parra.dailyit.ui.activities;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -44,6 +38,7 @@ import java.io.IOException;
 
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityMainBinding;
+import rafael.ninoles.parra.dailyit.ui.dialogs.NewCategoryDialog;
 import rafael.ninoles.parra.dailyit.helpers.MainActivityHelper;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.User;
@@ -58,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference storageRef = storage.getReference();
     private final StorageReference defaultImage = storageRef.child("profile-images/profile.jpg");
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private File defaultLocalImage = null;
     private TextView tvEmail;
     private TextView tvName;
@@ -109,30 +104,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // TODO click en log out
         //NavigationUI.setupWithNavController(navView, navController);
         MainActivity mainActivity = this;
-        navController.addOnDestinationChangedListener((controller, destination, arguments) -> Log.e("CAMBIADO", "onDestinationChanged: " + destination.getLabel()));
+        navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
+            Log.e("CAMBIADO", "onDestinationChanged: " + destination.getLabel());
+        });
     }
 
     private void showNewTaskDialog() {
-        final Dialog dialog = new Dialog(this);
-
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setCancelable(true);
-        dialog.setContentView(R.layout.new_category_dialog);
-
-        final EditText etCategoryName = dialog.findViewById(R.id.etCategoryName);
-        final TextView tvDialogTitle = dialog.findViewById(R.id.tvCategoryDialogTitle);
-        final Spinner spinner = dialog.findViewById(R.id.spCategorySelected);
-        final Button btSave = dialog.findViewById(R.id.btSave);
-        final Button btCancel = dialog.findViewById(R.id.btCancel);
-        final View categoryColor = dialog.findViewById(R.id.categoryColor);
-
-        tvDialogTitle.setText(getString(R.string.new_category));
-
-        btCancel.setOnClickListener(e->{
-            dialog.dismiss();
-        });
-
-        dialog.show();
+        new NewCategoryDialog(this,this);
     }
 
     private void getUserImage(String path) {
