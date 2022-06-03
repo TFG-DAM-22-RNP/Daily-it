@@ -63,4 +63,17 @@
     <string name="category_saved">La categoria s\'ha gravat. Torna a carregar per veure els canvis.</string>
     <string name="no_date_selected">Sense completar</string>
     <string name="no_expire_time">No podeu crear una tasca sense data d\'expiració.</string>
+    <string name="email_invalid">L\'adreça de correu electrònic introduïda no és vàlida.</string>
+    <string name="password_invalid">La contrasenya introduïda no és vàlida. Ha d\'incloure un número, una lletra en minúscula, majúscula, un caràcter especial i tenir com a mínim 10 caràcters.</string>
+    <string name="invalid_login">Els dades d\'inici de sessió són incorrectes.</string>
+    <string name="stats">Estadístiques</string>
+    <string name="my_stats">Les meves estadístiques</string>
+    <string name="error_loging_with_google">Ha passat un error intentant iniciar sessió amb Google, si us plau intenteu-ho més tard.</string>
+    <string name="task_created_in_the_last_week">" Tasques creades la darrera setmana"</string>
+    <string name="dia">Dia</string>
+    <string name="total_task_count">Total de tasques: %1$d</string>
+    <string name="total_todo">Per fer: %1$d</string>
+    <string name="total_doing">Fent: %1$d</string>
+    <string name="total_done">Fet: %1$d</string>
+    <string name="not_enought_data">No hi ha prou dades per mostrar a la gràfica.</string>
 </resources>

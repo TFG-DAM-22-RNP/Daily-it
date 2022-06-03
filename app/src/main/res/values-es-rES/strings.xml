@@ -63,4 +63,17 @@
     <string name="category_saved">La categoría ha sido guardada. Vuelva a cargar para ver los cambios.</string>
     <string name="no_date_selected">Sin completar</string>
     <string name="no_expire_time">No puedes crear una tarea sin fecha de expiración.</string>
+    <string name="email_invalid">La dirección de correo electrónico introducida no es válida.</string>
+    <string name="password_invalid">La contraseña no es valida. Debe incluir un número, una letra en minúscula, mayuscula, un caracter especial y tener minimo 10 caracteres.</string>
+    <string name="invalid_login">Los datos de inicio de sesión son incorrectos.</string>
+    <string name="stats">Estadísticas</string>
+    <string name="my_stats">Mis estadísticas</string>
+    <string name="error_loging_with_google">Ha ocurrido un error intentando iniciar sesión con Google, por favor intentelo más tarde.</string>
+    <string name="task_created_in_the_last_week">Tareas creadas en la última semana</string>
+    <string name="dia">Día</string>
+    <string name="total_task_count">Tareas totales: %1$d</string>
+    <string name="total_todo">Por hacer: %1$d</string>
+    <string name="total_doing">Haciendo: %1$d</string>
+    <string name="total_done">Hechas: %1$d</string>
+    <string name="not_enought_data">No hay suficientes datos para mostrar en la gráfica.</string>
 </resources>

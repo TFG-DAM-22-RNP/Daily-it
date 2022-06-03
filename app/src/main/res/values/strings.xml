@@ -64,6 +64,17 @@
     <string name="category_saved">The category has been saved. Reload to see the changes.</string>
     <string name="no_expire_time">You cannot create a task without an expiration date.</string>
     <string name="no_date_selected">Unfilled</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    <string name="email_invalid">The email address entered is not valid.</string>
+    <string name="invalid_login">The login credentials are incorrect.</string>
+    <string name="password_invalid">The password is not valid. It must include a number, a letter in lowercase, uppercase, a special character and have a minimum of 10 characters.</string>
+    <string name="stats">Stats</string>
+    <string name="my_stats">My stats</string>
+    <string name="error_loging_with_google">An error occurred trying to sign in with Google, please try again later.</string>
+    <string name="task_created_in_the_last_week">Tasks created in the last week</string>
+    <string name="dia">Day</string>
+    <string name="total_task_count">Total tasks: %1$d</string>
+    <string name="total_todo">To Do: %1$d</string>
+    <string name="total_doing">Doing: %1$d</string>
+    <string name="total_done">Done: %1$d</string>
+    <string name="not_enought_data">There is not enough data to display on the graph.</string>
 </resources>

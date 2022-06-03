@@ -19,6 +19,10 @@
             android:id="@+id/nav_groups"
             android:icon="@drawable/group"
             android:title="@string/groups" />
+        <item
+            android:id="@+id/nav_stats"
+            android:icon="@drawable/stats"
+            android:title="@string/stats" />
     </group>
         <item
             android:id="@+id/log_out"

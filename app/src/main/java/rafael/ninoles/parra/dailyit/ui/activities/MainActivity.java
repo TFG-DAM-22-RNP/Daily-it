@@ -127,21 +127,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tvEmail.setText(auth.getCurrentUser().getEmail());
         Log.d(LOG_TAG, auth.getCurrentUser().getUid());
         db.collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(auth.getCurrentUser().getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document.exists()) {
-                                Log.d(LOG_TAG, document.getId() + " => " + document.getData());
-                                User user = document.toObject(User.class);
-                                //getUserImage(user.getImgProfile());
-                                tvName.setText(user.getName());
-                            }
-                        } else {
-                            // TODO actuar mejor en error
-                            Log.e(LOG_TAG, "Error reading the user data");
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            Log.d(LOG_TAG, document.getId() + " => " + document.getData());
+                            User user = document.toObject(User.class);
+                            //getUserImage(user.getImgProfile());
+                            tvName.setText(user.getName());
                         }
+                    } else {
+                        // TODO actuar mejor en error
+                        Log.e(LOG_TAG, "Error reading the user data");
                     }
                 });
     }
@@ -157,22 +154,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tasksFragment.moveDay();
     }
 
-    //TODO eliminar
+    //TODO Solucionar problema para proximas versiones
     private void getDefaultImage() {
         try {
             defaultLocalImage = File.createTempFile("images", "jpg");
-            defaultImage.getFile(defaultLocalImage).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                    Log.v(LOG_TAG, "Default profile picture downloaded from firebase");
-                    System.out.println(defaultLocalImage.toURI().toString());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception exception) {
-                    Log.e(LOG_TAG, "Error downloading the default profile picture from firebase");
-                }
-            });
+            defaultImage.getFile(defaultLocalImage).addOnSuccessListener(taskSnapshot -> {
+                Log.v(LOG_TAG, "Default profile picture downloaded from firebase");
+                System.out.println(defaultLocalImage.toURI().toString());
+            }).addOnFailureListener(exception -> Log.e(LOG_TAG, "Error downloading the default profile picture from firebase"));
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error loading the default profile image");
         }
@@ -212,6 +201,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_categories:
                 Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.nav_categories);
+                break;
+            case R.id.nav_stats:
+                Navigation.findNavController(this,R.id.nav_host_fragment_content_main).navigate(R.id.nav_stats);
                 break;
             default:
                 //TODO prevent volver a cargar si ya esta en ese

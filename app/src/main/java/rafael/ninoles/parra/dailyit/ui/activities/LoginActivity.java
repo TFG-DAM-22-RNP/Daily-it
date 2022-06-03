@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -16,13 +18,20 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.regex.Pattern;
+
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityLoginBinding;
+import rafael.ninoles.parra.dailyit.exceptions.InputNeededException;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 
 public class LoginActivity extends AppCompatActivity{
 
     private static final int SIGN_IN_GOOGLE = 100;
+    private static final String LOG_TAG = "LoginActivity";
+    private static final String REGEX_EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+    private static final String REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{12,}$";
     private ActivityLoginBinding binding;
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -35,7 +44,6 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     private void createListeners() {
-        System.out.println("Creando listeners");
         binding.btSignUp.setOnClickListener(e->{
             register();
         });
@@ -45,7 +53,7 @@ public class LoginActivity extends AppCompatActivity{
         });
 
         binding.btLogInGoogle.setOnClickListener(e->{
-            System.out.println("CLCIK EN GOOGLE");
+            Log.i(LOG_TAG,"Clicked in log in with Google");
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.server_id)).requestEmail().build();
             GoogleSignInClient client = GoogleSignIn.getClient(this,gso);
@@ -55,11 +63,13 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     private void logIn() {
-        if(!verifyInputs()){
-            //TODO muestra mensaje
+        try {
+            verifyInputs();
+        }catch (InputNeededException e){
+            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
+            toast.show();
             return;
         }
-        System.out.println("Logeando");
         auth.signInWithEmailAndPassword(
                 binding.etEmail.getText().toString(),
                 binding.etPassword.getText().toString()
@@ -74,21 +84,38 @@ public class LoginActivity extends AppCompatActivity{
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }else{
-            //TODO muestra error
-            System.out.println("Fallito");
+            Toast toast = Toast.makeText(this, getString(R.string.invalid_login), Toast.LENGTH_LONG);
+            toast.show();
         }
     }
 
-    private boolean verifyInputs() {
-        //TODO verificar inputs vacios
-        return true;
+    private void verifyInputs() throws InputNeededException {
+        if(!patternMatches(binding.etEmail.getText().toString(),REGEX_EMAIL)){
+            throw new InputNeededException(getString(R.string.email_invalid));
+        }
+        if(!patternMatches(binding.etPassword.getText().toString(),REGEX_PASSWORD)){
+            throw new InputNeededException(getString(R.string.password_invalid));
+        }
     }
 
     private void register() {
+        try {
+            verifyInputs();
+        }catch (InputNeededException e){
+            Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
+            toast.show();
+            return;
+        }
         auth.createUserWithEmailAndPassword(
                 binding.etEmail.getText().toString(),
                 binding.etPassword.getText().toString()
         ).addOnCompleteListener(this::logInResult);
+    }
+
+    public static boolean patternMatches(String emailAddress, String regexPattern) {
+        return Pattern.compile(regexPattern)
+                .matcher(emailAddress)
+                .matches();
     }
 
     @Override
@@ -110,13 +137,18 @@ public class LoginActivity extends AppCompatActivity{
                             startActivity(new Intent(this, MainActivity.class));
                             finish();
                         }else{
-                            //TODO manejar fallo
-                            System.out.println("TODO Fallito");
+                            Toast toast = Toast.makeText(this, getString(R.string.error_loging_with_google), Toast.LENGTH_LONG);
+                            toast.show();
+                            complete.getException().printStackTrace();
+                            Log.e(LOG_TAG, complete.getException().getMessage());
                         }
                     });
                 }
             } catch (Exception e) {
                 //TODO CUIDAR Exc no google play, no google play services updated...
+                Toast toast = Toast.makeText(this, getString(R.string.error_loging_with_google), Toast.LENGTH_LONG);
+                toast.show();
+                Log.e(LOG_TAG, e.getMessage());
                 e.printStackTrace();
             }
         }

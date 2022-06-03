@@ -93,9 +93,9 @@
                 android:layout_marginEnd="8dp"
                 android:layout_weight="1"
                 android:text="@android:string/cancel"
-                android:textColor="@color/black_white"
+                android:textColor="@color/green"
                 app:cornerRadius="0dp"
-                app:strokeColor="@color/black_white"
+                app:strokeColor="@color/green"
                 app:strokeWidth="1dp" />
 
             <com.google.android.material.button.MaterialButton
