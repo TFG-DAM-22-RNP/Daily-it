@@ -1,17 +1,16 @@
 package rafael.ninoles.parra.dailyit.repository;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -23,13 +22,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
-import rafael.ninoles.parra.dailyit.model.RequestStatus;
+import rafael.ninoles.parra.dailyit.enums.RequestStatus;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.model.User;
 
 public class DailyItRepository {
+    private static final String LOG_TAG = "DailyItRespository";
     private static volatile DailyItRepository INSTANCE;
-    private static final long MILIS_IN_WEEK = 604800000;
     private static final long MILIS_IN_HOUR = 1000*60*60;
     private static final long TWO_HOURS_IN_MILIS = MILIS_IN_HOUR*2;
     private static final String DEFAULT_CATEGORY_ID = "Work";
@@ -54,6 +53,7 @@ public class DailyItRepository {
     }
 
     public MutableLiveData<List<Task>> getTaskByStatus(String status, Date date){
+        Log.i(LOG_TAG, "Getting tasks starting "+new SimpleDateFormat("dd MM yy HH:mm:ss").format(date));
         date.setTime(date.getTime() + TWO_HOURS_IN_MILIS );
         Query colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).whereEqualTo(FirebaseContract.TaskEntry.STATUS,status)
@@ -139,7 +139,8 @@ public class DailyItRepository {
         updateTask(task, FirebaseAuth.getInstance().getUid());
     }
 
-    public void createNewTask(Task task, String uid) {
+    public MutableLiveData<String> createNewTask(Task task, String uid) {
+        MutableLiveData<String> result = new MutableLiveData<>();
         task.getCreated().setHours(0);
         task.getCreated().setMinutes(0);
         task.getCreated().setSeconds(0);
@@ -148,7 +149,9 @@ public class DailyItRepository {
         String id = docRef.getId();
         task.setId(id);
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
-                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(id).set(task);
+                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(id).set(task)
+                .addOnCompleteListener(task1 -> result.setValue(id));
+        return result;
     }
 
     public void updateTask(Task task, String uid) {

@@ -2,6 +2,7 @@ package rafael.ninoles.parra.dailyit.ui.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -37,6 +38,7 @@ public class TaskActivity extends AppCompatActivity {
     Map<String, Category> availableCategories = new HashMap<>();
     private ActivityTaskBinding binding;
     private boolean isNew;
+    private boolean canSave;
     private Task compareTask;
     private String taskId;
     private Task task;
@@ -49,6 +51,7 @@ public class TaskActivity extends AppCompatActivity {
         setSupportActionBar(binding.tbTask);
         setContentView(binding.getRoot());
         setListeners();
+        canSave = true;
         initTask();
     }
 
@@ -163,6 +166,9 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void saveTask() {
+        if(!canSave){
+            return;
+        }
         try {
             checkTaskInputs();
         } catch (InputNeededException e) {
@@ -174,7 +180,12 @@ public class TaskActivity extends AppCompatActivity {
         binding.pbMain.setVisibility(View.VISIBLE);
         updateTaskValues();
         if (isNew) {
-            DailyItRepository.getInstance().createNewTask(task, FirebaseAuth.getInstance().getUid());
+            canSave = false;
+            DailyItRepository.getInstance().createNewTask(task, FirebaseAuth.getInstance().getUid())
+            .observe(this, id -> {
+                taskId = id;
+                canSave = true;
+            });
         } else {
             DailyItRepository.getInstance().updateTask(task, FirebaseAuth.getInstance().getUid());
         }
@@ -208,10 +219,12 @@ public class TaskActivity extends AppCompatActivity {
         setTitle(getString(R.string.new_task));
         this.task = new Task();
         Date creationDate = new Date();
-        creationDate.setHours(0);
-        creationDate.setMinutes(0);
-        creationDate.setSeconds(0);
-        this.task.setCreated(creationDate);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(creationDate);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 1);
+        this.task.setCreated(calendar.getTime());
         //TODO Borrar cuando funcione
         //this.task.setExpires(new Date(new Date().getTime() + MILIS_IN_DAY));
         this.task.setStatus(FirebaseContract.TaskEntry.TODO);

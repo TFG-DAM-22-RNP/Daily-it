@@ -1,4 +1,4 @@
-package rafael.ninoles.parra.dailyit.model;
+package rafael.ninoles.parra.dailyit.enums;
 
 public enum RequestStatus {
     FETCH_REQUESTED,

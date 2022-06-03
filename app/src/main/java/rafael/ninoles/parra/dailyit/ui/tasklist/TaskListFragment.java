@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Date;
 import java.util.List;
 
 import rafael.ninoles.parra.dailyit.R;
@@ -42,7 +43,7 @@ public class TaskListFragment extends Fragment {
     private String status;
     private String rightStatus;
     private String leftStatus;
-    private MyDate date;
+    private Date date;
     private TasksFragment tasksFragment;
     private TaskListViewModel viewModel;
     private TaskAdapter adapter;
@@ -82,11 +83,11 @@ public class TaskListFragment extends Fragment {
         return viewModel;
     }
 
-    public MyDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(MyDate date) {
+    public void setDate(Date date) {
         try{
             swipeRefreshLayout.setRefreshing(true);
             this.date = date;

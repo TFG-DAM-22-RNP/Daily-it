@@ -13,6 +13,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -22,11 +23,11 @@ import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 
 public class TaskListViewModel extends AndroidViewModel {
     private LiveData<List<Task>> tasks;
-    private MyDate date;
+    private Date date;
     private DailyItRepository dailyItRepository;
     private String status;
 
-    public void setDate(MyDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -35,18 +36,28 @@ public class TaskListViewModel extends AndroidViewModel {
         tasks.getValue().remove(task);
     }
 
-    public TaskListViewModel(@NonNull Application application, String status, MyDate date) {
+    public TaskListViewModel(@NonNull Application application, String status, Date date) {
         super(application);
-        this.date = date;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,1);
+        this.date = calendar.getTime();
 
         dailyItRepository = DailyItRepository.getInstance();
         this.status = status;
-        tasks = dailyItRepository.getTaskByStatus(status,date);
+        tasks = dailyItRepository.getTaskByStatus(status,this.date);
     }
 
-    public LiveData<List<Task>> updateTasks(MyDate date){
-        this.date = date;
-        tasks = dailyItRepository.getTaskByStatus(status,date);
+    public LiveData<List<Task>> updateTasks(Date date){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,1);
+        this.date = calendar.getTime();
+        tasks = dailyItRepository.getTaskByStatus(status,this.date);
         return tasks;
     }
 

@@ -24,7 +24,7 @@ import java.util.Locale;
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.exceptions.InputNeededException;
 import rafael.ninoles.parra.dailyit.model.Category;
-import rafael.ninoles.parra.dailyit.model.RequestStatus;
+import rafael.ninoles.parra.dailyit.enums.RequestStatus;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
