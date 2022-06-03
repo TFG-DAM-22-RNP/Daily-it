@@ -61,4 +61,6 @@
     <string name="grey">Gris</string>
     <string name="no_category_name">La categoria necessita un nom</string>
     <string name="category_saved">La categoria s\'ha gravat. Torna a carregar per veure els canvis.</string>
+    <string name="no_date_selected">Sense completar</string>
+    <string name="no_expire_time">No podeu crear una tasca sense data d\'expiració.</string>
 </resources>

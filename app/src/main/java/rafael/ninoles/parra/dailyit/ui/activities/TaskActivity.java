@@ -6,19 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.SimpleDateFormat;
-import java.time.Duration;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -43,7 +39,6 @@ public class TaskActivity extends AppCompatActivity {
     private boolean isNew;
     private Task compareTask;
     private String taskId;
-    private boolean modified = false;
     private Task task;
 
     @Override
@@ -64,40 +59,11 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        TextWatcher textWatcher = new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                modified = true;
-                System.out.println("Modified");
-            }
-        };
         binding.tvTaskExpireDate.setOnClickListener(e->{
             pickDateTime();
         });
         binding.ivCalendar.setOnClickListener(e->{
             pickDateTime();
-        });
-        binding.etDescription.addTextChangedListener(textWatcher);
-        binding.etTaskName.addTextChangedListener(textWatcher);
-        //TODO RETRASAR LISTENERS POR TRIGER AL CARGAR LA PRIMERA VEZ ES NULL
-        binding.spStatus.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                modified = true;
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
         });
     }
 
@@ -108,7 +74,6 @@ public class TaskActivity extends AppCompatActivity {
         } else {
             isNew = false;
             getTask();
-            compareTask = task;
         }
     }
 
@@ -117,6 +82,7 @@ public class TaskActivity extends AppCompatActivity {
         TaskActivity owner = this;
         DailyItRepository.getInstance().getTaskById(taskId).observe(owner, taskReceived -> {
             task = taskReceived;
+            System.out.println("MI CATEGORIA ES "+taskReceived.getCategoryId());
             DailyItRepository.getInstance().getCategoriesFromUser(FirebaseAuth.getInstance().getUid())
                     .observe(owner, categories -> {
                         for (Category category : categories) {
@@ -128,6 +94,7 @@ public class TaskActivity extends AppCompatActivity {
                             availableCategories.put(category.getName(), category);
                         }
                         binding.pbMain.setVisibility(View.GONE);
+                        compareTask = new Task(task);
                         printTask();
                     });
         });
@@ -162,9 +129,15 @@ public class TaskActivity extends AppCompatActivity {
 
     private void printCategories(ArrayAdapter<String> adapter){
         // TODO
+        System.out.println("BUSCANDO "+task.getCategoryId());
         for(Category category:availableCategories.values()){
             if(category.getId().equals(task.getCategoryId())){
                 binding.spCategory.setSelection(adapter.getPosition(category.getName()));
+                System.out.println(category.getName());
+                System.out.println("PONIENDO NUEVO ID");
+                System.out.println(category.getId());
+                task.setCategoryId(category.getId());
+                compareTask.setCategoryId(category.getId());
                 return;
             }
         }
@@ -172,7 +145,11 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void printDate() {
-        binding.tvTaskExpireDate.setText(new SimpleDateFormat("dd MMM yy").format(this.task.getExpires()));
+        if(this.task.getExpires() == null){
+            binding.tvTaskExpireDate.setText(getString(R.string.no_date_selected));
+        }else{
+            binding.tvTaskExpireDate.setText(new SimpleDateFormat("dd MMM yy, HH:mm").format(this.task.getExpires().getTime()+MILIS_IN_TWO_HOURS));
+        }
     }
 
     @Override
@@ -201,16 +178,20 @@ public class TaskActivity extends AppCompatActivity {
         } else {
             DailyItRepository.getInstance().updateTask(task, FirebaseAuth.getInstance().getUid());
         }
-        modified = false;
         binding.pbMain.setVisibility(View.GONE);
         Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
         toast.show();
+        isNew = false;
+        compareTask = new Task(task);
         setTitle(task.getTitle());
     }
 
     private void checkTaskInputs() throws InputNeededException {
         if(binding.etTaskName.getText().toString().isEmpty()){
             throw new InputNeededException(getString(R.string.name_empty_exception_message));
+        }
+        if(task.getExpires()==null){
+            throw new InputNeededException(getString(R.string.no_expire_time));
         }
     }
 
@@ -231,7 +212,8 @@ public class TaskActivity extends AppCompatActivity {
         creationDate.setMinutes(0);
         creationDate.setSeconds(0);
         this.task.setCreated(creationDate);
-        this.task.setExpires(new Date(new Date().getTime() + MILIS_IN_DAY));
+        //TODO Borrar cuando funcione
+        //this.task.setExpires(new Date(new Date().getTime() + MILIS_IN_DAY));
         this.task.setStatus(FirebaseContract.TaskEntry.TODO);
         DailyItRepository.getInstance().getCategoriesFromUser(FirebaseAuth.getInstance().getUid())
                 .observe(owner, categories -> {
@@ -261,7 +243,11 @@ public class TaskActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (!modified) {
+        updateTaskValues();
+        System.out.println("IF back");
+        System.out.println(!isNew);
+        System.out.println(compareTask != null && task.isTheSame(compareTask));
+        if (!isNew && (compareTask != null && task.isTheSame(compareTask))) {
             setResult(0);
             finish();
         } else {

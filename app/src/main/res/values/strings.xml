@@ -62,6 +62,8 @@
     <string name="grey">Grey</string>
     <string name="no_category_name">Category needs a name</string>
     <string name="category_saved">The category has been saved. Reload to see the changes.</string>
+    <string name="no_expire_time">You cannot create a task without an expiration date.</string>
+    <string name="no_date_selected">Unfilled</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

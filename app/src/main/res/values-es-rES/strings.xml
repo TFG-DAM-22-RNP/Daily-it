@@ -61,4 +61,6 @@
     <string name="grey">Gris</string>
     <string name="no_category_name">La categoría necesita un nombre</string>
     <string name="category_saved">La categoría ha sido guardada. Vuelva a cargar para ver los cambios.</string>
+    <string name="no_date_selected">Sin completar</string>
+    <string name="no_expire_time">No puedes crear una tarea sin fecha de expiración.</string>
 </resources>

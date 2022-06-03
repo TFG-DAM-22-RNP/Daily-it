@@ -112,6 +112,18 @@ public class Task implements Parcelable {
         this.userUid = userUid;
     }
 
+    public Task(Task task){
+        this.id = task.id;
+        this.title = task.title;
+        this.description = task.description;
+        this.expires = task.expires;
+        this.created = task.created;
+        this.status = task.status;
+        this.userUid = task.userUid;
+        this.category = task.category;
+        this.categoryId = task.categoryId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -184,10 +196,28 @@ public class Task implements Parcelable {
         }
     };
 
-    public boolean isModified(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return title.equals(task.title) && description.equals(task.description) && expires.equals(task.expires) && created.equals(task.created) && status.equals(task.status) && categoryId.equals(task.categoryId);
+    public boolean isTheSame(Task task) {
+        System.out.println("ORIGINAL");
+        System.out.println(this.printInfo());
+        System.out.println("COMPARANDO");
+        System.out.println(task.printInfo());
+        return title.equals(task.title) && description.equals(task.description)
+                && expires.getTime() == task.expires.getTime()
+                && created.getTime() == task.created.getTime()
+                && status.equals(task.status)
+                && categoryId.equals(task.categoryId);
+    }
+
+    public String printInfo() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", expires=" + expires.getTime() +
+                ", created=" + created.getTime() +
+                ", status='" + status + '\'' +
+                ", userUid='" + userUid + '\'' +
+                ", categoryId='" + categoryId + '\'' +
+                '}';
     }
 }
