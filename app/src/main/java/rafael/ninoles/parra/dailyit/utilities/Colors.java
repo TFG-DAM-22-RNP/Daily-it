@@ -1,7 +1,5 @@
 package rafael.ninoles.parra.dailyit.utilities;
 
-import android.graphics.Color;
-
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;

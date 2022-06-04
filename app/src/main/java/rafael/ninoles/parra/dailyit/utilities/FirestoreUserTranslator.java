@@ -1,7 +1,5 @@
 package rafael.ninoles.parra.dailyit.utilities;
 
-import android.content.res.Resources;
-
 import java.util.HashMap;
 import java.util.Map;
 

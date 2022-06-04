@@ -5,19 +5,11 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 

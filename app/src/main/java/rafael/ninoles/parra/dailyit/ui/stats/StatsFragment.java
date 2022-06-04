@@ -1,35 +1,21 @@
 package rafael.ninoles.parra.dailyit.ui.stats;
 
 import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+
+import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.LineChart;
-import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
-import com.github.mikephil.charting.data.PieData;
-import com.github.mikephil.charting.data.PieDataSet;
-import com.github.mikephil.charting.data.PieEntry;
-import com.github.mikephil.charting.interfaces.datasets.IPieDataSet;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -37,7 +23,6 @@ import java.util.stream.Collectors;
 
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.FragmentStatsBinding;
-import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.model.TasksByDay;

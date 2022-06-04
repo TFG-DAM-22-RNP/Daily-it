@@ -1,28 +1,20 @@
 package rafael.ninoles.parra.dailyit.ui.categories;
 
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
-
-import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.FragmentCategoriesBinding;
-import rafael.ninoles.parra.dailyit.databinding.FragmentTasksBinding;
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.ui.adapters.categories.CategoyAdapter;
-import rafael.ninoles.parra.dailyit.ui.adapters.categories.OnClickListenerOpenCategory;
-import rafael.ninoles.parra.dailyit.ui.adapters.task.TaskAdapter;
 import rafael.ninoles.parra.dailyit.ui.dialogs.NewCategoryDialog;
 
 /**
