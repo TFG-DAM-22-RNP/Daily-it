@@ -59,8 +59,11 @@ public class NewCategoryDialog {
         btCancel = dialog.findViewById(R.id.btCancel);
         categoryColor = dialog.findViewById(R.id.categoryColor);
         dialogLoader = dialog.findViewById(R.id.dialogLoader);
-
-        tvDialogTitle.setText(context.getString(R.string.new_category));
+        if(id==null){
+            tvDialogTitle.setText(context.getString(R.string.new_category));
+        }else{
+            tvDialogTitle.setText(context.getString(R.string.loading));
+        }
 
         btCancel.setOnClickListener(e->{
             dialog.dismiss();
@@ -97,7 +100,17 @@ public class NewCategoryDialog {
             DailyItRepository.getInstance().getCategorieById(FirebaseAuth.getInstance().getUid(), id)
             .observe((LifecycleOwner) activity, category -> {
                 System.out.println(Locale.getDefault().getLanguage());
-                etCategoryName.setText(category.getName());
+
+                if(category.getId().equals("Work")){
+                    if(category.getName().equals("Work")){
+                        etCategoryName.setText(context.getString(R.string.work));
+                    }else{
+                        etCategoryName.setText(category.getName());
+                    }
+                    tvDialogTitle.setText(String.format(context.getString(R.string.editing),context.getString(R.string.work)));
+                }else{
+                    tvDialogTitle.setText(String.format(context.getString(R.string.editing),category.getName()));
+                }
                 System.out.println("BUSCANDO");
                 System.out.println(Colors.getFromDBToLocale(category.getColor()));
                 String compareValue = Colors.getFromDBToLocale(category.getColor());

@@ -76,4 +76,7 @@
     <string name="total_doing">Haciendo: %1$d</string>
     <string name="total_done">Hechas: %1$d</string>
     <string name="not_enought_data">No hay suficientes datos para mostrar en la gráfica.</string>
+    <string name="fast_expire_time">No puedes crear una tarea que expire en menos de 5 minutos.</string>
+    <string name="loading">Cargando...</string>
+    <string name="editing">Editando: %1$s</string>
 </resources>

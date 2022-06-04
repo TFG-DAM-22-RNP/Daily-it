@@ -35,6 +35,11 @@ public class TaskActivity extends AppCompatActivity {
     public static final String EXTRA_TASK_ID = "EXTRA_TASK_ID";
     private static final long MILIS_IN_DAY = 86400000;
     private static final long MILIS_IN_TWO_HOURS = 7200000;
+    private static final int NOT_SAVED = 5;
+    private static final int FIVE_MINS_IN_MILIS = 300000;
+    public static final int TODO = 0;
+    public static final int DOING = 1;
+    public static final int DONE = 2;
     Map<String, Category> availableCategories = new HashMap<>();
     private ActivityTaskBinding binding;
     private boolean isNew;
@@ -195,6 +200,9 @@ public class TaskActivity extends AppCompatActivity {
         isNew = false;
         compareTask = new Task(task);
         setTitle(task.getTitle());
+        setResult(binding.spStatus.getSelectedItemPosition());
+        finish();
+
     }
 
     private void checkTaskInputs() throws InputNeededException {
@@ -203,6 +211,15 @@ public class TaskActivity extends AppCompatActivity {
         }
         if(task.getExpires()==null){
             throw new InputNeededException(getString(R.string.no_expire_time));
+        }
+        Date inFiveMins = new Date();
+        inFiveMins.setTime(inFiveMins.getTime() + FIVE_MINS_IN_MILIS);
+        System.out.println("LA TAREA");
+        System.out.println(new SimpleDateFormat("dd MM yy HH:mm").format(task.getExpires().getTime()+MILIS_IN_TWO_HOURS));
+        System.out.println("CINCO MINS");
+        System.out.println(new SimpleDateFormat("dd MM yy HH:mm").format(inFiveMins));
+        if(task.getExpires().getTime()+MILIS_IN_TWO_HOURS< inFiveMins.getTime()){
+            throw new InputNeededException(getString(R.string.fast_expire_time));
         }
     }
 
@@ -231,6 +248,11 @@ public class TaskActivity extends AppCompatActivity {
         DailyItRepository.getInstance().getCategoriesFromUser(FirebaseAuth.getInstance().getUid())
                 .observe(owner, categories -> {
                     for (Category category : categories) {
+                        //TODO REFACTOR CTRL C CTRL V
+                        if(category.getName().equals("Work")){
+                            availableCategories.put(getString(R.string.work),category);
+                            continue;
+                        }
                         availableCategories.put(category.getName(), category);
                     }
                     binding.pbMain.setVisibility(View.GONE);
@@ -257,9 +279,6 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         updateTaskValues();
-        System.out.println("IF back");
-        System.out.println(!isNew);
-        System.out.println(compareTask != null && task.isTheSame(compareTask));
         if (!isNew && (compareTask != null && task.isTheSame(compareTask))) {
             setResult(0);
             finish();
@@ -274,7 +293,7 @@ public class TaskActivity extends AppCompatActivity {
             dialogo.setMessage(getString(R.string.changes_without_saving));
             dialogo.setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
                 //TODO CONSTANTE
-                setResult(0);
+                setResult(NOT_SAVED);
                 finish();
             });
             dialogo.setNegativeButton(android.R.string.no, (dialogInterface, i) -> {

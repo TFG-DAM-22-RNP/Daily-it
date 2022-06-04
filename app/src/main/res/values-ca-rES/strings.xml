@@ -76,4 +76,7 @@
     <string name="total_doing">Fent: %1$d</string>
     <string name="total_done">Fet: %1$d</string>
     <string name="not_enought_data">No hi ha prou dades per mostrar a la gràfica.</string>
+    <string name="fast_expire_time">No podeu crear una tasca que expiri en menys de 5 minuts.</string>
+    <string name="loading">Carregant...</string>
+    <string name="editing">Editant: %1$s</string>
 </resources>

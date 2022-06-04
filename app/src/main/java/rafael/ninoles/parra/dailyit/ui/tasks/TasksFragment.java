@@ -32,6 +32,9 @@ public class TasksFragment extends Fragment {
 
     private static final String DATE_PATTERN = "dd MMM. yyyy";
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
+    public static final int TODO = 0;
+    public static final int DOING = 1;
+    public static final int DONE = 2;
 
     private Date actualDate = new Date();
     private final Calendar calendar = Calendar.getInstance();
@@ -156,6 +159,10 @@ public class TasksFragment extends Fragment {
         for(TaskListFragment taskListFragment : taskListAdapter.getFragments()){
             taskListFragment.setDate(currentDate);
         }
+    }
+
+    public void moveToTab(int position){
+        binding.tabLayout.selectTab(binding.tabLayout.getTabAt(position));
     }
 
     private void addChangeTabOnSwipe() {

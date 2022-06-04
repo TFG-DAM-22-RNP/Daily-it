@@ -35,6 +35,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
+import java.util.Date;
 
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityMainBinding;
@@ -151,7 +153,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (tasksFragment == null) {
             return;
         }
-        tasksFragment.moveDay();
+        if(resultCode<=TaskActivity.DONE){
+            tasksFragment.moveToTab(resultCode);
+        }
+        Date newDate = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(newDate);
+        calendar.set(Calendar.HOUR_OF_DAY,0);
+        calendar.set(Calendar.MINUTE,0);
+        calendar.set(Calendar.SECOND,1);
+        tasksFragment.moveDay(calendar.getTime());
     }
 
     //TODO Solucionar problema para proximas versiones
