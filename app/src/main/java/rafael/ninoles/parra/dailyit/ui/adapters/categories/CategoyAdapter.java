@@ -18,10 +18,10 @@ import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
 public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.CategoryViewHolder> {
+    private final Context context;
     private List<Category> categories;
     private OnClickListenerDeleteCategory listenerDeleteCategory;
     private OnClickListenerOpenCategory listenerOpenCategory;
-    private final Context context;
 
     public void setListenerOpenCategory(OnClickListenerOpenCategory listenerOpenCategory) {
         this.listenerOpenCategory = listenerOpenCategory;
@@ -67,10 +67,10 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
+        private final TextView tvCategoryName;
+        private final View categoryColor;
+        private final CardView cardView;
         private Category category;
-        private TextView tvCategoryName;
-        private View categoryColor;
-        private CardView cardView;
 
 
         public Category getCategory() {

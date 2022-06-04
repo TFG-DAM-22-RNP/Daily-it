@@ -43,14 +43,14 @@ import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
     private static final String LOG_TAG = "MAIN_ACTIVITY";
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private final FirebaseStorage storage = FirebaseStorage.getInstance();
     private final StorageReference storageRef = storage.getReference();
     private final StorageReference defaultImage = storageRef.child("profile-images/profile.jpg");
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private AppBarConfiguration mAppBarConfiguration;
+    private ActivityMainBinding binding;
     private File defaultLocalImage = null;
     private TextView tvEmail;
     private TextView tvName;
@@ -60,21 +60,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        //setSupportActionBar(binding.appBarMain.toolbar);
-        /*binding.appBarMain.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                handleFabClick();
-            }
-        });*/
         // INIT ADS
         MobileAds.initialize(this, initializationStatus -> {
         });
         DrawerLayout drawer = binding.drawerLayout;
         NavigationView navView = binding.navView;
         navView.setNavigationItemSelectedListener(this);
-        // navView.bringToFront();
         tvEmail = navView.getHeaderView(0).findViewById(R.id.tvEmail);
         tvName = navView.getHeaderView(0).findViewById(R.id.tvName);
         printUserData();
@@ -89,8 +80,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Toast toast = Toast.makeText(this, getString(R.string.not_implemented_yet), Toast.LENGTH_LONG);
             toast.show();
         });
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_tasks)
                 .setOpenableLayout(drawer)
@@ -126,6 +115,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if (document.exists()) {
                             Log.d(LOG_TAG, document.getId() + " => " + document.getData());
                             User user = document.toObject(User.class);
+                            //TODO Load profile image in next versions
                             //getUserImage(user.getImgProfile());
                             tvName.setText(user.getName());
                         }
@@ -140,7 +130,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("HE VUELTO");
         TasksFragment tasksFragment = MainActivityHelper.getTasksFragment();
         if (tasksFragment == null) {
             return;
@@ -157,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tasksFragment.moveDay(calendar.getTime());
     }
 
-    //TODO Solucionar problema para proximas versiones
+    //TODO Fix problems in next versions
     private void getDefaultImage() {
         try {
             defaultLocalImage = File.createTempFile("images", "jpg");
@@ -172,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -186,12 +174,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
-        finish(); //This would close the app
+        finish();
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         switch (item.getItemId()) {
             case R.id.log_out:
                 FirebaseAuth.getInstance().signOut();
@@ -214,8 +201,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 binding.drawerLayout.closeDrawer(GravityCompat.START);
                 return false;
         }
-        System.out.println("Clickado en nav");
-        //close navigation drawer
         binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

@@ -80,4 +80,5 @@
     <string name="loading">Cargando...</string>
     <string name="editing">Editando: %1$s</string>
     <string name="error_reading_user_data">Ha habido un error leyendo los datos de tu usuario. Intentelo de nuevo más tarde.</string>
+    <string name="error_saving_task">" Hubo un error al guardar la tarea. Inténtalo de nuevo más tarde."</string>
 </resources>

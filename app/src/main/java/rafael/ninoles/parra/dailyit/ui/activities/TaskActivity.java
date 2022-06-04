@@ -22,6 +22,7 @@ import java.util.Map;
 
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityTaskBinding;
+import rafael.ninoles.parra.dailyit.enums.RequestStatus;
 import rafael.ninoles.parra.dailyit.exceptions.InputNeededException;
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
@@ -30,16 +31,14 @@ import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.utilities.FirestoreUserTranslator;
 
 public class TaskActivity extends AppCompatActivity {
-    public static final String EXTRA_TASK = "EXTRA_TASK";
-    public static final String EXTRA_TASK_ID = "EXTRA_TASK_ID";
-    private static final long MILIS_IN_DAY = 86400000;
     private static final long MILIS_IN_TWO_HOURS = 7200000;
     private static final int NOT_SAVED = 5;
     private static final int FIVE_MINS_IN_MILIS = 300000;
+    public static final String EXTRA_TASK_ID = "EXTRA_TASK_ID";
     public static final int TODO = 0;
     public static final int DOING = 1;
     public static final int DONE = 2;
-    Map<String, Category> availableCategories = new HashMap<>();
+    private final Map<String, Category> availableCategories = new HashMap<>();
     private ActivityTaskBinding binding;
     private boolean isNew;
     private boolean canSave;
@@ -176,19 +175,34 @@ public class TaskActivity extends AppCompatActivity {
             .observe(this, id -> {
                 taskId = id;
                 canSave = true;
+                binding.pbMain.setVisibility(View.GONE);
+                Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
+                toast.show();
+                isNew = false;
+                compareTask = new Task(task);
+                setTitle(task.getTitle());
+                setResult(binding.spStatus.getSelectedItemPosition());
+                finish();
             });
         } else {
-            DailyItRepository.getInstance().updateTask(task, FirebaseAuth.getInstance().getUid());
+            DailyItRepository.getInstance().updateTask(task, FirebaseAuth.getInstance().getUid())
+                    .observe(this, requestStatus -> {
+                        if(requestStatus.equals(RequestStatus.FETCH_CORRECT)){
+                            binding.pbMain.setVisibility(View.GONE);
+                            Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
+                            toast.show();
+                            isNew = false;
+                            compareTask = new Task(task);
+                            setTitle(task.getTitle());
+                            setResult(binding.spStatus.getSelectedItemPosition());
+                            finish();
+                        }else{
+                            binding.pbMain.setVisibility(View.GONE);
+                            Toast toast = Toast.makeText(this, getString(R.string.error_saving_task), Toast.LENGTH_LONG);
+                            toast.show();
+                        }
+                    });
         }
-        binding.pbMain.setVisibility(View.GONE);
-        Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
-        toast.show();
-        isNew = false;
-        compareTask = new Task(task);
-        setTitle(task.getTitle());
-        setResult(binding.spStatus.getSelectedItemPosition());
-        finish();
-
     }
 
     private void checkTaskInputs() throws InputNeededException {
@@ -200,10 +214,6 @@ public class TaskActivity extends AppCompatActivity {
         }
         Date inFiveMins = new Date();
         inFiveMins.setTime(inFiveMins.getTime() + FIVE_MINS_IN_MILIS);
-        System.out.println("LA TAREA");
-        System.out.println(new SimpleDateFormat("dd MM yy HH:mm").format(task.getExpires().getTime()+MILIS_IN_TWO_HOURS));
-        System.out.println("CINCO MINS");
-        System.out.println(new SimpleDateFormat("dd MM yy HH:mm").format(inFiveMins));
         if(task.getExpires().getTime()+MILIS_IN_TWO_HOURS< inFiveMins.getTime()){
             throw new InputNeededException(getString(R.string.fast_expire_time));
         }

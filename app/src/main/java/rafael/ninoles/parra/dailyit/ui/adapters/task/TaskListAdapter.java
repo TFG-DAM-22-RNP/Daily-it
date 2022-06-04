@@ -36,10 +36,6 @@ public class TaskListAdapter extends FragmentStateAdapter {
                 fragment = TaskListFragment.newInstance("ToDo", myDate, tasksFragment);
                 fragments.add(fragment);
                 return fragment;
-            case 1:
-                fragment = TaskListFragment.newInstance("Doing", myDate, tasksFragment);
-                fragments.add(fragment);
-                return fragment;
             case 2:
                 fragment = TaskListFragment.newInstance("Done", myDate, tasksFragment);
                 fragments.add(fragment);

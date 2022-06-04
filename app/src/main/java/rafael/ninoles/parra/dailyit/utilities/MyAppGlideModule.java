@@ -1,4 +1,4 @@
-package rafael.ninoles.parra.dailyit.model;
+package rafael.ninoles.parra.dailyit.utilities;
 
 import android.content.Context;
 

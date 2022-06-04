@@ -48,8 +48,7 @@ public class StatsFragment extends Fragment {
     }
 
     public static StatsFragment newInstance() {
-        StatsFragment fragment = new StatsFragment();
-        return fragment;
+        return new StatsFragment();
     }
 
     @Override
@@ -70,8 +69,7 @@ public class StatsFragment extends Fragment {
             calcData(tasks);
             addDataToChart(getLastWeek(tasks));
         });
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 
     private void calcData(List<Task> tasks) {

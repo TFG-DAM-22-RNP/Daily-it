@@ -38,9 +38,9 @@ public class NewCategoryDialog {
     private final Button btCancel;
     private final View categoryColor;
     private final ProgressBar dialogLoader;
+    private final Dialog dialog;
     private String id;
     private Category category;
-    private final Dialog dialog;
 
     public NewCategoryDialog(Context context, Activity activity, String id) {
         this.context = context;
@@ -111,13 +111,9 @@ public class NewCategoryDialog {
                 }else{
                     tvDialogTitle.setText(String.format(context.getString(R.string.editing),category.getName()));
                 }
-                System.out.println("BUSCANDO");
-                System.out.println(Colors.getFromDBToLocale(category.getColor()));
                 String compareValue = Colors.getFromDBToLocale(category.getColor());
                 ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.available_color, android.R.layout.simple_spinner_item);
                 int spinnerPosition = adapter.getPosition(compareValue);
-                System.out.println("LA POSICION ES");
-                System.out.println(spinnerPosition);
                 if(spinnerPosition>=0){
                     spinner.setSelection(spinnerPosition);
                 }

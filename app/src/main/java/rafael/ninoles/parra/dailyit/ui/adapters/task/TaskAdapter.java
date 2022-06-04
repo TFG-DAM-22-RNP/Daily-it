@@ -21,10 +21,10 @@ import rafael.ninoles.parra.dailyit.utilities.Colors;
 import rafael.ninoles.parra.dailyit.model.Task;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
+    private final Context context;
     private List<Task> tasks;
     private OnClickListenerDeleteTask listenerDeleteTask;
     private OnClickListenerOpenTask listenerOpenTask;
-    private Context context;
 
     public void setListenerDeleteTask(OnClickListenerDeleteTask listenerDeleteTask) {
         this.listenerDeleteTask = listenerDeleteTask;
@@ -70,12 +70,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     }
 
     public class TaskViewHolder extends RecyclerView.ViewHolder {
-        public static final long MILIS_IN_DAY = 1000*60*60*24;
         private static final long MILIS_IN_HOUR = 1000*60*60;
         private static final long TWO_HOURS_IN_MILIS = MILIS_IN_HOUR*2;
-        private static final long MILIS_IN_MIN = 60000;
         private static final int LINES_NUMBER = 2;
         private static final int LINES_NUMBER_EXPANDED = 5;
+        private static final long MILIS_IN_DAY = 1000*60*60*24;
 
         private Task task;
         private boolean viewMoreEnabled;

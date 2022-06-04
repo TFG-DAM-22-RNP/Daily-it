@@ -80,4 +80,5 @@
     <string name="loading">Carregant...</string>
     <string name="editing">Editant: %1$s</string>
     <string name="error_reading_user_data">Hi ha hagut un error llegint les dades del teu usuari. Intenteu-ho de nou més tard.</string>
+    <string name="error_saving_task">S\'ha produït un error en desar la tasca. Torna-ho a provar més tard.</string>
 </resources>

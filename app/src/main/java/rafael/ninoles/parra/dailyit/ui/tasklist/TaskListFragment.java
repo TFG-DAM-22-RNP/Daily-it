@@ -160,7 +160,6 @@ public class TaskListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         viewModel = new TaskListViewModel(this.requireActivity().getApplication(), status, date);
         binding = FragmentTaskListBinding.inflate(inflater, container, false);
         adapter = new TaskAdapter(this.getContext());
@@ -213,8 +212,7 @@ public class TaskListFragment extends Fragment {
             binding.pbTaskes.setVisibility(View.GONE);
             checkIfTaskes();
         });
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 
     @Override

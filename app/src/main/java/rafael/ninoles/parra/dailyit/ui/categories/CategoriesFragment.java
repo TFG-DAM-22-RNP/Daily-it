@@ -44,7 +44,6 @@ public class CategoriesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         binding = FragmentCategoriesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         adapter = new CategoyAdapter(this.getContext());
@@ -52,7 +51,7 @@ public class CategoriesFragment extends Fragment {
         binding.rvCategories.setAdapter(adapter);
         binding.rvCategories.setLayoutManager(new LinearLayoutManager(getContext()));
         swipe = binding.swipe;
-        swipe.setOnRefreshListener(() -> loadCategories());
+        swipe.setOnRefreshListener(this::loadCategories);
         loadCategories();
 
         return root;

@@ -36,12 +36,12 @@ public class TasksFragment extends Fragment {
     public static final int DOING = 1;
     public static final int DONE = 2;
 
-    private Date actualDate = new Date();
     private final Calendar calendar = Calendar.getInstance();
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
+    private Date actualDate = new Date();
     private Date currentDate = actualDate;
     private FragmentTasksBinding binding;
     private TaskListAdapter taskListAdapter;
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_PATTERN);
 
     public TasksFragment() {
         // Required empty public constructor
@@ -93,8 +93,7 @@ public class TasksFragment extends Fragment {
         binding.pager.setAdapter(taskListAdapter);
         binding.pager.setUserInputEnabled(false);
         addChangeTabOnClick();
-        View root = binding.getRoot();
-        return root;
+        return binding.getRoot();
     }
 
     private void addDaySelectorListeners() {
@@ -115,8 +114,6 @@ public class TasksFragment extends Fragment {
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,1);
         newDate = calendar.getTime();
-        System.out.println("LA FECHA ES");
-        System.out.println(new SimpleDateFormat("dd MM yy HH:mm:ss").format(newDate));
         currentDate = newDate;
         moveDay(newDate);
     }
@@ -130,8 +127,6 @@ public class TasksFragment extends Fragment {
         calendar.set(Calendar.MINUTE,0);
         calendar.set(Calendar.SECOND,1);
         newDate = calendar.getTime();
-        System.out.println("LA FECHA ES");
-        System.out.println(new SimpleDateFormat("dd MM yy HH:mm:ss").format(newDate));
         currentDate = newDate;
         moveDay(newDate);
     }

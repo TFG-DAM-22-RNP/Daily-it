@@ -14,10 +14,10 @@ import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 
 public class TaskListViewModel extends AndroidViewModel {
+    private final DailyItRepository dailyItRepository;
+    private final String status;
     private LiveData<List<Task>> tasks;
     private Date date;
-    private DailyItRepository dailyItRepository;
-    private String status;
 
     public void setDate(Date date) {
         this.date = date;
