@@ -30,6 +30,9 @@ import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.utilities.FirestoreUserTranslator;
 
+/**
+ * Activity that shows the task info and let the user update it or create a new one
+ */
 public class TaskActivity extends AppCompatActivity {
     private static final long MILIS_IN_TWO_HOURS = 7200000;
     private static final int NOT_SAVED = 5;

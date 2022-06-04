@@ -41,6 +41,9 @@ import rafael.ninoles.parra.dailyit.model.User;
 import rafael.ninoles.parra.dailyit.ui.dialogs.NewCategoryDialog;
 import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
+/**
+ * Activity that manages the TaskFragment, CategoryFragment, StatsFragment
+ */
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String LOG_TAG = "MAIN_ACTIVITY";

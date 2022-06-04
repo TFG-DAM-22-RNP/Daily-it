@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import com.google.firebase.firestore.IgnoreExtraProperties;
 
+/**
+ * Model class for Tasks categories using Firestore
+ */
 @IgnoreExtraProperties
 public class Category implements Parcelable {
     private String id;

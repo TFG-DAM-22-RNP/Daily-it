@@ -3,6 +3,9 @@ package rafael.ninoles.parra.dailyit.helpers;
 import rafael.ninoles.parra.dailyit.ui.categories.CategoriesFragment;
 import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
+/**
+ * Helper task to get references to actual fragments
+ */
 public class MainActivityHelper {
     private static TasksFragment tasksFragment;
     private static CategoriesFragment categoriesFragment;

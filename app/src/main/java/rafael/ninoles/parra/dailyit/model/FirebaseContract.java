@@ -1,5 +1,8 @@
 package rafael.ninoles.parra.dailyit.model;
 
+/**
+ * Class with constants with the firestore values and references
+ */
 public class FirebaseContract {
     public static class UserEntry{
         public static final String COLLECTION_NAME = "users";

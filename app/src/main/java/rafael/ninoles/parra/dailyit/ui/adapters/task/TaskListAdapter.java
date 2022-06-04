@@ -13,6 +13,9 @@ import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListFragment;
 import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
+/**
+ * Adapter to use in ViewPager 2. Used for pagination between status.
+ */
 public class TaskListAdapter extends FragmentStateAdapter {
     private MyDate myDate;
     private final TasksFragment tasksFragment;

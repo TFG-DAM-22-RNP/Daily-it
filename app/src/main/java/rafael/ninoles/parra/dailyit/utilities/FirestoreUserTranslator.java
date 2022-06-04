@@ -3,6 +3,9 @@ package rafael.ninoles.parra.dailyit.utilities;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Utility class to translate the language between the user and the DB
+ */
 public class FirestoreUserTranslator {
     private static final Map<String, String> translations = new HashMap<>();
 

@@ -18,6 +18,7 @@ import rafael.ninoles.parra.dailyit.ui.adapters.categories.CategoyAdapter;
 import rafael.ninoles.parra.dailyit.ui.dialogs.NewCategoryDialog;
 
 /**
+ * Fragment to show categories in the MainActivity
  * A simple {@link Fragment} subclass.
  * Use the {@link CategoriesFragment#newInstance} factory method to
  * create an instance of this fragment.

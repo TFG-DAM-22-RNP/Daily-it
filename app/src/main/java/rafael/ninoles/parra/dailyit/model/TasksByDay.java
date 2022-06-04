@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Class to wrap day with a list of tasks
+ */
 public class TasksByDay {
     private final String day;
     private final List<Task> taskList;

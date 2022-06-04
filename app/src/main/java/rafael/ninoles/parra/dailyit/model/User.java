@@ -5,6 +5,10 @@ import com.google.firebase.firestore.IgnoreExtraProperties;
 
 import java.util.List;
 
+
+/**
+ * Model class to users using Firestore
+ */
 @IgnoreExtraProperties
 public class User {
     private String id;

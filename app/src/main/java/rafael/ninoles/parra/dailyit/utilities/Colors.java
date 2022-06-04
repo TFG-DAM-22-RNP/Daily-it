@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+/**
+ * Utility class to get colors and traduce it to the DB language
+ */
 public final class Colors {
     private static final String ENGLISH_CODE = "en";
     private static final String SPANISH_CODE = "es";

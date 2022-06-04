@@ -10,6 +10,9 @@ import com.google.firebase.firestore.ServerTimestamp;
 import java.util.Date;
 import java.util.Objects;
 
+/**
+ * Model class for Tasks using Firestore
+ */
 @IgnoreExtraProperties
 public class Task implements Parcelable {
     private String id;
@@ -197,10 +200,6 @@ public class Task implements Parcelable {
     };
 
     public boolean isTheSame(Task task) {
-        System.out.println("ORIGINAL");
-        System.out.println(this.printInfo());
-        System.out.println("COMPARANDO");
-        System.out.println(task.printInfo());
         return title.equals(task.title) && description.equals(task.description)
                 && expires.getTime() == task.expires.getTime()
                 && created.getTime() == task.created.getTime()

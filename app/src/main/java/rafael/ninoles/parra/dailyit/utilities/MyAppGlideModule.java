@@ -11,6 +11,10 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.InputStream;
 
+/**
+ * Glide module that registers a component that allows to load images from a Storage Reference
+ * using Firebase
+ */
 @GlideModule
 public class MyAppGlideModule extends AppGlideModule {
 

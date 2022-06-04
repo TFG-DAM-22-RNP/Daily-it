@@ -24,6 +24,7 @@ import rafael.ninoles.parra.dailyit.ui.adapters.task.TaskListAdapter;
 import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListFragment;
 
 /**
+ * Fragment to show tasks in the MainActivity. It contains a ViewPager2 with 3 fragments inside it.
  * A simple {@link Fragment} subclass.
  * Use the {@link TasksFragment#newInstance} factory method to
  * create an instance of this fragment.

@@ -5,7 +5,6 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -28,6 +27,9 @@ import rafael.ninoles.parra.dailyit.enums.RequestStatus;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.model.User;
 
+/**
+ * Calls to read and write data using Firestore
+ */
 public class DailyItRepository {
     private static final String LOG_TAG = "DailyItRespository";
     private static final String DEFAULT_CATEGORY_ID = "Work";

@@ -5,6 +5,9 @@ import android.os.Parcelable;
 
 import java.util.Date;
 
+/**
+ * Class to converts dates into parcelable dates
+ */
 public class MyDate extends Date implements Parcelable {
     public MyDate() {
         super();

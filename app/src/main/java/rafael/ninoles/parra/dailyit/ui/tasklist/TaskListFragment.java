@@ -30,6 +30,8 @@ import rafael.ninoles.parra.dailyit.ui.adapters.task.TaskAdapter;
 import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
 
 /**
+ * Fragment used inside a ViewPager2 that show a list of task using a RecyclerView filtered
+ * by Status and ordered by date.
  * A simple {@link Fragment} subclass.
  * Use the {@link TaskListFragment#newInstance} factory method to
  * create an instance of this fragment.

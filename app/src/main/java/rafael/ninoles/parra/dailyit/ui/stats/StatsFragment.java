@@ -30,6 +30,7 @@ import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
 /**
+ * Fragment to show some stats in the MainActivity
  * A simple {@link Fragment} subclass.
  * Use the {@link StatsFragment#newInstance} factory method to
  * create an instance of this fragment.

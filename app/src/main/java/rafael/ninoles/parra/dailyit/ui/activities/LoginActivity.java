@@ -25,12 +25,20 @@ import rafael.ninoles.parra.dailyit.databinding.ActivityLoginBinding;
 import rafael.ninoles.parra.dailyit.exceptions.InputNeededException;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 
+/**
+ * Acitity that let the user to log in or register, using Google or Email and password
+ */
 public class LoginActivity extends AppCompatActivity{
 
     private static final int SIGN_IN_GOOGLE = 100;
     private static final String LOG_TAG = "LoginActivity";
     private static final String REGEX_EMAIL = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
             + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+
+    /**
+     * The password need to have 1 lowercase, 1 uppercase, 1 number, 1 special char and
+     * a minimum of 12 chars
+     */
     private static final String REGEX_PASSWORD = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{12,}$";
     private final FirebaseAuth auth = FirebaseAuth.getInstance();
     private ActivityLoginBinding binding;
@@ -79,7 +87,6 @@ public class LoginActivity extends AppCompatActivity{
     private void logInResult(Task<AuthResult> result) {
         if(result.isSuccessful()){
             DailyItRepository.getInstance().createUser(FirebaseAuth.getInstance().getUid(),binding.etEmail.getText().toString());
-            System.out.println("Correcto");
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }else{

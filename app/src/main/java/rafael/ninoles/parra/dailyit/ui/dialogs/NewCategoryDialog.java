@@ -28,6 +28,9 @@ import rafael.ninoles.parra.dailyit.enums.RequestStatus;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
+/**
+ * Dialog to show info about a category. It allows to create or modify a category.
+ */
 public class NewCategoryDialog {
     private final Context context;
     private final Activity activity;

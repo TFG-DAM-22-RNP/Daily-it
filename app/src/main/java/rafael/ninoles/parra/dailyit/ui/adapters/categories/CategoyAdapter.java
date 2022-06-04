@@ -17,6 +17,9 @@ import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
+/**
+ * Adapter to use in recycler views to print categories
+ */
 public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.CategoryViewHolder> {
     private final Context context;
     private List<Category> categories;

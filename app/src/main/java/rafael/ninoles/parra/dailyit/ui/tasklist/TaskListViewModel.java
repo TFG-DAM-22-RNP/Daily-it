@@ -13,6 +13,9 @@ import java.util.List;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 
+/**
+ * ViewModel for the TaskListFragment
+ */
 public class TaskListViewModel extends AndroidViewModel {
     private final DailyItRepository dailyItRepository;
     private final String status;
