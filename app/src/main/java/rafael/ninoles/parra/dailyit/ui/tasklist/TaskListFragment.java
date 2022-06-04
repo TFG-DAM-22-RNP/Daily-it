@@ -130,25 +130,33 @@ public class TaskListFragment extends Fragment {
         if (getArguments() != null) {
             status = getArguments().getString(STATUS);
             date = getArguments().getParcelable(DATE);
-            // TODO EXTRACT METHOD
-            switch (status) {
-                case FirebaseContract
-                        .TaskEntry.TODO:
-                    leftStatus = null;
-                    rightStatus = FirebaseContract.TaskEntry.DOING;
-                    break;
-                case FirebaseContract.TaskEntry.DONE:
-                    leftStatus = FirebaseContract.TaskEntry.DOING;
-                    rightStatus = null;
-                    break;
-                default:
-                    leftStatus = FirebaseContract.TaskEntry.TODO;
-                    rightStatus = FirebaseContract.TaskEntry.DONE;
-                    break;
-            }
+            calcSides();
         }
     }
 
+    private void calcSides() {
+        switch (status) {
+            case FirebaseContract
+                    .TaskEntry.TODO:
+                leftStatus = null;
+                rightStatus = FirebaseContract.TaskEntry.DOING;
+                break;
+            case FirebaseContract.TaskEntry.DONE:
+                leftStatus = FirebaseContract.TaskEntry.DOING;
+                rightStatus = null;
+                break;
+            default:
+                leftStatus = FirebaseContract.TaskEntry.TODO;
+                rightStatus = FirebaseContract.TaskEntry.DONE;
+                break;
+        }
+    }
+
+    /**
+     * Removes the previous tasks
+     * @param taskes
+     * @return a filtered tasks list
+     */
     private List<Task> clearOldTaskes(List<Task> taskes) {
         for (int i = taskes.size() - 1; i >= 0; i--) {
             Task actual = taskes.get(i);
@@ -177,6 +185,20 @@ public class TaskListFragment extends Fragment {
         }));
         binding.rvTasks.setAdapter(adapter);
         binding.rvTasks.setLayoutManager(new LinearLayoutManager(getContext()));
+        addSwipeEvent();
+        viewModel.getAllTasks().observe(getViewLifecycleOwner(), taskList -> {
+            adapter.setTasks(clearOldTaskes(taskList));
+            adapter.notifyDataSetChanged();
+            binding.pbTaskes.setVisibility(View.GONE);
+            checkIfTaskes();
+        });
+        return binding.getRoot();
+    }
+
+    /**
+     * Add a swipe event for the adapter
+     */
+    private void addSwipeEvent() {
         ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new
                 ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT |
                         ItemTouchHelper.RIGHT) {
@@ -208,13 +230,6 @@ public class TaskListFragment extends Fragment {
                 };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(binding.rvTasks);
-        viewModel.getAllTasks().observe(getViewLifecycleOwner(), taskList -> {
-            adapter.setTasks(clearOldTaskes(taskList));
-            adapter.notifyDataSetChanged();
-            binding.pbTaskes.setVisibility(View.GONE);
-            checkIfTaskes();
-        });
-        return binding.getRoot();
     }
 
     @Override

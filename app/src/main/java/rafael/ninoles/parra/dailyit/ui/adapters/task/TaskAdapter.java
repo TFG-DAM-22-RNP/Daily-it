@@ -127,6 +127,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
             return milis / 1000 / 60 / 60;
         }
 
+        /**
+         * Set the task and print the data
+         * @param task
+         */
         public void setTask(Task task) {
             this.task = task;
             this.tvTitle.setText(task.getTitle());
@@ -174,8 +178,10 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         }
 
+        /**
+         * Handle the click in the view more icon, hiding and showing some buttons
+         */
         private void handleViewMore() {
-            System.out.println("Click");
             if (viewMoreEnabled) {
                 tvDesc.setMaxLines(LINES_NUMBER);
                 tvCategory.setVisibility(View.GONE);

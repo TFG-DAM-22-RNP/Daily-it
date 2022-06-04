@@ -19,12 +19,11 @@ import androidx.lifecycle.Observer;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.Locale;
-
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.exceptions.InputNeededException;
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.enums.RequestStatus;
+import rafael.ninoles.parra.dailyit.model.FirebaseContract;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
@@ -34,13 +33,13 @@ import rafael.ninoles.parra.dailyit.utilities.Colors;
 public class NewCategoryDialog {
     private final Context context;
     private final Activity activity;
-    private final EditText etCategoryName;
-    private final TextView tvDialogTitle;
-    private final Spinner spinner;
-    private final Button btSave;
-    private final Button btCancel;
-    private final View categoryColor;
-    private final ProgressBar dialogLoader;
+    private EditText etCategoryName;
+    private TextView tvDialogTitle;
+    private Spinner spinner;
+    private Button btSave;
+    private Button btCancel;
+    private View categoryColor;
+    private ProgressBar dialogLoader;
     private final Dialog dialog;
     private String id;
     private Category category;
@@ -55,19 +54,20 @@ public class NewCategoryDialog {
         dialog.setCancelable(true);
         dialog.setContentView(R.layout.new_category_dialog);
 
-        etCategoryName = dialog.findViewById(R.id.etCategoryName);
-        tvDialogTitle = dialog.findViewById(R.id.tvCategoryDialogTitle);
-        spinner = dialog.findViewById(R.id.spCategorySelected);
-        btSave = dialog.findViewById(R.id.btSave);
-        btCancel = dialog.findViewById(R.id.btCancel);
-        categoryColor = dialog.findViewById(R.id.categoryColor);
-        dialogLoader = dialog.findViewById(R.id.dialogLoader);
+        findReferencesById();
         if(id==null){
             tvDialogTitle.setText(context.getString(R.string.new_category));
         }else{
             tvDialogTitle.setText(context.getString(R.string.loading));
         }
 
+        addListeners();
+
+        dialog.show();
+        loadData();
+    }
+
+    private void addListeners() {
         btCancel.setOnClickListener(e->{
             dialog.dismiss();
         });
@@ -86,9 +86,16 @@ public class NewCategoryDialog {
         btSave.setOnClickListener(e->{
             save();
         });
+    }
 
-        dialog.show();
-        loadData();
+    private void findReferencesById() {
+        etCategoryName = dialog.findViewById(R.id.etCategoryName);
+        tvDialogTitle = dialog.findViewById(R.id.tvCategoryDialogTitle);
+        spinner = dialog.findViewById(R.id.spCategorySelected);
+        btSave = dialog.findViewById(R.id.btSave);
+        btCancel = dialog.findViewById(R.id.btCancel);
+        categoryColor = dialog.findViewById(R.id.categoryColor);
+        dialogLoader = dialog.findViewById(R.id.dialogLoader);
     }
 
     public NewCategoryDialog(Context context, Activity activity){
@@ -100,12 +107,10 @@ public class NewCategoryDialog {
             dialogLoader.setVisibility(View.GONE);
             return;
         }else{
-            DailyItRepository.getInstance().getCategorieById(FirebaseAuth.getInstance().getUid(), id)
+            DailyItRepository.getInstance().getCategoryById(FirebaseAuth.getInstance().getUid(), id)
             .observe((LifecycleOwner) activity, category -> {
-                System.out.println(Locale.getDefault().getLanguage());
-
-                if(category.getId().equals("Work")){
-                    if(category.getName().equals("Work")){
+                if(category.getId().equals(FirebaseContract.CategoryEntry.WORK)){
+                    if(category.getName().equals(FirebaseContract.CategoryEntry.WORK)){
                         etCategoryName.setText(context.getString(R.string.work));
                     }else{
                         etCategoryName.setText(category.getName());
@@ -135,18 +140,22 @@ public class NewCategoryDialog {
             return;
         }
         if(id==null){
-            saveNewTask();
+            saveNewCategory();
         }else{
-            category = new Category();
-            category.setId(id);
-            category.setName(etCategoryName.getText().toString());
-            category.setColor(Colors.getColorInDB(spinner.getSelectedItem().toString()));
-            dialogLoader.setVisibility(View.VISIBLE);
-            DailyItRepository.getInstance().updateCategory(category, FirebaseAuth.getInstance().getUid())
-                    .observe((LifecycleOwner) activity, (Observer<RequestStatus>) requestStatus -> {
-                        showSavedCorrectly();
-                    });
+            updateCurrentCategory();
         }
+    }
+
+    private void updateCurrentCategory() {
+        category = new Category();
+        category.setId(id);
+        category.setName(etCategoryName.getText().toString());
+        category.setColor(Colors.getColorInDB(spinner.getSelectedItem().toString()));
+        dialogLoader.setVisibility(View.VISIBLE);
+        DailyItRepository.getInstance().updateCategory(category, FirebaseAuth.getInstance().getUid())
+                .observe((LifecycleOwner) activity, (Observer<RequestStatus>) requestStatus -> {
+                    showSavedCorrectly();
+                });
     }
 
     private void showSavedCorrectly() {
@@ -156,7 +165,7 @@ public class NewCategoryDialog {
         dialog.dismiss();
     }
 
-    private void saveNewTask() {
+    private void saveNewCategory() {
         category = new Category();
         category.setName(etCategoryName.getText().toString());
         category.setColor(Colors.getColorInDB(spinner.getSelectedItem().toString()));

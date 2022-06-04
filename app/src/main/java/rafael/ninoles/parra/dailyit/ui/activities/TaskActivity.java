@@ -91,7 +91,6 @@ public class TaskActivity extends AppCompatActivity {
         TaskActivity owner = this;
         DailyItRepository.getInstance().getTaskById(taskId).observe(owner, taskReceived -> {
             task = taskReceived;
-            System.out.println("MI CATEGORIA ES "+taskReceived.getCategoryId());
             DailyItRepository.getInstance().getCategoriesFromUser(FirebaseAuth.getInstance().getUid())
                     .observe(owner, categories -> {
                         fillCategoriesSpinner(categories);
@@ -222,6 +221,9 @@ public class TaskActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the task values and sync it to the inputs
+     */
     private void updateTaskValues() {
         task.setTitle(binding.etTaskName.getText().toString());
         task.setStatus(FirestoreUserTranslator.getFirestoreWord(binding.spStatus.getSelectedItem().toString()));
@@ -259,6 +261,9 @@ public class TaskActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Open 2 dialogs and let the user pick date and time
+     */
     public void pickDateTime() {
         Calendar date = Calendar.getInstance();
         final Calendar currentDate = Calendar.getInstance();
@@ -274,6 +279,9 @@ public class TaskActivity extends AppCompatActivity {
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
     }
 
+    /**
+     * Prevent the user from leave without saving if there are changes
+     */
     @Override
     public void onBackPressed() {
         updateTaskValues();

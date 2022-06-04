@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         navView.getMenu().getItem(0).setChecked(true);
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            Log.e("CAMBIADO", "onDestinationChanged: " + destination.getLabel());
+            Log.e(LOG_TAG, "onDestinationChanged: " + destination.getLabel());
         });
     }
 
@@ -98,16 +98,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         new NewCategoryDialog(this,this);
     }
 
+    // TODO Fix in future versions
     private void getUserImage(String path) {
-        StringBuilder fullPath = new StringBuilder("profile-images/");
-        fullPath.append(path);
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference(fullPath.toString());
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference("profile-images/" + path);
         ImageView iv = binding.navView.findViewById(R.id.ivProfile);
         Glide.with(this /* context */)
                 .load(storageReference)
                 .into(iv);
     }
 
+    /**
+     * Prints the user data into the menu
+     */
     private void printUserData() {
         tvEmail.setText(auth.getCurrentUser().getEmail());
         Log.d(LOG_TAG, auth.getCurrentUser().getUid());
@@ -155,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             defaultLocalImage = File.createTempFile("images", "jpg");
             defaultImage.getFile(defaultLocalImage).addOnSuccessListener(taskSnapshot -> {
                 Log.v(LOG_TAG, "Default profile picture downloaded from firebase");
-                System.out.println(defaultLocalImage.toURI().toString());
             }).addOnFailureListener(exception -> Log.e(LOG_TAG, "Error downloading the default profile picture from firebase"));
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error loading the default profile image");

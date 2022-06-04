@@ -23,7 +23,6 @@ import rafael.ninoles.parra.dailyit.utilities.Colors;
 public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.CategoryViewHolder> {
     private final Context context;
     private List<Category> categories;
-    private OnClickListenerDeleteCategory listenerDeleteCategory;
     private OnClickListenerOpenCategory listenerOpenCategory;
 
     public void setListenerOpenCategory(OnClickListenerOpenCategory listenerOpenCategory) {
@@ -40,10 +39,6 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
-    }
-
-    public void setListenerDeleteCategory(OnClickListenerDeleteCategory listenerDeleteCategory) {
-        this.listenerDeleteCategory = listenerDeleteCategory;
     }
 
     @NonNull

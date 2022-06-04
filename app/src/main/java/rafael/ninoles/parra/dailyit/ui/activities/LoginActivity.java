@@ -95,6 +95,10 @@ public class LoginActivity extends AppCompatActivity{
         }
     }
 
+    /**
+     * Verify the required fields and throws an exception is one of them is empty
+     * @throws InputNeededException
+     */
     private void verifyInputs() throws InputNeededException {
         if(!patternMatches(binding.etEmail.getText().toString(),REGEX_EMAIL)){
             throw new InputNeededException(getString(R.string.email_invalid));
@@ -118,16 +122,24 @@ public class LoginActivity extends AppCompatActivity{
         ).addOnCompleteListener(this::logInResult);
     }
 
-    public static boolean patternMatches(String emailAddress, String regexPattern) {
+    /**
+     * Check if a String match a patern
+     * @param compared
+     * @param regexPattern
+     * @return true or false
+     */
+    public static boolean patternMatches(String compared, String regexPattern) {
         return Pattern.compile(regexPattern)
-                .matcher(emailAddress)
+                .matcher(compared)
                 .matches();
     }
 
+    /*
+     * Used for the google log in / register
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(requestCode == SIGN_IN_GOOGLE){
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try{

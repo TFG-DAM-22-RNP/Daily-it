@@ -3,9 +3,11 @@ package rafael.ninoles.parra.dailyit.ui.tasks;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,7 @@ import rafael.ninoles.parra.dailyit.ui.tasklist.TaskListFragment;
  * create an instance of this fragment.
  */
 public class TasksFragment extends Fragment {
-
+    private static final String LOG_TAG = "TaskFragment";
     private static final String DATE_PATTERN = "dd MMM. yyyy";
     private static final long MILLIS_IN_A_DAY = 1000 * 60 * 60 * 24;
     public static final int TODO = 0;
@@ -66,12 +68,7 @@ public class TasksFragment extends Fragment {
         // Inflate the layout for this fragment
         MainActivityHelper.setTasksFragment(this);
         binding = FragmentTasksBinding.inflate(inflater, container, false);
-        Calendar currentDateCalendar = Calendar.getInstance();
-        currentDateCalendar.setTime(actualDate);
-        currentDateCalendar.set(Calendar.HOUR_OF_DAY,0);
-        currentDateCalendar.set(Calendar.MINUTE,0);
-        currentDateCalendar.set(Calendar.SECOND,1);
-        actualDate = currentDateCalendar.getTime();
+        setCurrentDate();
         AdRequest adRequest = new AdRequest.Builder().build();
         binding.adBottom.loadAd(adRequest);
         addDaySelectorListeners();
@@ -89,12 +86,20 @@ public class TasksFragment extends Fragment {
             }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
             dialog.show();
         });
-        // PREVIO getParentFragmentManager
         taskListAdapter = new TaskListAdapter(getChildFragmentManager(), getLifecycle(), new MyDate(currentDate.getTime()), this);
         binding.pager.setAdapter(taskListAdapter);
         binding.pager.setUserInputEnabled(false);
         addChangeTabOnClick();
         return binding.getRoot();
+    }
+
+    private void setCurrentDate() {
+        Calendar currentDateCalendar = Calendar.getInstance();
+        currentDateCalendar.setTime(actualDate);
+        currentDateCalendar.set(Calendar.HOUR_OF_DAY,0);
+        currentDateCalendar.set(Calendar.MINUTE,0);
+        currentDateCalendar.set(Calendar.SECOND,1);
+        actualDate = currentDateCalendar.getTime();
     }
 
     private void addDaySelectorListeners() {
@@ -109,32 +114,30 @@ public class TasksFragment extends Fragment {
 
     private void moveNextDay() {
         Date newDate = new Date(currentDate.getTime() + MILLIS_IN_A_DAY);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(newDate);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,1);
-        newDate = calendar.getTime();
-        currentDate = newDate;
+        newDate = moveCurrentDate(newDate);
         moveDay(newDate);
     }
 
-    //TODO REFACTOR; ES LO MISMO QUE ARRIBA
     private void movePreviousDay(){
         Date newDate = new Date(currentDate.getTime() - MILLIS_IN_A_DAY);
+        newDate = moveCurrentDate(newDate);
+        moveDay(newDate);
+    }
+
+    @NonNull
+    private Date moveCurrentDate(Date newDate) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(newDate);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 1);
         newDate = calendar.getTime();
         currentDate = newDate;
-        moveDay(newDate);
+        return newDate;
     }
 
     public void moveDay(Date date){
-        System.out.println("CAMBIANDO LA FECHA a");
-        System.out.println(new SimpleDateFormat("dd MM yy HH:mm:ss").format(currentDate));
+        Log.i(LOG_TAG,"Changing date to "+new SimpleDateFormat("dd MM yy HH:mm:ss").format(date));
         currentDate = date;
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
         updateAllStatus();
@@ -154,6 +157,9 @@ public class TasksFragment extends Fragment {
         binding.tabLayout.selectTab(binding.tabLayout.getTabAt(position));
     }
 
+    /**
+     * Not used because it make harder to swipe and open the menu
+     */
     private void addChangeTabOnSwipe() {
         binding.pager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override

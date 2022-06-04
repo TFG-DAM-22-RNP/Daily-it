@@ -107,6 +107,10 @@ public class StatsFragment extends Fragment {
         return new SimpleDateFormat("dd/MM/yy").format(task.getCreated());
     }
 
+    /**
+     * Loads the data into the bar char
+     * @param tasks
+     */
     private void addDataToChart(List<Task> tasks) {
         if(tasks.size()<1){
             binding.tvNoData.setVisibility(View.VISIBLE);
@@ -129,7 +133,6 @@ public class StatsFragment extends Fragment {
             binding.progressBar.setVisibility(View.GONE);
             return;
         }
-        //fit the data into a bar
         float count = 0;
         for(TasksByDay actual : tasksByDays){
             BarEntry barEntry = new BarEntry(count, new Integer(actual.getTaskList().size()).floatValue());

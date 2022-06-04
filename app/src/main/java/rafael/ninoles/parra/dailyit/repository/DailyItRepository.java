@@ -28,7 +28,7 @@ import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.model.User;
 
 /**
- * Calls to read and write data using Firestore
+ * Calls to read and write data using Firestore. It uses a Singleton pattern
  */
 public class DailyItRepository {
     private static final String LOG_TAG = "DailyItRespository";
@@ -50,12 +50,22 @@ public class DailyItRepository {
         return INSTANCE;
     }
 
+    /**
+     * Get all tasks from the user logged
+     * @return all tasks from the current user
+     */
     public MutableLiveData<List<Task>> getAllTasks(){
         CollectionReference colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME);
         return getTasksFromQuery(colRef);
     }
 
+    /**
+     * Get tasks from the current user filtered by status and ordered by date
+     * @param status
+     * @param date
+     * @return tasks from the current user filtered by status and ordered by date
+     */
     public MutableLiveData<List<Task>> getTaskByStatus(String status, Date date){
         Log.i(LOG_TAG, "Getting tasks starting "+new SimpleDateFormat("dd MM yy HH:mm:ss").format(date));
         date.setTime(date.getTime() + TWO_HOURS_IN_MILIS );
@@ -65,6 +75,11 @@ public class DailyItRepository {
         return getTasksFromQuery(colRef);
     }
 
+    /**
+     * Get a task by the id of the document
+     * @param id
+     * @return the task searched
+     */
     public MutableLiveData<Task> getTaskById(String id){
         MutableLiveData<Task> result = new MutableLiveData<>();
         DocumentReference taskRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
@@ -73,6 +88,11 @@ public class DailyItRepository {
         return result;
     }
 
+    /**
+     * Get all the categories from a user
+     * @param uid
+     * @return a list of categories from a user
+     */
     public MutableLiveData<List<Category>> getCategoriesFromUser(String uid){
         MutableLiveData<List<Category>> result = new MutableLiveData<>();
         CollectionReference colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
@@ -88,6 +108,11 @@ public class DailyItRepository {
         return result;
     }
 
+    /**
+     * Get tasks using a query
+     * @param colRef
+     * @return list of task
+     */
     @NonNull
     private MutableLiveData<List<Task>> getTasksFromQuery(Query colRef) {
         AtomicBoolean gotCategories = new AtomicBoolean(false);
@@ -119,6 +144,12 @@ public class DailyItRepository {
         return tasks;
     }
 
+    /**
+     * Joins the task with a categoriies
+     * @param categories
+     * @param tasks
+     * @return a list of tasks with category
+     */
     private List<Task> joinTasksWithCategories(Map<String, Category> categories, List<Task> tasks) {
         List<Task> result = new ArrayList<>();
         for(Task task : tasks){
@@ -204,7 +235,7 @@ public class DailyItRepository {
         return result;
     }
 
-    public MutableLiveData<Category> getCategorieById(String uid, String id) {
+    public MutableLiveData<Category> getCategoryById(String uid, String id) {
         MutableLiveData<Category> result = new MutableLiveData<>();
         DocumentReference catRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME)
                 .document(uid)

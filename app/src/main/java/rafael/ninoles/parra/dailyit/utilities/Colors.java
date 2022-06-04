@@ -91,6 +91,11 @@ public final class Colors {
         return colors.get(name.toLowerCase());
     }
 
+    /**
+     * Return color translated from db to locale language
+     * @param name
+     * @return color translated from db to locale language
+     */
     public static String getFromDBToLocale(String name){
         String search = name.toLowerCase();
         String actualLenguage = Locale.getDefault().getLanguage();
@@ -102,6 +107,11 @@ public final class Colors {
         return name;
     }
 
+    /**
+     * Get the color name in the DB
+     * @param name
+     * @return the color name in the DB
+     */
     public static String getColorInDB(String name){
         return colorsInDB.get(name.toLowerCase());
     }
