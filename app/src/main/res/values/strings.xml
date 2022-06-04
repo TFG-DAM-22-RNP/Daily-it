@@ -12,7 +12,7 @@
     <string name="log_in_with_google">Log in with Google</string>
     <string name="password">Password</string>
     <string name="log_out">Log out</string>
-    <string name="expires_in_hours">Expires in %1$s hours</string>
+    <string name="expires_in_hours">Expires in %1$d hours</string>
     <string name="server_id" translatable="false">827759519524-tvofk1lrd094v7vbt8pek565fq2ndu4p.apps.googleusercontent.com</string>
     <string name="doing">Doing</string>
     <string name="tasks">Tasks</string>
@@ -80,4 +80,5 @@
     <string name="fast_expire_time">You cannot create a task that expires in less than 5 minutes.</string>
     <string name="loading">Loading...</string>
     <string name="editing">Editing: %1$s</string>
+    <string name="error_reading_user_data">" There was an error reading your user data. Try it again later."</string>
 </resources>

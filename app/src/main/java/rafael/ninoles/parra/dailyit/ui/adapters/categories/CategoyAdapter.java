@@ -62,9 +62,6 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         if (categories != null) {
             final Category category = categories.get(position);
-            // TODO QUITAR
-            System.out.println("LA CATEGORIA ES");
-            System.out.println(category.getName());
             holder.setCategory(category);
         }
     }

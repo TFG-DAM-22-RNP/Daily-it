@@ -2,7 +2,6 @@ package rafael.ninoles.parra.dailyit.ui.activities;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -93,14 +92,7 @@ public class TaskActivity extends AppCompatActivity {
             System.out.println("MI CATEGORIA ES "+taskReceived.getCategoryId());
             DailyItRepository.getInstance().getCategoriesFromUser(FirebaseAuth.getInstance().getUid())
                     .observe(owner, categories -> {
-                        for (Category category : categories) {
-                            System.out.println("CATEGORIA: "+category);
-                            if(category.getName().equals("Work")){
-                                availableCategories.put(getString(R.string.work),category);
-                                continue;
-                            }
-                            availableCategories.put(category.getName(), category);
-                        }
+                        fillCategoriesSpinner(categories);
                         binding.pbMain.setVisibility(View.GONE);
                         compareTask = new Task(task);
                         printTask();
@@ -125,25 +117,19 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void printStatus() {
-        //TODO constantes para numeros
         if(task.getStatus().equals(FirebaseContract.TaskEntry.TODO)){
-            binding.spStatus.setSelection(0);
+            binding.spStatus.setSelection(TODO);
         }else if(task.getStatus().equals(FirebaseContract.TaskEntry.DOING)){
-            binding.spStatus.setSelection(1);
+            binding.spStatus.setSelection(DOING);
         }else{
-            binding.spStatus.setSelection(2);
+            binding.spStatus.setSelection(DONE);
         }
     }
 
     private void printCategories(ArrayAdapter<String> adapter){
-        // TODO
-        System.out.println("BUSCANDO "+task.getCategoryId());
         for(Category category:availableCategories.values()){
             if(category.getId().equals(task.getCategoryId())){
                 binding.spCategory.setSelection(adapter.getPosition(category.getName()));
-                System.out.println(category.getName());
-                System.out.println("PONIENDO NUEVO ID");
-                System.out.println(category.getId());
                 task.setCategoryId(category.getId());
                 compareTask.setCategoryId(category.getId());
                 return;
@@ -231,7 +217,6 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void newTask() {
-        //TODO STRING
         TaskActivity owner = this;
         setTitle(getString(R.string.new_task));
         this.task = new Task();
@@ -242,26 +227,26 @@ public class TaskActivity extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 1);
         this.task.setCreated(calendar.getTime());
-        //TODO Borrar cuando funcione
-        //this.task.setExpires(new Date(new Date().getTime() + MILIS_IN_DAY));
         this.task.setStatus(FirebaseContract.TaskEntry.TODO);
         DailyItRepository.getInstance().getCategoriesFromUser(FirebaseAuth.getInstance().getUid())
                 .observe(owner, categories -> {
-                    for (Category category : categories) {
-                        //TODO REFACTOR CTRL C CTRL V
-                        if(category.getName().equals("Work")){
-                            availableCategories.put(getString(R.string.work),category);
-                            continue;
-                        }
-                        availableCategories.put(category.getName(), category);
-                    }
+                    fillCategoriesSpinner(categories);
                     binding.pbMain.setVisibility(View.GONE);
                     printTask();
                 });
     }
 
+    private void fillCategoriesSpinner(java.util.List<Category> categories) {
+        for (Category category : categories) {
+            if(category.getName().equals(FirebaseContract.CategoryEntry.WORK)){
+                availableCategories.put(getString(R.string.work),category);
+                continue;
+            }
+            availableCategories.put(category.getName(), category);
+        }
+    }
+
     public void pickDateTime() {
-        //TODO Revisar cantidad de Calendars
         Calendar date = Calendar.getInstance();
         final Calendar currentDate = Calendar.getInstance();
         TaskActivity context = this;
@@ -284,7 +269,6 @@ public class TaskActivity extends AppCompatActivity {
             finish();
         } else {
             AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
-            //TODO STRINGS
             if(task.getTitle() == null || task.getTitle().isEmpty()){
                 dialogo.setTitle(getString(R.string.exit_without_saving_new));
             }else{
@@ -292,7 +276,6 @@ public class TaskActivity extends AppCompatActivity {
             }
             dialogo.setMessage(getString(R.string.changes_without_saving));
             dialogo.setPositiveButton(android.R.string.yes, (dialogInterface, i) -> {
-                //TODO CONSTANTE
                 setResult(NOT_SAVED);
                 finish();
             });

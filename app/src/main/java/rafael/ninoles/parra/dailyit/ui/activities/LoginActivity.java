@@ -78,7 +78,6 @@ public class LoginActivity extends AppCompatActivity{
 
     private void logInResult(Task<AuthResult> result) {
         if(result.isSuccessful()){
-            //TODO cambio de Activity
             DailyItRepository.getInstance().createUser(FirebaseAuth.getInstance().getUid(),binding.etEmail.getText().toString());
             System.out.println("Correcto");
             startActivity(new Intent(this, MainActivity.class));
@@ -145,7 +144,6 @@ public class LoginActivity extends AppCompatActivity{
                     });
                 }
             } catch (Exception e) {
-                //TODO CUIDAR Exc no google play, no google play services updated...
                 Toast toast = Toast.makeText(this, getString(R.string.error_loging_with_google), Toast.LENGTH_LONG);
                 toast.show();
                 Log.e(LOG_TAG, e.getMessage());

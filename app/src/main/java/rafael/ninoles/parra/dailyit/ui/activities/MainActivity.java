@@ -102,10 +102,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         navView.getMenu().getItem(0).setChecked(true);
-        //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
-        // TODO click en log out
-        //NavigationUI.setupWithNavController(navView, navController);
-        MainActivity mainActivity = this;
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
             Log.e("CAMBIADO", "onDestinationChanged: " + destination.getLabel());
         });
@@ -139,7 +135,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             tvName.setText(user.getName());
                         }
                     } else {
-                        // TODO actuar mejor en error
+                        Toast toast = Toast.makeText(this, getString(R.string.error_reading_user_data), Toast.LENGTH_LONG);
+                        toast.show();
                         Log.e(LOG_TAG, "Error reading the user data");
                     }
                 });
@@ -217,7 +214,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Navigation.findNavController(this,R.id.nav_host_fragment_content_main).navigate(R.id.nav_stats);
                 break;
             default:
-                //TODO prevent volver a cargar si ya esta en ese
                 Toast toast = Toast.makeText(this, getString(R.string.not_implemented_yet), Toast.LENGTH_LONG);
                 toast.show();
                 binding.drawerLayout.closeDrawer(GravityCompat.START);

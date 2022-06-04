@@ -98,7 +98,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         }
 
         private String calcRemaining(long diff) {
-            //TODO Mirar errores de format
             diff += TWO_HOURS_IN_MILIS;
             if(diff<0){
                 return context.getString(R.string.expired);
@@ -119,7 +118,6 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                     return String.format(context.getString(R.string.expires_in_minutes), minutes);
                 }
             }
-            // TODO pocho
             return "";
         }
 

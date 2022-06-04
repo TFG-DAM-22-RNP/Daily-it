@@ -87,7 +87,6 @@ public final class Colors {
     }
 
     public static Integer getColor(String name){
-        //TODO Manejo excep
         return colors.get(name.toLowerCase());
     }
 

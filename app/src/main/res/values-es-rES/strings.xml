@@ -19,8 +19,8 @@
     <string name="done">Hecho</string>
     <string name="delete_task">Eliminar \"%1$s\"</string>
     <string name="confirm_delete_task">¿Estás seguro de que quierer borrar la tarea \"%1$s\"? Esta acción no se puede revertir</string>
-    <string name="expires_in_days">Expira en %1$s dias</string>
-    <string name="expires_in_hours">Expira en %1$s horas</string>
+    <string name="expires_in_days">Expira en %1$d dias</string>
+    <string name="expires_in_hours">Expira en %1$d horas</string>
     <string name="none">Ninguna</string>
     <string name="work">Trabajo</string>
     <string name="no_taskes_found">No se han encontrado tareas</string>
@@ -79,4 +79,5 @@
     <string name="fast_expire_time">No puedes crear una tarea que expire en menos de 5 minutos.</string>
     <string name="loading">Cargando...</string>
     <string name="editing">Editando: %1$s</string>
+    <string name="error_reading_user_data">Ha habido un error leyendo los datos de tu usuario. Intentelo de nuevo más tarde.</string>
 </resources>

@@ -17,7 +17,6 @@ public class FirestoreUserTranslator {
     }
 
     static {
-        //TODO PROBLEMA CAMBIO IDIOMAS
         translations.put("Treball", "Work");
         translations.put("Trabajo", "Work");
         translations.put("Per fer", "ToDo");

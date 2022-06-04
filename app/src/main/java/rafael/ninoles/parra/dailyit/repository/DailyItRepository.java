@@ -129,7 +129,6 @@ public class DailyItRepository {
 
 
     public void deleteTask(Task task) {
-        // TODO implementar
        FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId()).delete();
     }
@@ -174,7 +173,6 @@ public class DailyItRepository {
     }
 
     public MutableLiveData<RequestStatus> createCategory(Category category, String uid) {
-        //TODO MIRAR POSIBLES PROBLEMAS EN COMPLETE LISTNER
         MutableLiveData<RequestStatus> result = new MutableLiveData<>(RequestStatus.FETCH_REQUESTED);
         DocumentReference docRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME)
                 .document(uid).collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document();
@@ -187,7 +185,6 @@ public class DailyItRepository {
     }
 
     public MutableLiveData<RequestStatus> updateCategory(Category category, String uid) {
-        //TODO IGUAL QUE ARRIBA
         MutableLiveData<RequestStatus> result = new MutableLiveData<>(RequestStatus.FETCH_REQUESTED);
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).document(category.getId()).set(category)

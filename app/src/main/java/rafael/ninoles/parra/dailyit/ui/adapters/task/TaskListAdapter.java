@@ -27,7 +27,6 @@ public class TaskListAdapter extends FragmentStateAdapter {
         return fragments;
     }
 
-    //TODO Seguramente esto se puede borrar, investigar
     @NonNull
     @Override
     public Fragment createFragment(int position) {
@@ -36,26 +35,18 @@ public class TaskListAdapter extends FragmentStateAdapter {
             case 0:
                 fragment = TaskListFragment.newInstance("ToDo", myDate, tasksFragment);
                 fragments.add(fragment);
-                // TODO BORRAR
-                System.out.println("EL SIZE ES "+fragments.size());
                 return fragment;
             case 1:
                 fragment = TaskListFragment.newInstance("Doing", myDate, tasksFragment);
                 fragments.add(fragment);
-                // TODO BORRAR
-                System.out.println("EL SIZE ES "+fragments.size());
                 return fragment;
             case 2:
                 fragment = TaskListFragment.newInstance("Done", myDate, tasksFragment);
                 fragments.add(fragment);
-                // TODO BORRAR
-                System.out.println("EL SIZE ES "+fragments.size());
                 return fragment;
             default:
                 fragment = TaskListFragment.newInstance("Doing", myDate, tasksFragment);
                 fragments.add(fragment);
-                // TODO BORRAR
-                System.out.println("EL SIZE ES "+fragments.size());
                 return fragment;
         }
     }

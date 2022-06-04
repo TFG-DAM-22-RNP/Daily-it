@@ -35,11 +35,8 @@ import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
  * create an instance of this fragment.
  */
 public class TaskListFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String STATUS = "status";
     private static final String DATE = "date";
-    // TODO: Rename and change types of parameters
     private String status;
     private String rightStatus;
     private String leftStatus;
@@ -115,15 +112,6 @@ public class TaskListFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param status        Status..
-     * @param tasksFragment
-     * @return A new instance of fragment TaskListFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static TaskListFragment newInstance(String status, MyDate date, TasksFragment tasksFragment) {
         TaskListFragment fragment = new TaskListFragment();
         fragment.setTasksFragment(tasksFragment);
@@ -181,7 +169,6 @@ public class TaskListFragment extends Fragment {
         swipeRefreshLayout = binding.swipe;
         swipeRefreshLayout.setOnRefreshListener(() -> viewModel.updateTasks(date).observe(getViewLifecycleOwner(), taskList -> {
             adapter.setTasks(clearOldTaskes(taskList));
-            //TODO QUITAR SOUTS
             adapter.notifyDataSetChanged();
             checkIfTaskes();
             binding.pbTaskes.setVisibility(View.GONE);
@@ -221,8 +208,6 @@ public class TaskListFragment extends Fragment {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
         itemTouchHelper.attachToRecyclerView(binding.rvTasks);
         viewModel.getAllTasks().observe(getViewLifecycleOwner(), taskList -> {
-            //TODO SOUT
-            System.out.println("HA CAMBIADO");
             adapter.setTasks(clearOldTaskes(taskList));
             adapter.notifyDataSetChanged();
             binding.pbTaskes.setVisibility(View.GONE);
