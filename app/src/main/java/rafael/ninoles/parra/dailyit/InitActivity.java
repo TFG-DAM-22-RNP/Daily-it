@@ -25,9 +25,9 @@ public class InitActivity extends AppCompatActivity {
     }
 
     private void checkAuth() {
-        if(auth.getCurrentUser() == null){
+        if (auth.getCurrentUser() == null) {
             startActivity(new Intent(this, LoginActivity.class));
-        }else{
+        } else {
             startActivity(new Intent(this, MainActivity.class));
         }
         finish();

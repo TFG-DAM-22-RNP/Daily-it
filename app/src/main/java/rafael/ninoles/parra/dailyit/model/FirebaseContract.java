@@ -4,7 +4,7 @@ package rafael.ninoles.parra.dailyit.model;
  * Class with constants with the firestore values and references
  */
 public class FirebaseContract {
-    public static class UserEntry{
+    public static class UserEntry {
         public static final String COLLECTION_NAME = "users";
         public static final String AUTH_UID = "AuthUID";
         public static final String IMG_PROFILE = "imgProfile";
@@ -12,7 +12,7 @@ public class FirebaseContract {
         public static final String TASKS = "tasks";
     }
 
-    public static class  TaskEntry{
+    public static class TaskEntry {
         public static final String COLLECTION_NAME = "tasks";
         public static final String ID = "id";
         public static final String TITLE = "title";
@@ -26,7 +26,7 @@ public class FirebaseContract {
         public static final String DONE = "Done";
     }
 
-    public static class CategoryEntry{
+    public static class CategoryEntry {
         public static final String COLLECTION_NAME = "categories";
         public static final String COLOR = "color";
         public static final String ID = "id";

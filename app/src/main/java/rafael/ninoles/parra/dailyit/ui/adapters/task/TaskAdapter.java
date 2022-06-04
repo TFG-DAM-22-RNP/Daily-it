@@ -129,6 +129,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
         /**
          * Set the task and print the data
+         *
          * @param task
          */
         public void setTask(Task task) {

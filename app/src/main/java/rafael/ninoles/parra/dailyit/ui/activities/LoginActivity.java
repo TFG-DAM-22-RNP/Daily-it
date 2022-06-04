@@ -28,7 +28,7 @@ import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 /**
  * Acitity that let the user to log in or register, using Google or Email and password
  */
-public class LoginActivity extends AppCompatActivity{
+public class LoginActivity extends AppCompatActivity {
 
     private static final int SIGN_IN_GOOGLE = 100;
     private static final String LOG_TAG = "LoginActivity";
@@ -52,28 +52,28 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     private void createListeners() {
-        binding.btSignUp.setOnClickListener(e->{
+        binding.btSignUp.setOnClickListener(e -> {
             register();
         });
-        
-        binding.btLogIn.setOnClickListener(e->{
+
+        binding.btLogIn.setOnClickListener(e -> {
             logIn();
         });
 
-        binding.btLogInGoogle.setOnClickListener(e->{
-            Log.i(LOG_TAG,"Clicked in log in with Google");
+        binding.btLogInGoogle.setOnClickListener(e -> {
+            Log.i(LOG_TAG, "Clicked in log in with Google");
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.server_id)).requestEmail().build();
-            GoogleSignInClient client = GoogleSignIn.getClient(this,gso);
+            GoogleSignInClient client = GoogleSignIn.getClient(this, gso);
 
-            startActivityForResult(client.getSignInIntent(),SIGN_IN_GOOGLE);
+            startActivityForResult(client.getSignInIntent(), SIGN_IN_GOOGLE);
         });
     }
 
     private void logIn() {
         try {
             verifyInputs();
-        }catch (InputNeededException e){
+        } catch (InputNeededException e) {
             Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
             toast.show();
             return;
@@ -85,11 +85,11 @@ public class LoginActivity extends AppCompatActivity{
     }
 
     private void logInResult(Task<AuthResult> result) {
-        if(result.isSuccessful()){
-            DailyItRepository.getInstance().createUser(FirebaseAuth.getInstance().getUid(),binding.etEmail.getText().toString());
+        if (result.isSuccessful()) {
+            DailyItRepository.getInstance().createUser(FirebaseAuth.getInstance().getUid(), binding.etEmail.getText().toString());
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }else{
+        } else {
             Toast toast = Toast.makeText(this, getString(R.string.invalid_login), Toast.LENGTH_LONG);
             toast.show();
         }
@@ -97,13 +97,14 @@ public class LoginActivity extends AppCompatActivity{
 
     /**
      * Verify the required fields and throws an exception is one of them is empty
+     *
      * @throws InputNeededException
      */
     private void verifyInputs() throws InputNeededException {
-        if(!patternMatches(binding.etEmail.getText().toString(),REGEX_EMAIL)){
+        if (!patternMatches(binding.etEmail.getText().toString(), REGEX_EMAIL)) {
             throw new InputNeededException(getString(R.string.email_invalid));
         }
-        if(!patternMatches(binding.etPassword.getText().toString(),REGEX_PASSWORD)){
+        if (!patternMatches(binding.etPassword.getText().toString(), REGEX_PASSWORD)) {
             throw new InputNeededException(getString(R.string.password_invalid));
         }
     }
@@ -111,7 +112,7 @@ public class LoginActivity extends AppCompatActivity{
     private void register() {
         try {
             verifyInputs();
-        }catch (InputNeededException e){
+        } catch (InputNeededException e) {
             Toast toast = Toast.makeText(this, e.getMessage(), Toast.LENGTH_LONG);
             toast.show();
             return;
@@ -124,6 +125,7 @@ public class LoginActivity extends AppCompatActivity{
 
     /**
      * Check if a String match a patern
+     *
      * @param compared
      * @param regexPattern
      * @return true or false
@@ -140,21 +142,21 @@ public class LoginActivity extends AppCompatActivity{
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == SIGN_IN_GOOGLE){
+        if (requestCode == SIGN_IN_GOOGLE) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try{
+            try {
                 GoogleSignInAccount account = task.getResult();
-                if(account != null){
-                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(),null);
-                    auth.signInWithCredential(credential).addOnCompleteListener(complete->{
-                        if(complete.isSuccessful()){
+                if (account != null) {
+                    AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+                    auth.signInWithCredential(credential).addOnCompleteListener(complete -> {
+                        if (complete.isSuccessful()) {
                             boolean isNew = complete.getResult().getAdditionalUserInfo().isNewUser();
-                            if(isNew){
+                            if (isNew) {
                                 DailyItRepository.getInstance().createUser(auth.getUid(), auth.getCurrentUser().getEmail());
                             }
                             startActivity(new Intent(this, MainActivity.class));
                             finish();
-                        }else{
+                        } else {
                             Toast toast = Toast.makeText(this, getString(R.string.error_loging_with_google), Toast.LENGTH_LONG);
                             toast.show();
                             complete.getException().printStackTrace();

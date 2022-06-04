@@ -34,15 +34,15 @@ public class DailyItRepository {
     private static final String LOG_TAG = "DailyItRespository";
     private static final String DEFAULT_CATEGORY_ID = "Work";
     private static final String DEFAULT_CATEGORY_COLOR = "grey";
-    private static final long MILIS_IN_HOUR = 1000*60*60;
-    private static final long TWO_HOURS_IN_MILIS = MILIS_IN_HOUR*2;
+    private static final long MILIS_IN_HOUR = 1000 * 60 * 60;
+    private static final long TWO_HOURS_IN_MILIS = MILIS_IN_HOUR * 2;
     private static final String DEFAULT_CATEGORY_NAME = "Work";
     private static volatile DailyItRepository INSTANCE;
 
-    public static DailyItRepository getInstance(){
-        if(INSTANCE == null){
-            synchronized (DailyItRepository.class){
-                if(INSTANCE == null){
+    public static DailyItRepository getInstance() {
+        if (INSTANCE == null) {
+            synchronized (DailyItRepository.class) {
+                if (INSTANCE == null) {
                     INSTANCE = new DailyItRepository();
                 }
             }
@@ -52,9 +52,10 @@ public class DailyItRepository {
 
     /**
      * Get all tasks from the user logged
+     *
      * @return all tasks from the current user
      */
-    public MutableLiveData<List<Task>> getAllTasks(){
+    public MutableLiveData<List<Task>> getAllTasks() {
         CollectionReference colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME);
         return getTasksFromQuery(colRef);
@@ -62,25 +63,28 @@ public class DailyItRepository {
 
     /**
      * Get tasks from the current user filtered by status and ordered by date
+     *
      * @param status
      * @param date
      * @return tasks from the current user filtered by status and ordered by date
      */
-    public MutableLiveData<List<Task>> getTaskByStatus(String status, Date date){
-        Log.i(LOG_TAG, "Getting tasks starting "+new SimpleDateFormat("dd MM yy HH:mm:ss").format(date));
-        date.setTime(date.getTime() + TWO_HOURS_IN_MILIS );
+    public MutableLiveData<List<Task>> getTaskByStatus(String status, Date date) {
+        Log.i(LOG_TAG, "Getting tasks starting " + new SimpleDateFormat("dd MM yy HH:mm:ss").format(date));
+        date.setTime(date.getTime() + TWO_HOURS_IN_MILIS);
         Query colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
-                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).whereEqualTo(FirebaseContract.TaskEntry.STATUS,status)
+                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).whereEqualTo(FirebaseContract.TaskEntry.STATUS, status)
                 .whereGreaterThanOrEqualTo(FirebaseContract.TaskEntry.EXPIRES, date);
         return getTasksFromQuery(colRef);
     }
 
+
     /**
      * Get a task by the id of the document
+     *
      * @param id
      * @return the task searched
      */
-    public MutableLiveData<Task> getTaskById(String id){
+    public MutableLiveData<Task> getTaskById(String id) {
         MutableLiveData<Task> result = new MutableLiveData<>();
         DocumentReference taskRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(id);
@@ -90,16 +94,17 @@ public class DailyItRepository {
 
     /**
      * Get all the categories from a user
+     *
      * @param uid
      * @return a list of categories from a user
      */
-    public MutableLiveData<List<Category>> getCategoriesFromUser(String uid){
+    public MutableLiveData<List<Category>> getCategoriesFromUser(String uid) {
         MutableLiveData<List<Category>> result = new MutableLiveData<>();
         CollectionReference colRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
                 .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME);
         final List<Category> categoryList = new ArrayList<>();
         colRef.get().addOnCompleteListener(categoryResult -> {
-            for(DocumentSnapshot snapshot : categoryResult.getResult()){
+            for (DocumentSnapshot snapshot : categoryResult.getResult()) {
                 Category category = snapshot.toObject(Category.class);
                 categoryList.add(category);
             }
@@ -110,6 +115,7 @@ public class DailyItRepository {
 
     /**
      * Get tasks using a query
+     *
      * @param colRef
      * @return list of task
      */
@@ -121,23 +127,23 @@ public class DailyItRepository {
         final List[] taskList = new List[]{new ArrayList<>()};
         Map<String, Category> categories = new HashMap<>();
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
-                .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).get().addOnCompleteListener(categoryResult->{
-                for(DocumentSnapshot snap : categoryResult.getResult()){
-                    Category category = snap.toObject(Category.class);
-                    categories.put(category.getId(), category);
-                }
-                gotCategories.set(true);
-                if(gotCategories.get() && gotTaskes.get()){
-                    tasks.setValue(joinTasksWithCategories(categories, taskList[0]));
-                }
+                .collection(FirebaseContract.CategoryEntry.COLLECTION_NAME).get().addOnCompleteListener(categoryResult -> {
+            for (DocumentSnapshot snap : categoryResult.getResult()) {
+                Category category = snap.toObject(Category.class);
+                categories.put(category.getId(), category);
+            }
+            gotCategories.set(true);
+            if (gotCategories.get() && gotTaskes.get()) {
+                tasks.setValue(joinTasksWithCategories(categories, taskList[0]));
+            }
         });
         colRef.get().addOnCompleteListener(result -> {
-            for(DocumentSnapshot snap : result.getResult().getDocuments()){
+            for (DocumentSnapshot snap : result.getResult().getDocuments()) {
                 Task task = snap.toObject(Task.class);
                 taskList[0].add(task);
             }
             gotTaskes.set(true);
-            if(gotCategories.get() && gotTaskes.get()){
+            if (gotCategories.get() && gotTaskes.get()) {
                 tasks.setValue(joinTasksWithCategories(categories, taskList[0]));
             }
         });
@@ -146,13 +152,14 @@ public class DailyItRepository {
 
     /**
      * Joins the task with a categoriies
+     *
      * @param categories
      * @param tasks
      * @return a list of tasks with category
      */
     private List<Task> joinTasksWithCategories(Map<String, Category> categories, List<Task> tasks) {
         List<Task> result = new ArrayList<>();
-        for(Task task : tasks){
+        for (Task task : tasks) {
             task.setCategory(categories.get(task.getCategoryId()));
             result.add(task);
         }
@@ -161,8 +168,8 @@ public class DailyItRepository {
 
 
     public void deleteTask(Task task) {
-       FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
-               .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId()).delete();
+        FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(FirebaseAuth.getInstance().getUid())
+                .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId()).delete();
     }
 
     public void updateTaskStatus(Task task, String rightStatus) {
@@ -174,9 +181,9 @@ public class DailyItRepository {
         MutableLiveData<String> result = new MutableLiveData<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(task.getCreated());
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 1);
         task.setCreated(calendar.getTime());
         DocumentReference docRef = FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME)
                 .document(uid).collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document();
@@ -188,15 +195,15 @@ public class DailyItRepository {
         return result;
     }
 
-    public MutableLiveData<RequestStatus>  updateTask(Task task, String uid) {
+    public MutableLiveData<RequestStatus> updateTask(Task task, String uid) {
         MutableLiveData<RequestStatus> result = new MutableLiveData<>();
         FirebaseFirestore instance = FirebaseFirestore.getInstance();
         DocumentReference docRef = instance.collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)
                 .collection(FirebaseContract.TaskEntry.COLLECTION_NAME).document(task.getId());
         docRef.set(task).addOnCompleteListener(task1 -> {
-            if(task1.isSuccessful()){
+            if (task1.isSuccessful()) {
                 result.setValue(RequestStatus.FETCH_CORRECT);
-            }else{
+            } else {
                 result.setValue(RequestStatus.FETCH_ERROR);
             }
         });
@@ -208,7 +215,7 @@ public class DailyItRepository {
         newUser.setId(uid);
         newUser.setName(email.split("@")[0]);
         newUser.setEmail(email);
-        Category defaultCategory = new Category(DEFAULT_CATEGORY_ID,DEFAULT_CATEGORY_COLOR,DEFAULT_CATEGORY_NAME);
+        Category defaultCategory = new Category(DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_COLOR, DEFAULT_CATEGORY_NAME);
         defaultCategory.setDeleteable(false);
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid).set(newUser);
         FirebaseFirestore.getInstance().collection(FirebaseContract.UserEntry.COLLECTION_NAME).document(uid)

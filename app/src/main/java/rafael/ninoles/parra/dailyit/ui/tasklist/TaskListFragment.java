@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,7 @@ import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
  */
 public class TaskListFragment extends Fragment {
     private static final String STATUS = "status";
+    private static final long MILIS_IN_TWO_HOURS = 7200000;
     private static final String DATE = "date";
     private String status;
     private String rightStatus;
@@ -87,7 +89,7 @@ public class TaskListFragment extends Fragment {
     }
 
     public void setDate(Date date) {
-        try{
+        try {
             swipeRefreshLayout.setRefreshing(true);
             this.date = date;
             viewModel.setDate(date);
@@ -97,7 +99,7 @@ public class TaskListFragment extends Fragment {
                 checkIfTaskes();
                 swipeRefreshLayout.setRefreshing(false);
             });
-        }catch (IllegalStateException e){
+        } catch (IllegalStateException e) {
             e.printStackTrace();
         }
     }
@@ -154,13 +156,19 @@ public class TaskListFragment extends Fragment {
 
     /**
      * Removes the previous tasks
+     *
      * @param taskes
      * @return a filtered tasks list
      */
     private List<Task> clearOldTaskes(List<Task> taskes) {
         for (int i = taskes.size() - 1; i >= 0; i--) {
             Task actual = taskes.get(i);
-            if (actual.getCreated().getTime() > date.getTime()) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            calendar.set(Calendar.HOUR_OF_DAY, 23);
+            calendar.set(Calendar.MINUTE, 59);
+            calendar.set(Calendar.SECOND, 59);
+            if (actual.getCreated().getTime() > calendar.getTime().getTime()) {
                 taskes.remove(actual);
             }
         }

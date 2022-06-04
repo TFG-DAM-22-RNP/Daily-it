@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void showNewTaskDialog() {
-        new NewCategoryDialog(this,this);
+        new NewCategoryDialog(this, this);
     }
 
     // TODO Fix in future versions
@@ -139,15 +139,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (tasksFragment == null) {
             return;
         }
-        if(resultCode<=TaskActivity.DONE){
+        if (resultCode <= TaskActivity.DONE) {
             tasksFragment.moveToTab(resultCode);
         }
         Date newDate = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(newDate);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 1);
         tasksFragment.moveDay(calendar.getTime());
     }
 
@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.nav_categories);
                 break;
             case R.id.nav_stats:
-                Navigation.findNavController(this,R.id.nav_host_fragment_content_main).navigate(R.id.nav_stats);
+                Navigation.findNavController(this, R.id.nav_host_fragment_content_main).navigate(R.id.nav_stats);
                 break;
             default:
                 Toast toast = Toast.makeText(this, getString(R.string.not_implemented_yet), Toast.LENGTH_LONG);

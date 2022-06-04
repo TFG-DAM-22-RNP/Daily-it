@@ -59,7 +59,7 @@ public class CategoriesFragment extends Fragment {
     }
 
     private void showNewTaskDialog(Category category) {
-        new NewCategoryDialog(this.getContext(),this.getActivity(),category.getId());
+        new NewCategoryDialog(this.getContext(), this.getActivity(), category.getId());
     }
 
     private void loadCategories() {

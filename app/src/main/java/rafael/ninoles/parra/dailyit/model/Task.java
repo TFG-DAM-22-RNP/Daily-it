@@ -101,7 +101,7 @@ public class Task implements Parcelable {
         this.userUid = userUid;
     }
 
-    public Task(){
+    public Task() {
         //Required for firebase
     }
 
@@ -115,7 +115,7 @@ public class Task implements Parcelable {
         this.userUid = userUid;
     }
 
-    public Task(Task task){
+    public Task(Task task) {
         this.id = task.id;
         this.title = task.title;
         this.description = task.description;

@@ -17,7 +17,7 @@ public class User {
     private List<Category> categories;
     private String email;
 
-    public void addCategory(Category category){
+    public void addCategory(Category category) {
         this.categories.add(category);
     }
 

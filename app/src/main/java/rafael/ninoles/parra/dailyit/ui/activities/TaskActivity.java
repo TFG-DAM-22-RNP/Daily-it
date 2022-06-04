@@ -68,10 +68,10 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        binding.tvTaskExpireDate.setOnClickListener(e->{
+        binding.tvTaskExpireDate.setOnClickListener(e -> {
             pickDateTime();
         });
-        binding.ivCalendar.setOnClickListener(e->{
+        binding.ivCalendar.setOnClickListener(e -> {
             pickDateTime();
         });
     }
@@ -106,9 +106,9 @@ public class TaskActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.simple_spinner_dropdown_item,
                 R.id.tvItemSpinner, availableCategories.keySet().toArray(new String[0]));
         binding.spCategory.setAdapter(adapter);
-        if(task.getTitle()==null){
+        if (task.getTitle() == null) {
             setTitle(getString(R.string.new_task));
-        }else{
+        } else {
             setTitle(task.getTitle());
         }
         printStatus();
@@ -118,18 +118,18 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void printStatus() {
-        if(task.getStatus().equals(FirebaseContract.TaskEntry.TODO)){
+        if (task.getStatus().equals(FirebaseContract.TaskEntry.TODO)) {
             binding.spStatus.setSelection(TODO);
-        }else if(task.getStatus().equals(FirebaseContract.TaskEntry.DOING)){
+        } else if (task.getStatus().equals(FirebaseContract.TaskEntry.DOING)) {
             binding.spStatus.setSelection(DOING);
-        }else{
+        } else {
             binding.spStatus.setSelection(DONE);
         }
     }
 
-    private void printCategories(ArrayAdapter<String> adapter){
-        for(Category category:availableCategories.values()){
-            if(category.getId().equals(task.getCategoryId())){
+    private void printCategories(ArrayAdapter<String> adapter) {
+        for (Category category : availableCategories.values()) {
+            if (category.getId().equals(task.getCategoryId())) {
                 binding.spCategory.setSelection(adapter.getPosition(category.getName()));
                 task.setCategoryId(category.getId());
                 compareTask.setCategoryId(category.getId());
@@ -140,10 +140,10 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void printDate() {
-        if(this.task.getExpires() == null){
+        if (this.task.getExpires() == null) {
             binding.tvTaskExpireDate.setText(getString(R.string.no_date_selected));
-        }else{
-            binding.tvTaskExpireDate.setText(new SimpleDateFormat("dd MMM yy, HH:mm").format(this.task.getExpires().getTime()+MILIS_IN_TWO_HOURS));
+        } else {
+            binding.tvTaskExpireDate.setText(new SimpleDateFormat("dd MMM yy, HH:mm").format(this.task.getExpires().getTime() + MILIS_IN_TWO_HOURS));
         }
     }
 
@@ -158,7 +158,7 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void saveTask() {
-        if(!canSave){
+        if (!canSave) {
             return;
         }
         try {
@@ -174,22 +174,22 @@ public class TaskActivity extends AppCompatActivity {
         if (isNew) {
             canSave = false;
             DailyItRepository.getInstance().createNewTask(task, FirebaseAuth.getInstance().getUid())
-            .observe(this, id -> {
-                taskId = id;
-                canSave = true;
-                binding.pbMain.setVisibility(View.GONE);
-                Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
-                toast.show();
-                isNew = false;
-                compareTask = new Task(task);
-                setTitle(task.getTitle());
-                setResult(binding.spStatus.getSelectedItemPosition());
-                finish();
-            });
+                    .observe(this, id -> {
+                        taskId = id;
+                        canSave = true;
+                        binding.pbMain.setVisibility(View.GONE);
+                        Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
+                        toast.show();
+                        isNew = false;
+                        compareTask = new Task(task);
+                        setTitle(task.getTitle());
+                        setResult(binding.spStatus.getSelectedItemPosition());
+                        finish();
+                    });
         } else {
             DailyItRepository.getInstance().updateTask(task, FirebaseAuth.getInstance().getUid())
                     .observe(this, requestStatus -> {
-                        if(requestStatus.equals(RequestStatus.FETCH_CORRECT)){
+                        if (requestStatus.equals(RequestStatus.FETCH_CORRECT)) {
                             binding.pbMain.setVisibility(View.GONE);
                             Toast toast = Toast.makeText(this, getString(R.string.saved), Toast.LENGTH_SHORT);
                             toast.show();
@@ -198,7 +198,7 @@ public class TaskActivity extends AppCompatActivity {
                             setTitle(task.getTitle());
                             setResult(binding.spStatus.getSelectedItemPosition());
                             finish();
-                        }else{
+                        } else {
                             binding.pbMain.setVisibility(View.GONE);
                             Toast toast = Toast.makeText(this, getString(R.string.error_saving_task), Toast.LENGTH_LONG);
                             toast.show();
@@ -208,15 +208,15 @@ public class TaskActivity extends AppCompatActivity {
     }
 
     private void checkTaskInputs() throws InputNeededException {
-        if(binding.etTaskName.getText().toString().isEmpty()){
+        if (binding.etTaskName.getText().toString().isEmpty()) {
             throw new InputNeededException(getString(R.string.name_empty_exception_message));
         }
-        if(task.getExpires()==null){
+        if (task.getExpires() == null) {
             throw new InputNeededException(getString(R.string.no_expire_time));
         }
         Date inFiveMins = new Date();
         inFiveMins.setTime(inFiveMins.getTime() + FIVE_MINS_IN_MILIS);
-        if(task.getExpires().getTime()+MILIS_IN_TWO_HOURS< inFiveMins.getTime()){
+        if (task.getExpires().getTime() + MILIS_IN_TWO_HOURS < inFiveMins.getTime()) {
             throw new InputNeededException(getString(R.string.fast_expire_time));
         }
     }
@@ -253,8 +253,8 @@ public class TaskActivity extends AppCompatActivity {
 
     private void fillCategoriesSpinner(java.util.List<Category> categories) {
         for (Category category : categories) {
-            if(category.getName().equals(FirebaseContract.CategoryEntry.WORK)){
-                availableCategories.put(getString(R.string.work),category);
+            if (category.getName().equals(FirebaseContract.CategoryEntry.WORK)) {
+                availableCategories.put(getString(R.string.work), category);
                 continue;
             }
             availableCategories.put(category.getName(), category);
@@ -273,7 +273,7 @@ public class TaskActivity extends AppCompatActivity {
             new TimePickerDialog(context, (view1, hourOfDay, minute) -> {
                 date.set(Calendar.HOUR_OF_DAY, hourOfDay);
                 date.set(Calendar.MINUTE, minute);
-                this.task.setExpires(new Date(date.getTimeInMillis()-MILIS_IN_TWO_HOURS));
+                this.task.setExpires(new Date(date.getTimeInMillis() - MILIS_IN_TWO_HOURS));
                 printDate();
             }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
@@ -290,9 +290,9 @@ public class TaskActivity extends AppCompatActivity {
             finish();
         } else {
             AlertDialog.Builder dialogo = new AlertDialog.Builder(this);
-            if(task.getTitle() == null || task.getTitle().isEmpty()){
+            if (task.getTitle() == null || task.getTitle().isEmpty()) {
                 dialogo.setTitle(getString(R.string.exit_without_saving_new));
-            }else{
+            } else {
                 dialogo.setTitle(String.format(getString(R.string.exit_without_saving), task.getTitle()));
             }
             dialogo.setMessage(getString(R.string.changes_without_saving));

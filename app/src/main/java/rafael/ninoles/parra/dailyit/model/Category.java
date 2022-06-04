@@ -15,7 +15,7 @@ public class Category implements Parcelable {
     private String name;
     private boolean deleteable = true;
 
-    public void setDeleteable(boolean newStatus){
+    public void setDeleteable(boolean newStatus) {
         deleteable = newStatus;
     }
 
@@ -47,7 +47,7 @@ public class Category implements Parcelable {
         this.name = name;
     }
 
-    public Category(){
+    public Category() {
     }
 
     public Category(String id, String color, String name) {

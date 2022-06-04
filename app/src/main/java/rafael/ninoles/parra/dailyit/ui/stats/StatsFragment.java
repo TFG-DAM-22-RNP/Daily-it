@@ -74,9 +74,9 @@ public class StatsFragment extends Fragment {
     }
 
     private void calcData(List<Task> tasks) {
-        for(Task task : tasks){
+        for (Task task : tasks) {
             totalCuantity++;
-            switch (task.getStatus()){
+            switch (task.getStatus()) {
                 case FirebaseContract
                         .TaskEntry.DONE:
                     doneCuantity++;
@@ -89,10 +89,10 @@ public class StatsFragment extends Fragment {
                     break;
             }
         }
-        binding.tvDoing.setText(String.format(getContext().getString(R.string.total_doing),doingCuantity));
-        binding.tvToDo.setText(String.format(getContext().getString(R.string.total_todo),toDoCuantity));
-        binding.tvDone.setText(String.format(getContext().getString(R.string.total_done),doneCuantity));
-        binding.tvTotalTaskes.setText(String.format(getContext().getString(R.string.total_task_count),totalCuantity));
+        binding.tvDoing.setText(String.format(getContext().getString(R.string.total_doing), doingCuantity));
+        binding.tvToDo.setText(String.format(getContext().getString(R.string.total_todo), toDoCuantity));
+        binding.tvDone.setText(String.format(getContext().getString(R.string.total_done), doneCuantity));
+        binding.tvTotalTaskes.setText(String.format(getContext().getString(R.string.total_task_count), totalCuantity));
     }
 
     private List<Task> getLastWeek(List<Task> tasks) {
@@ -103,16 +103,17 @@ public class StatsFragment extends Fragment {
         return result;
     }
 
-    private String formatDay(Task task){
+    private String formatDay(Task task) {
         return new SimpleDateFormat("dd/MM/yy").format(task.getCreated());
     }
 
     /**
      * Loads the data into the bar char
+     *
      * @param tasks
      */
     private void addDataToChart(List<Task> tasks) {
-        if(tasks.size()<1){
+        if (tasks.size() < 1) {
             binding.tvNoData.setVisibility(View.VISIBLE);
             binding.progressBar.setVisibility(View.GONE);
             return;
@@ -121,22 +122,22 @@ public class StatsFragment extends Fragment {
         String title = getString(R.string.dia);
         TasksByDay actualDay = new TasksByDay(formatDay(tasks.get(0)));
         List<TasksByDay> tasksByDays = new ArrayList<>();
-        for(Task task : tasks){
-            if(!formatDay(task).equals(actualDay.getDay())){
+        for (Task task : tasks) {
+            if (!formatDay(task).equals(actualDay.getDay())) {
                 tasksByDays.add(actualDay);
                 actualDay = new TasksByDay(formatDay(task));
             }
             actualDay.addTask(task);
         }
-        if(tasksByDays.size()<2){
+        if (tasksByDays.size() < 2) {
             binding.tvNoData.setVisibility(View.VISIBLE);
             binding.progressBar.setVisibility(View.GONE);
             return;
         }
         float count = 0;
-        for(TasksByDay actual : tasksByDays){
+        for (TasksByDay actual : tasksByDays) {
             BarEntry barEntry = new BarEntry(count, new Integer(actual.getTaskList().size()).floatValue());
-            count+=1;
+            count += 1;
             entries.add(barEntry);
         }
 

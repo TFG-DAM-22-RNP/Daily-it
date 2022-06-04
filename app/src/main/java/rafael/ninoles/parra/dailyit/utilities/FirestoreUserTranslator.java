@@ -9,9 +9,9 @@ import java.util.Map;
 public class FirestoreUserTranslator {
     private static final Map<String, String> translations = new HashMap<>();
 
-    public static String getFirestoreWord(String userWord){
+    public static String getFirestoreWord(String userWord) {
         String translated = translations.get(userWord);
-        if(translated != null){
+        if (translated != null) {
             return translated;
         }
         return userWord;

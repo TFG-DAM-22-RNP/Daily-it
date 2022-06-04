@@ -20,6 +20,7 @@ public class TaskListAdapter extends FragmentStateAdapter {
     private MyDate myDate;
     private final TasksFragment tasksFragment;
     List<TaskListFragment> fragments = new ArrayList<>();
+
     public TaskListAdapter(@NonNull FragmentManager fragmentManager, @NonNull Lifecycle lifecycle, MyDate myDate, TasksFragment tasksFragment) {
         super(fragmentManager, lifecycle);
         this.myDate = myDate;
@@ -34,7 +35,7 @@ public class TaskListAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         TaskListFragment fragment = null;
-        switch (position){
+        switch (position) {
             case 0:
                 fragment = TaskListFragment.newInstance("ToDo", myDate, tasksFragment);
                 fragments.add(fragment);

@@ -55,9 +55,9 @@ public class NewCategoryDialog {
         dialog.setContentView(R.layout.new_category_dialog);
 
         findReferencesById();
-        if(id==null){
+        if (id == null) {
             tvDialogTitle.setText(context.getString(R.string.new_category));
-        }else{
+        } else {
             tvDialogTitle.setText(context.getString(R.string.loading));
         }
 
@@ -68,7 +68,7 @@ public class NewCategoryDialog {
     }
 
     private void addListeners() {
-        btCancel.setOnClickListener(e->{
+        btCancel.setOnClickListener(e -> {
             dialog.dismiss();
         });
 
@@ -83,7 +83,7 @@ public class NewCategoryDialog {
             }
         });
 
-        btSave.setOnClickListener(e->{
+        btSave.setOnClickListener(e -> {
             save();
         });
     }
@@ -98,50 +98,50 @@ public class NewCategoryDialog {
         dialogLoader = dialog.findViewById(R.id.dialogLoader);
     }
 
-    public NewCategoryDialog(Context context, Activity activity){
-        this(context,activity,null);
+    public NewCategoryDialog(Context context, Activity activity) {
+        this(context, activity, null);
     }
 
     private void loadData() {
-        if(id==null){
+        if (id == null) {
             dialogLoader.setVisibility(View.GONE);
             return;
-        }else{
+        } else {
             DailyItRepository.getInstance().getCategoryById(FirebaseAuth.getInstance().getUid(), id)
-            .observe((LifecycleOwner) activity, category -> {
-                if(category.getId().equals(FirebaseContract.CategoryEntry.WORK)){
-                    if(category.getName().equals(FirebaseContract.CategoryEntry.WORK)){
-                        etCategoryName.setText(context.getString(R.string.work));
-                    }else{
-                        etCategoryName.setText(category.getName());
-                    }
-                    tvDialogTitle.setText(String.format(context.getString(R.string.editing),context.getString(R.string.work)));
-                }else{
-                    tvDialogTitle.setText(String.format(context.getString(R.string.editing),category.getName()));
-                }
-                String compareValue = Colors.getFromDBToLocale(category.getColor());
-                ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.available_color, android.R.layout.simple_spinner_item);
-                int spinnerPosition = adapter.getPosition(compareValue);
-                if(spinnerPosition>=0){
-                    spinner.setSelection(spinnerPosition);
-                }
-                dialogLoader.setVisibility(View.GONE);
-            });
+                    .observe((LifecycleOwner) activity, category -> {
+                        if (category.getId().equals(FirebaseContract.CategoryEntry.WORK)) {
+                            if (category.getName().equals(FirebaseContract.CategoryEntry.WORK)) {
+                                etCategoryName.setText(context.getString(R.string.work));
+                            } else {
+                                etCategoryName.setText(category.getName());
+                            }
+                            tvDialogTitle.setText(String.format(context.getString(R.string.editing), context.getString(R.string.work)));
+                        } else {
+                            tvDialogTitle.setText(String.format(context.getString(R.string.editing), category.getName()));
+                        }
+                        String compareValue = Colors.getFromDBToLocale(category.getColor());
+                        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(context, R.array.available_color, android.R.layout.simple_spinner_item);
+                        int spinnerPosition = adapter.getPosition(compareValue);
+                        if (spinnerPosition >= 0) {
+                            spinner.setSelection(spinnerPosition);
+                        }
+                        dialogLoader.setVisibility(View.GONE);
+                    });
         }
     }
 
     private void save() {
         try {
             checkInputs();
-        }catch (InputNeededException e){
+        } catch (InputNeededException e) {
             Toast toast = Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT);
             toast.show();
             e.printStackTrace();
             return;
         }
-        if(id==null){
+        if (id == null) {
             saveNewCategory();
-        }else{
+        } else {
             updateCurrentCategory();
         }
     }
@@ -177,7 +177,7 @@ public class NewCategoryDialog {
     }
 
     private void checkInputs() throws InputNeededException {
-        if(etCategoryName.getText().toString().isEmpty()){
+        if (etCategoryName.getText().toString().isEmpty()) {
             throw new InputNeededException(context.getString(R.string.no_category_name));
         }
     }

@@ -26,7 +26,7 @@ public class TaskListViewModel extends AndroidViewModel {
         this.date = date;
     }
 
-    public void deleteTask(Task task){
+    public void deleteTask(Task task) {
         dailyItRepository.deleteTask(task);
         tasks.getValue().remove(task);
     }
@@ -35,24 +35,24 @@ public class TaskListViewModel extends AndroidViewModel {
         super(application);
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 1);
         this.date = calendar.getTime();
 
         dailyItRepository = DailyItRepository.getInstance();
         this.status = status;
-        tasks = dailyItRepository.getTaskByStatus(status,this.date);
+        tasks = dailyItRepository.getTaskByStatus(status, this.date);
     }
 
-    public LiveData<List<Task>> updateTasks(Date date){
+    public LiveData<List<Task>> updateTasks(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        calendar.set(Calendar.HOUR_OF_DAY,0);
-        calendar.set(Calendar.MINUTE,0);
-        calendar.set(Calendar.SECOND,1);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 1);
         this.date = calendar.getTime();
-        tasks = dailyItRepository.getTaskByStatus(status,this.date);
+        tasks = dailyItRepository.getTaskByStatus(status, this.date);
         return tasks;
     }
 

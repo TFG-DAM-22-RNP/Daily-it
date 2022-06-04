@@ -73,7 +73,7 @@ public class TasksFragment extends Fragment {
         binding.adBottom.loadAd(adRequest);
         addDaySelectorListeners();
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
-        binding.tvDate.setOnClickListener(e->{
+        binding.tvDate.setOnClickListener(e -> {
             Calendar newCalendar = Calendar.getInstance();
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), (view, year, monthOfYear, dayOfMonth) -> {
                 calendar.set(year, monthOfYear, dayOfMonth);
@@ -96,18 +96,18 @@ public class TasksFragment extends Fragment {
     private void setCurrentDate() {
         Calendar currentDateCalendar = Calendar.getInstance();
         currentDateCalendar.setTime(actualDate);
-        currentDateCalendar.set(Calendar.HOUR_OF_DAY,0);
-        currentDateCalendar.set(Calendar.MINUTE,0);
-        currentDateCalendar.set(Calendar.SECOND,1);
+        currentDateCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        currentDateCalendar.set(Calendar.MINUTE, 0);
+        currentDateCalendar.set(Calendar.SECOND, 1);
         actualDate = currentDateCalendar.getTime();
     }
 
     private void addDaySelectorListeners() {
-        binding.ivPrevDay.setOnClickListener(e->{
+        binding.ivPrevDay.setOnClickListener(e -> {
             movePreviousDay();
         });
 
-        binding.ivNextDay.setOnClickListener(e->{
+        binding.ivNextDay.setOnClickListener(e -> {
             moveNextDay();
         });
     }
@@ -118,7 +118,7 @@ public class TasksFragment extends Fragment {
         moveDay(newDate);
     }
 
-    private void movePreviousDay(){
+    private void movePreviousDay() {
         Date newDate = new Date(currentDate.getTime() - MILLIS_IN_A_DAY);
         newDate = moveCurrentDate(newDate);
         moveDay(newDate);
@@ -136,24 +136,24 @@ public class TasksFragment extends Fragment {
         return newDate;
     }
 
-    public void moveDay(Date date){
-        Log.i(LOG_TAG,"Changing date to "+new SimpleDateFormat("dd MM yy HH:mm:ss").format(date));
+    public void moveDay(Date date) {
+        Log.i(LOG_TAG, "Changing date to " + new SimpleDateFormat("dd MM yy HH:mm:ss").format(date));
         currentDate = date;
         binding.tvDate.setText(simpleDateFormat.format(currentDate));
         updateAllStatus();
     }
 
-    public void moveDay(){
+    public void moveDay() {
         moveDay(currentDate);
     }
 
     public void updateAllStatus() {
-        for(TaskListFragment taskListFragment : taskListAdapter.getFragments()){
+        for (TaskListFragment taskListFragment : taskListAdapter.getFragments()) {
             taskListFragment.setDate(currentDate);
         }
     }
 
-    public void moveToTab(int position){
+    public void moveToTab(int position) {
         binding.tabLayout.selectTab(binding.tabLayout.getTabAt(position));
     }
 
@@ -175,10 +175,14 @@ public class TasksFragment extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.pager.setCurrentItem(tab.getPosition());
             }
+
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
     }
 }

@@ -33,7 +33,7 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
         return categories;
     }
 
-    public CategoyAdapter(Context context){
+    public CategoyAdapter(Context context) {
         this.context = context;
     }
 
@@ -44,7 +44,7 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
     @NonNull
     @Override
     public CategoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category,parent,false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_category, parent, false);
         return new CategoryViewHolder(itemView);
     }
 
@@ -58,7 +58,7 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
 
     @Override
     public int getItemCount() {
-        if(categories!=null){
+        if (categories != null) {
             return categories.size();
         }
         return 0;
@@ -78,12 +78,12 @@ public class CategoyAdapter extends RecyclerView.Adapter<CategoyAdapter.Category
         public void setCategory(Category category) {
             this.category = category;
             this.categoryColor.setBackgroundColor(Colors.getColor(category.getColor()));
-            if(category.getName().equals(FirebaseContract.CategoryEntry.WORK)){
+            if (category.getName().equals(FirebaseContract.CategoryEntry.WORK)) {
                 this.tvCategoryName.setText(context.getString(R.string.work));
-            }else{
+            } else {
                 this.tvCategoryName.setText(category.getName());
             }
-            this.cardView.setOnClickListener(e-> {
+            this.cardView.setOnClickListener(e -> {
                 listenerOpenCategory.onItemClickOpen(category);
             });
         }

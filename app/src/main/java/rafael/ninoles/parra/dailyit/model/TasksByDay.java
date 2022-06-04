@@ -20,7 +20,7 @@ public class TasksByDay {
         this.taskList = new ArrayList<>();
     }
 
-    public void addTask(Task task){
+    public void addTask(Task task) {
         this.taskList.add(task);
     }
 
