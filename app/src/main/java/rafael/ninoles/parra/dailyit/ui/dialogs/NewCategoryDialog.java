@@ -23,7 +23,7 @@ import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.exceptions.InputNeededException;
 import rafael.ninoles.parra.dailyit.model.Category;
 import rafael.ninoles.parra.dailyit.enums.RequestStatus;
-import rafael.ninoles.parra.dailyit.model.FirebaseContract;
+import rafael.ninoles.parra.dailyit.utilities.FirebaseContract;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
@@ -117,6 +117,7 @@ public class NewCategoryDialog {
                             }
                             tvDialogTitle.setText(String.format(context.getString(R.string.editing), context.getString(R.string.work)));
                         } else {
+                            etCategoryName.setText(category.getName());
                             tvDialogTitle.setText(String.format(context.getString(R.string.editing), category.getName()));
                         }
                         String compareValue = Colors.getFromDBToLocale(category.getColor());

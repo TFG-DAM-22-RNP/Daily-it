@@ -14,7 +14,7 @@ import java.util.List;
 
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.model.Category;
-import rafael.ninoles.parra.dailyit.model.FirebaseContract;
+import rafael.ninoles.parra.dailyit.utilities.FirebaseContract;
 import rafael.ninoles.parra.dailyit.utilities.Colors;
 
 /**

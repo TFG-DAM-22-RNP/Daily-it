@@ -1,4 +1,4 @@
-package rafael.ninoles.parra.dailyit.model;
+package rafael.ninoles.parra.dailyit.utilities;
 
 /**
  * Class with constants with the firestore values and references

@@ -22,7 +22,7 @@ import java.util.List;
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.ui.activities.TaskActivity;
 import rafael.ninoles.parra.dailyit.databinding.FragmentTaskListBinding;
-import rafael.ninoles.parra.dailyit.model.FirebaseContract;
+import rafael.ninoles.parra.dailyit.utilities.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.MyDate;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.ui.adapters.task.OnClickListenerDeleteTask;

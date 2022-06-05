@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.FragmentStatsBinding;
-import rafael.ninoles.parra.dailyit.model.FirebaseContract;
+import rafael.ninoles.parra.dailyit.utilities.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.Task;
 import rafael.ninoles.parra.dailyit.model.TasksByDay;
 import rafael.ninoles.parra.dailyit.repository.DailyItRepository;

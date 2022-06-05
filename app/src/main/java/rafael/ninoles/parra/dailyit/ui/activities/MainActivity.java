@@ -36,7 +36,7 @@ import java.util.Date;
 import rafael.ninoles.parra.dailyit.R;
 import rafael.ninoles.parra.dailyit.databinding.ActivityMainBinding;
 import rafael.ninoles.parra.dailyit.helpers.MainActivityHelper;
-import rafael.ninoles.parra.dailyit.model.FirebaseContract;
+import rafael.ninoles.parra.dailyit.utilities.FirebaseContract;
 import rafael.ninoles.parra.dailyit.model.User;
 import rafael.ninoles.parra.dailyit.ui.dialogs.NewCategoryDialog;
 import rafael.ninoles.parra.dailyit.ui.tasks.TasksFragment;
